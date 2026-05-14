@@ -6,6 +6,11 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        handwritten: ['"Dancing Script"', 'cursive'],
+      },
       colors: {
         background: '#0a0a0c',
         card: 'rgba(20, 20, 23, 0.6)',

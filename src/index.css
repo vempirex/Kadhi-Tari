@@ -15,9 +15,12 @@
     font-family: 'Inter', sans-serif;
   }
   
-  h1, h2, h3, .font-serif {
+  h1, h2, h3 {
     @apply font-serif;
-    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-handwritten {
+    @apply font-handwritten;
   }
 
   /* Smooth scroll behavior */
