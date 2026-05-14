@@ -79,7 +79,7 @@
   }
 
   .input-field {
-    @apply w-full bg-white/[0.01] border border-white/5 rounded-[4rem] p-10 text-4xl outline-none 
+    @apply w-full bg-white/[0.01] border border-white/5 rounded-[4rem] p-5 text-2xl outline-none 
            focus:border-rose-500/40 focus:bg-white/[0.02] focus:shadow-[0_0_80px_rgba(244,63,94,0.2)] 
            transition-all duration-1000 text-white placeholder:text-gray-900;
     font-family: 'Playfair Display', serif;
@@ -112,7 +112,7 @@
 }
 
 .content-safe-bottom {
-  @apply pb-[25rem] sm:pb-[35rem] lg:pb-32;
+  @apply pb-32 lg:pb-12;
 }
 
 /* Animations */
