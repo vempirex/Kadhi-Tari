@@ -12,6 +12,7 @@ import Chat from './pages/Chat';
 import Secret from './pages/Secret';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+import Onboarding from './pages/Onboarding';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import AuthGuard from './components/AuthGuard';
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="/profile" element={<PageWrap><Profile /></PageWrap>} />
               <Route path="/profile/edit" element={<PageWrap><EditProfile /></PageWrap>} />
             </Route>
+            <Route path="/onboarding" element={<AuthGuard><Onboarding /></AuthGuard>} />
           </Routes>
         </AnimatePresence>
       </div>
