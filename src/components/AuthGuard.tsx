@@ -1,5 +1,5 @@
 /**
- * NEW AUTH GUARD - CLEAN IMPLEMENTATION
+ * UPDATED AUTH GUARD - PREVENT REDIRECT LOOPS
  */
 
 import React from 'react';
@@ -11,35 +11,37 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { session, profile, isLoading } = useAuth();
   const location = useLocation();
 
-  // 1. Wait for Auth Hydration
+  // 1. Loading State - Wait for everything to settle
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-warm-50">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-rose-500" />
-          <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400">Authenticating Frequency...</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400">Verifying Sanctuary Access...</p>
         </div>
       </div>
     );
   }
 
-  // 2. Redirect Unauthenticated Users
+  // 2. Auth Check - No session means no access
   if (!session) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   // 3. Profile Completion Check
-  const hasProfile = !!profile?.username;
+  const isOnboardingPage = location.pathname === '/onboarding';
+  const isProfileComplete = !!profile?.profile_completed;
 
-  // Force onboarding if profile is missing (and not already there)
-  if (!hasProfile && location.pathname !== '/onboarding') {
+  // Case A: Profile is incomplete -> Redirect to onboarding (unless already there)
+  if (!isProfileComplete && !isOnboardingPage) {
     return <Navigate to="/onboarding" replace />;
   }
 
-  // Prevent onboarding if profile is already complete
-  if (hasProfile && location.pathname === '/onboarding') {
+  // Case B: Profile is complete but user is trying to go back to onboarding -> Redirect to home
+  if (isProfileComplete && isOnboardingPage) {
     return <Navigate to="/" replace />;
   }
 
+  // Case C: Everything is correct -> Render the page
   return <>{children || <Outlet />}</>;
 }

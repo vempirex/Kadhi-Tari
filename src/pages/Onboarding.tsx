@@ -1,11 +1,14 @@
+/**
+ * UPDATED ONBOARDING - STABLE PROFILE COMPLETION
+ */
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { 
   Camera, Heart, Sparkles, User, Calendar, 
-  Loader2, Image as ImageIcon, MapPin, Quote, Smile,
-  CheckCircle2, ArrowRight, ArrowLeft
+  ImageIcon, MapPin, CheckCircle2, ArrowRight, ArrowLeft
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -32,7 +35,6 @@ export default function Onboarding() {
     anniversary: '',
     birthday: '',
     location: '',
-    interests: '',
   });
 
   const [previews, setPreviews] = useState({
@@ -40,7 +42,7 @@ export default function Onboarding() {
     cover: '',
   });
 
-  // Prefill from existing profile if available
+  // Pre-fill existing data to prevent blanking on refresh
   useEffect(() => {
     if (profile) {
       setFormData(prev => ({
@@ -50,6 +52,10 @@ export default function Onboarding() {
         bio: profile.bio || '',
         avatar_url: profile.avatar_url || '',
         cover_url: profile.cover_url || '',
+        relationship_status: profile.relationship_status || 'In Harmony',
+        anniversary: profile.anniversary || '',
+        birthday: profile.birthday || '',
+        location: profile.location || '',
       }));
       if (profile.avatar_url) setPreviews(p => ({ ...p, avatar: profile.avatar_url }));
       if (profile.cover_url) setPreviews(p => ({ ...p, cover: profile.cover_url }));
@@ -58,16 +64,12 @@ export default function Onboarding() {
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'cover') => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !user) return;
 
     setIsUploading(prev => ({ ...prev, [type]: true }));
-    const reader = new FileReader();
-    reader.onloadend = () => setPreviews(prev => ({ ...prev, [type]: reader.result as string }));
-    reader.readAsDataURL(file);
+    setError(null);
 
     try {
-      if (!user) return;
-
       const fileExt = file.name.split('.').pop();
       const filePath = `${user.id}/${type}_${Date.now()}.${fileExt}`;
 
@@ -75,8 +77,10 @@ export default function Onboarding() {
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage.from('profiles').getPublicUrl(filePath);
+      
       setFormData(prev => ({ ...prev, [`${type}_url`]: publicUrl }));
-    } catch (err) {
+      setPreviews(prev => ({ ...prev, [type]: publicUrl }));
+    } catch (err: any) {
       console.error("Upload error:", err);
       setError("Failed to upload image. Please try again.");
     } finally {
@@ -85,8 +89,9 @@ export default function Onboarding() {
   };
 
   const handleComplete = async () => {
-    if (!formData.full_name || isLoading) {
+    if (!formData.full_name) {
       setError("Your full name is required to personalize your sanctuary.");
+      setStep('essence');
       return;
     }
     
@@ -94,14 +99,14 @@ export default function Onboarding() {
     setError(null);
     
     try {
-      if (!user) throw new Error("Session expired. Please log in again.");
+      if (!user) throw new Error("Authentication session lost. Please log in again.");
 
+      console.log("Saving final profile data...");
       const { error: profileError } = await supabase
         .from('profiles')
-        .upsert({
-          id: user.id,
-          display_name: formData.display_name || formData.full_name,
+        .update({
           full_name: formData.full_name,
+          display_name: formData.display_name || formData.full_name,
           bio: formData.bio,
           relationship_status: formData.relationship_status,
           favorite_quote: formData.favorite_quote,
@@ -110,17 +115,21 @@ export default function Onboarding() {
           anniversary: formData.anniversary || null,
           birthday: formData.birthday || null,
           location: formData.location,
-          interests: formData.interests,
+          profile_completed: true, // THE CRITICAL FLAG
           updated_at: new Date().toISOString(),
-        });
+        })
+        .eq('id', user.id);
 
       if (profileError) throw profileError;
       
+      console.log("Profile stabilized. Synchronizing state...");
       await refreshProfile();
+      
+      // Final hard-navigation to ensure all guards see the new state
       window.location.replace('/');
     } catch (err: any) {
-      console.error("Profile setup failure:", err);
-      setError(err.message || "An unexpected error occurred.");
+      console.error("Save failure:", err);
+      setError(err.message || "Failed to finalize profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -129,18 +138,18 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen bg-warm-50 flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-rose-100/40 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-rose-100/30 rounded-full blur-[120px]" />
       </div>
 
       <motion.div layout className="w-full max-w-2xl relative z-10">
-        <Card className="p-6 sm:p-10 shadow-premium">
-          {/* Progress Header */}
+        <Card className="p-6 sm:p-10 shadow-premium overflow-hidden">
           <div className="mb-10 text-center">
             <Heart size={32} className="text-rose-500 mx-auto mb-4" />
             <h1 className="text-2xl font-outfit font-bold text-charcoal">Complete Your Profile</h1>
-            <p className="text-sm text-warm-500">Personalize your shared sanctuary</p>
+            <p className="text-sm text-warm-500">Your final steps before entering the sanctuary</p>
           </div>
 
+          {/* Progress Indicators */}
           <div className="flex gap-2 mb-8 px-2">
             {(['essence', 'visuals', 'chronos'] as Step[]).map((s, i) => (
               <div key={s} className="flex-1 h-1 rounded-full overflow-hidden bg-warm-100">
@@ -153,7 +162,7 @@ export default function Onboarding() {
             ))}
           </div>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {error && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -164,52 +173,49 @@ export default function Onboarding() {
                 {error}
               </motion.div>
             )}
-          </AnimatePresence>
 
-          <AnimatePresence mode="wait">
             {step === 'essence' && (
               <motion.div 
                 key="essence" 
-                initial={{ opacity: 0, x: 10 }} 
+                initial={{ opacity: 0, x: 20 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -10 }}
+                exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <header className="space-y-1">
+                <div className="space-y-1">
                   <div className="flex items-center gap-2 text-rose-600 uppercase tracking-widest text-[10px] font-bold">
-                    <Sparkles size={16} />
-                    Essence Definition
+                    <Sparkles size={16} /> Essence Definition
                   </div>
-                  <h2 className="text-2xl font-outfit font-bold text-charcoal">Define Your Presence</h2>
-                </header>
+                  <h2 className="text-2xl font-outfit font-bold text-charcoal">Who are you?</h2>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5 group">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Full Name</label>
                     <input 
                       value={formData.full_name}
                       onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-                      placeholder="Your full name"
+                      placeholder="e.g. Vijay Kumar"
                       className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                     />
                   </div>
-                  <div className="space-y-1.5 group">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Nickname</label>
                     <input 
                       value={formData.display_name}
                       onChange={(e) => setFormData({...formData, display_name: e.target.value})}
-                      placeholder="How you want to be called"
+                      placeholder="e.g. VJ"
                       className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5 group">
-                  <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Bio</label>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Your Story (Bio)</label>
                   <textarea 
                     value={formData.bio}
                     onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                    placeholder="Share a little bit about yourself..."
+                    placeholder="Briefly share your presence..."
                     className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all min-h-[100px] resize-none"
                   />
                 </div>
@@ -223,20 +229,20 @@ export default function Onboarding() {
             {step === 'visuals' && (
               <motion.div 
                 key="visuals" 
-                initial={{ opacity: 0, x: 10 }} 
+                initial={{ opacity: 0, x: 20 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -10 }}
+                exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <header className="space-y-1">
+                <div className="space-y-1">
                   <div className="flex items-center gap-2 text-rose-600 uppercase tracking-widest text-[10px] font-bold">
-                    <ImageIcon size={16} />
-                    Visual Pulse
+                    <ImageIcon size={16} /> Visual Resonance
                   </div>
-                  <h2 className="text-2xl font-outfit font-bold text-charcoal">Visual Resonance</h2>
-                </header>
+                  <h2 className="text-2xl font-outfit font-bold text-charcoal">Show Your Light</h2>
+                </div>
 
-                <div className="space-y-6 relative">
+                <div className="space-y-6">
+                  {/* Cover Upload */}
                   <div className="relative h-40 rounded-2xl bg-warm-50 border border-dashed border-warm-200 overflow-hidden group/cover">
                     {previews.cover ? (
                       <img src={previews.cover} className="w-full h-full object-cover" alt="Cover" />
@@ -248,14 +254,14 @@ export default function Onboarding() {
                     )}
                     <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover/cover:opacity-100 transition-opacity backdrop-blur-sm">
                       <Camera size={24} className="text-white mb-2" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">Upload Banner</span>
                       <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
                     </label>
                   </div>
 
+                  {/* Avatar Upload */}
                   <div className="flex justify-center -mt-20 relative z-10">
                     <div className="relative group/avatar">
-                      <div className="w-36 h-36 rounded-full bg-white p-1 shadow-premium relative overflow-hidden">
+                      <div className="w-36 h-36 rounded-full bg-white p-1 shadow-premium overflow-hidden">
                         <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
                           {previews.avatar ? (
                             <img src={previews.avatar} className="w-full h-full object-cover" alt="Avatar" />
@@ -286,31 +292,30 @@ export default function Onboarding() {
             {step === 'chronos' && (
               <motion.div 
                 key="chronos" 
-                initial={{ opacity: 0, x: 10 }} 
+                initial={{ opacity: 0, x: 20 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -10 }}
+                exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <header className="space-y-1">
+                <div className="space-y-1">
                   <div className="flex items-center gap-2 text-rose-600 uppercase tracking-widest text-[10px] font-bold">
-                    <Calendar size={16} />
-                    Journey Rhythm
+                    <Calendar size={16} /> Journey Rhythm
                   </div>
-                  <h2 className="text-2xl font-outfit font-bold text-charcoal">The Sacred Rhythm</h2>
-                </header>
+                  <h2 className="text-2xl font-outfit font-bold text-charcoal">Sacred Dates</h2>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5 group">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Anniversary</label>
                     <input type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all" />
                   </div>
-                  <div className="space-y-1.5 group">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Birthday</label>
                     <input type="date" value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all" />
                   </div>
                 </div>
 
-                <div className="space-y-1.5 group">
+                <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Location</label>
                   <div className="relative">
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300" size={18} />

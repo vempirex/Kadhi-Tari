@@ -1,5 +1,5 @@
 /**
- * NEW AUTH CONTEXT - CLEAN IMPLEMENTATION
+ * UPDATED AUTH CONTEXT - STABLE PROFILE HANDLING
  */
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -24,12 +24,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Initial Session Hydration
+    // Initial check
     supabase.auth.getSession().then(({ data: { session } }) => {
       handleStateChange(session);
     });
 
-    // 2. Auth State Listener
+    // Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       handleStateChange(session);
     });
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) throw error;
       setProfile(data);
     } catch (err) {
-      console.error("AuthContext Profile Fetch Error:", err);
+      console.error("Profile fetch error:", err);
       setProfile(null);
     } finally {
       setIsLoading(false);
@@ -68,7 +68,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const refreshProfile = async () => {
-    if (user) await fetchProfile(user.id);
+    if (user) {
+      setIsLoading(true); // Ensure loading state during refresh
+      await fetchProfile(user.id);
+    }
   };
 
   const signOut = async () => {
