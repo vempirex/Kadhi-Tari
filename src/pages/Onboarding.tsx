@@ -221,12 +221,15 @@ export default function Onboarding() {
                         className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[4rem] py-16 pl-40 pr-16 text-5xl text-white placeholder:text-white/5 focus:border-rose-500/30 transition-all outline-none font-serif italic tracking-widest"
                       />
                     </div>
+                    {formData.password && formData.password.length < 6 && (
+                      <p className="text-rose-500 text-[12px] px-4 italic font-black uppercase tracking-widest animate-pulse">Minimum 6 characters required</p>
+                    )}
                   </div>
                 </div>
 
                 <Button 
                   onClick={() => setStep('essence')}
-                  disabled={!formData.username || !formData.password || usernameStatus !== 'available'}
+                  disabled={!formData.username || !formData.password || formData.password.length < 6 || usernameStatus !== 'available'}
                   className="w-full py-16 text-5xl rounded-[4rem]"
                   size="xl"
                 >
