@@ -124,7 +124,8 @@ export default function Planner() {
           ))
         )}
       </div>
-
+      {/* Suggestion Section */}
+      <section className="pt-8 space-y-4">
         <div className="flex items-center gap-2 px-2">
           <Star size={18} className="text-secondary" />
           <h2 className="text-lg font-medium">Idea Box</h2>
@@ -140,6 +141,73 @@ export default function Planner() {
           </div>
         </div>
       </section>
+
+      {/* Add Plan Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative glass-card rounded-[3rem] w-full max-w-md p-8 space-y-6"
+            >
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-medium">Schedule a Moment</h2>
+                <button onClick={() => setIsModalOpen(false)} className="p-2 text-gray-400 hover:text-white">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <input
+                  placeholder="What are we doing?"
+                  value={newPlan.title}
+                  onChange={(e) => setNewPlan({ ...newPlan, title: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:border-secondary/50 transition-colors"
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="date"
+                    value={newPlan.plan_date}
+                    onChange={(e) => setNewPlan({ ...newPlan, plan_date: e.target.value })}
+                    className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:border-secondary/50 transition-colors text-white"
+                  />
+                  <input
+                    type="time"
+                    value={newPlan.plan_time}
+                    onChange={(e) => setNewPlan({ ...newPlan, plan_time: e.target.value })}
+                    className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:border-secondary/50 transition-colors text-white"
+                  />
+                </div>
+                <select
+                  value={newPlan.category}
+                  onChange={(e) => setNewPlan({ ...newPlan, category: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:border-secondary/50 transition-colors appearance-none text-white"
+                >
+                  <option value="Call" className="bg-background">Call 📞</option>
+                  <option value="Date" className="bg-background">Date 🥂</option>
+                  <option value="Travel" className="bg-background">Travel ✈️</option>
+                  <option value="Watch Party" className="bg-background">Watch Party 🍿</option>
+                </select>
+                <button
+                  onClick={handleAddPlan}
+                  className="w-full py-4 rounded-2xl bg-secondary text-background font-bold shadow-lg shadow-secondary/20"
+                >
+                  Add to Planner
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
