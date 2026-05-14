@@ -21,6 +21,8 @@ export default function Onboarding() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [usernameStatus, setUsernameStatus] = useState<'available' | 'taken' | 'none'>('none');
   const [isUploading, setIsUploading] = useState<{avatar: boolean, cover: boolean}>({ avatar: false, cover: false });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -134,8 +136,9 @@ export default function Onboarding() {
         if (error) throw error;
         navigate('/');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Save error:", err);
+      setError(err.message || "Failed to save profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -160,6 +163,21 @@ export default function Onboarding() {
               </div>
             ))}
           </div>
+
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mb-6"
+              >
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-bold uppercase tracking-widest text-center">
+                  {error}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <AnimatePresence mode="wait">
             {step === 'identity' && (
@@ -207,12 +225,19 @@ export default function Onboarding() {
                     <div className="relative">
                       <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-500 transition-colors" size={20} />
                       <input 
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
-                        placeholder="••••••••"
-                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all tracking-widest"
+                        placeholder="Your secret code"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-12 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-300 hover:text-charcoal transition-all"
+                      >
+                        {showPassword ? <X size={16} /> : <Smile size={16} />}
+                      </button>
                     </div>
                     {formData.password && formData.password.length < 6 && (
                       <p className="text-rose-500 text-[10px] font-semibold ml-1">Minimum 6 characters required</p>

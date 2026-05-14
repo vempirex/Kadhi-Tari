@@ -14,6 +14,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     identifier: '',
@@ -153,13 +154,20 @@ export default function Login() {
                     <div className="relative group">
                       <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-500 transition-colors" size={20} />
                       <input 
-                        type="password" 
-                        placeholder="••••••••" 
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="Your secret code" 
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
                         required
-                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal placeholder:text-warm-300 focus:bg-white focus:border-rose-200 outline-none transition-all tracking-widest"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-12 text-sm text-charcoal placeholder:text-warm-300 focus:bg-white focus:border-rose-200 outline-none transition-all"
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-300 hover:text-charcoal transition-all"
+                      >
+                        {showPassword ? <X size={16} /> : <Smile size={16} />}
+                      </button>
                     </div>
                   </div>
                 </div>
