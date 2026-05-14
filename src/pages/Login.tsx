@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Mail, Lock, Sparkles, ShieldCheck, Zap, ArrowRight, User, Fingerprint } from 'lucide-react';
+import { Heart, Mail, Lock, Sparkles, ShieldCheck, Zap, ArrowRight, User, Fingerprint, X, Smile } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
