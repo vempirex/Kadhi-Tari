@@ -31,10 +31,15 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (!session) {
+        setHasProfile(false);
+      } else {
+        checkAuth(); // Re-verify on auth changes
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [location.pathname]);
 
   if (loading) {
     return (

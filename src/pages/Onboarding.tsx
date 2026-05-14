@@ -118,7 +118,8 @@ export default function Onboarding() {
 
         const { error } = await supabase
           .from('profiles')
-          .update({
+          .upsert({
+            id: user.id,
             username: formData.username,
             display_name: formData.display_name || formData.full_name,
             full_name: formData.full_name,
@@ -133,11 +134,12 @@ export default function Onboarding() {
             interests: formData.interests,
             email: user.email,
             updated_at: new Date().toISOString(),
-          })
-          .eq('id', user.id);
+          });
 
         if (error) throw error;
-        navigate('/');
+        
+        // Force a full refresh to clear any cached AuthGuard states
+        window.location.href = '/';
       }
     } catch (err: any) {
       console.error("Save error:", err);
