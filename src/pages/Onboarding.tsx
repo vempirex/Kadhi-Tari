@@ -70,7 +70,7 @@ export default function Onboarding() {
     } catch (err: any) {
       console.error("Username check error:", err);
       setUsernameStatus('none');
-      setError("Connection issue while checking username.");
+      setError("Unable to verify handle availability. Please check your connection.");
     } finally {
       setIsCheckingUsername(false);
     }

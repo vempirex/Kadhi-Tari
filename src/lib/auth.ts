@@ -16,7 +16,12 @@ export async function isUsernameAvailable(username: string) {
     .from('profiles')
     .select('username')
     .eq('username', username)
-    .single();
+    .maybeSingle();
   
-  return !data && error?.code === 'PGRST116'; // PGRST116 is 'no rows returned'
+  if (error) {
+    console.error("Availability check error:", error);
+    return false; // Treat errors as "taken" to be safe, or handle differently
+  }
+  
+  return !data; // If no data is found, the username is available
 }
