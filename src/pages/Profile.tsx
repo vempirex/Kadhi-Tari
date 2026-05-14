@@ -234,7 +234,14 @@ export default function Profile() {
   );
 }
 
-function DetailRow({ icon: Icon, label, value, color }: any) {
+interface DetailRowProps {
+  icon: any;
+  label: string;
+  value: string | undefined;
+  color: string;
+}
+
+function DetailRow({ icon: Icon, label, value, color }: DetailRowProps) {
   return (
     <div className="flex items-center gap-6 group">
       <div className={twMerge("p-3 rounded-2xl bg-white/[0.02] border border-white/5 transition-transform group-hover:scale-110", color)}>

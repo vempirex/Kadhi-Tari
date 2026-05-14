@@ -203,9 +203,9 @@ export default function EditProfile() {
               <User size={32} className="text-rose-500" /> Identity
             </h2>
             <div className="space-y-6">
-              <FormInput label="Display Name" value={formData.display_name} onChange={(v) => setFormData({...formData, display_name: v})} placeholder="The name I call you" />
-              <FormInput label="Full Name" value={formData.full_name} onChange={(v) => setFormData({...formData, full_name: v})} placeholder="As written in the stars" />
-              <FormInput label="Handle" value={formData.username} onChange={(v) => setFormData({...formData, username: v})} placeholder="starlight_echo" disabled />
+              <FormInput label="Display Name" value={formData.display_name} onChange={(v: string) => setFormData({...formData, display_name: v})} placeholder="The name I call you" />
+              <FormInput label="Full Name" value={formData.full_name} onChange={(v: string) => setFormData({...formData, full_name: v})} placeholder="As written in the stars" />
+              <FormInput label="Handle" value={formData.username} onChange={(v: string) => setFormData({...formData, username: v})} placeholder="starlight_echo" disabled />
             </div>
           </Card>
 
@@ -214,9 +214,9 @@ export default function EditProfile() {
               <Heart size={32} className="text-rose-500" /> Resonance
             </h2>
             <div className="space-y-6">
-              <FormInput label="Core Connection" value={formData.relationship_status} onChange={(v) => setFormData({...formData, relationship_status: v})} placeholder="In Love, Harmony..." />
-              <FormInput label="The Genesis" value={formData.anniversary} onChange={(v) => setFormData({...formData, anniversary: v})} type="date" />
-              <FormInput label="Solar Return" value={formData.birthday} onChange={(v) => setFormData({...formData, birthday: v})} type="date" />
+              <FormInput label="Core Connection" value={formData.relationship_status} onChange={(v: string) => setFormData({...formData, relationship_status: v})} placeholder="In Love, Harmony..." />
+              <FormInput label="The Genesis" value={formData.anniversary} onChange={(v: string) => setFormData({...formData, anniversary: v})} type="date" />
+              <FormInput label="Solar Return" value={formData.birthday} onChange={(v: string) => setFormData({...formData, birthday: v})} type="date" />
             </div>
           </Card>
 
@@ -235,11 +235,11 @@ export default function EditProfile() {
                     placeholder="Whisper our shared story..."
                   />
                 </div>
-                <FormInput label="Shared Echo (Quote)" value={formData.favorite_quote} onChange={(v) => setFormData({...formData, favorite_quote: v})} placeholder="Words that bind..." />
+                <FormInput label="Shared Echo (Quote)" value={formData.favorite_quote} onChange={(v: string) => setFormData({...formData, favorite_quote: v})} placeholder="Words that bind..." />
               </div>
               <div className="space-y-6">
-                <FormInput label="Coordinates" value={formData.location} onChange={(v) => setFormData({...formData, location: v})} placeholder="Where you breathe..." icon={MapPin} />
-                <FormInput label="Spiritual Echoes" value={formData.interests} onChange={(v) => setFormData({...formData, interests: v})} placeholder="Art, Music, Souls..." icon={Globe} />
+                <FormInput label="Coordinates" value={formData.location} onChange={(v: string) => setFormData({...formData, location: v})} placeholder="Where you breathe..." icon={MapPin} />
+                <FormInput label="Spiritual Echoes" value={formData.interests} onChange={(v: string) => setFormData({...formData, interests: v})} placeholder="Art, Music, Souls..." icon={Globe} />
               </div>
             </div>
           </Card>
@@ -249,7 +249,17 @@ export default function EditProfile() {
   );
 }
 
-function FormInput({ label, value, onChange, placeholder, type = 'text', icon: Icon, disabled = false }: any) {
+interface FormInputProps {
+  label: string;
+  value: string;
+  onChange: (val: string) => void;
+  placeholder?: string;
+  type?: string;
+  icon?: any;
+  disabled?: boolean;
+}
+
+function FormInput({ label, value, onChange, placeholder, type = 'text', icon: Icon, disabled = false }: FormInputProps) {
   return (
     <div className="space-y-2 group">
       <label className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-2 italic group-focus-within:text-rose-500 transition-colors">{label}</label>
