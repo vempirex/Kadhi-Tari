@@ -1,8 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, SkipForward, SkipBack, Heart, Plus, X, Loader2, Disc, Music, Sparkles, Volume2, Share2 } from 'lucide-react';
+import { Play, SkipForward, SkipBack, Heart, Plus, X, Disc, Music, Sparkles, Volume2, Share2, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { twMerge } from 'tailwind-merge';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
 
 interface Song {
   id: string;
@@ -79,156 +81,174 @@ export default function Playlist() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-24">
-      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 px-2">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-rose-400 font-bold uppercase tracking-[0.3em] text-[10px]">
+    <div className="max-w-4xl mx-auto space-y-16 pb-24">
+      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 px-2 sm:px-0">
+        <div className="space-y-4 text-center sm:text-left">
+          <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
             <Music size={12} className="animate-pulse" />
-            Shared Rhythm
+            Sonic Resonances
           </div>
-          <h1 className="text-4xl sm:text-5xl font-serif glow-text leading-tight">Our Playlist</h1>
-          <p className="text-gray-400 text-sm sm:text-base font-handwritten italic opacity-80">The soundtrack to our little universe...</p>
+          <h1 className="text-4xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">Our Playlist</h1>
+          <p className="text-gray-400 text-lg font-handwritten italic opacity-80 max-w-md mx-auto sm:mx-0">The soundwaves of our shared universe, vibrating in harmony...</p>
         </div>
-        <motion.button 
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
+        <Button 
           onClick={() => setIsModalOpen(true)}
-          className="btn-primary flex items-center justify-center gap-3 px-8 shadow-rose-500/30"
+          className="sm:w-fit gap-3"
+          size="lg"
         >
           <Plus size={20} strokeWidth={3} />
           <span>Add Anthem</span>
-        </motion.button>
+        </Button>
       </header>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-32 gap-6 relative z-10">
-          <div className="w-12 h-12 rounded-full border-2 border-rose-500/20 border-t-rose-500 animate-spin" />
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Syncing the frequencies...</p>
+        <div className="flex flex-col items-center justify-center py-40 gap-8">
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
+            <Heart size={24} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse" />
+          </div>
+          <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.5em] animate-pulse">Syncing Frequencies...</p>
         </div>
       ) : (
-        <div className="space-y-16">
-          {/* Main Player Card */}
-          <section className="premium-card p-8 sm:p-16 flex flex-col items-center gap-12 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-            
-            <div className="flex flex-col lg:flex-row items-center gap-12 sm:gap-20 w-full max-w-3xl">
-              {/* Vinyl Record */}
-              <div className="relative group/vinyl flex-shrink-0">
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                  className="w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-[#050506] border-[16px] border-[#121214] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex items-center justify-center relative z-10"
-                >
-                  <div className="absolute inset-0 rounded-full border border-white/5 opacity-50" />
-                  <div className="w-52 h-52 sm:w-68 sm:h-68 rounded-full overflow-hidden opacity-95 scale-[0.98] border border-black">
-                    <img src={currentSong.cover_url} alt="Cover" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute w-16 h-16 sm:w-20 sm:h-20 bg-[#050506] rounded-full border-[8px] border-[#121214] flex items-center justify-center shadow-inner">
-                     <div className="w-2 h-2 bg-rose-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(244,63,94,0.8)]" />
-                  </div>
-                </motion.div>
-                
-                {/* Visual Feedback Line */}
-                <div className="absolute -inset-4 border-2 border-dashed border-rose-500/10 rounded-full animate-[spin_30s_linear_infinite]" />
-              </div>
-
-              {/* Info & Controls */}
-              <div className="flex-1 space-y-8 text-center lg:text-left relative z-10 w-full">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-center lg:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.3em] text-[10px]">
-                    <Sparkles size={12} />
-                    Now Resonating
-                  </div>
-                  <h2 className="text-4xl sm:text-5xl font-serif text-white group-hover:text-rose-400 transition-colors leading-tight">{currentSong.title}</h2>
-                  <p className="text-xl sm:text-2xl font-handwritten text-gray-400 italic opacity-80">{currentSong.artist}</p>
-                </div>
-                
-                <div className="premium-card bg-white/[0.03] p-6 rounded-3xl border-white/5">
-                  <p className="text-sm sm:text-base text-gray-300 font-medium italic leading-relaxed">
-                    "{currentSong.note}"
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-center lg:justify-start gap-8 sm:gap-12">
-                  <button className="p-3 text-gray-500 hover:text-white transition-all active:scale-90"><SkipBack size={28} fill="currentColor" /></button>
-                  <motion.button 
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-black flex items-center justify-center shadow-[0_20px_50px_rgba(255,255,255,0.2)] hover:shadow-white/30 transition-all"
+        <div className="space-y-20">
+          {/* Main Player Section */}
+          <section className="relative group">
+            <Card variant="premium" className="p-10 sm:p-20 flex flex-col items-center gap-12 sm:gap-20 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-rose-500/[0.05] via-transparent to-purple-500/[0.05] opacity-50 pointer-events-none" />
+              
+              <div className="flex flex-col lg:flex-row items-center gap-12 sm:gap-24 w-full max-w-4xl relative z-10">
+                {/* Vinyl Record */}
+                <div className="relative shrink-0">
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-[#0a0a0c] border-[20px] border-[#161618] shadow-[0_40px_100px_rgba(0,0,0,0.8)] flex items-center justify-center relative z-20 group-hover:scale-105 transition-transform duration-1000"
                   >
-                    <Play size={40} fill="currentColor" className="ml-2" />
-                  </motion.button>
-                  <button className="p-3 text-gray-500 hover:text-white transition-all active:scale-90"><SkipForward size={28} fill="currentColor" /></button>
+                    <div className="absolute inset-0 rounded-full border border-white/5 opacity-50" />
+                    {/* Grooves */}
+                    <div className="absolute inset-4 rounded-full border border-white/[0.03]" />
+                    <div className="absolute inset-8 rounded-full border border-white/[0.03]" />
+                    <div className="absolute inset-12 rounded-full border border-white/[0.03]" />
+                    
+                    <div className="w-56 h-56 sm:w-72 sm:h-72 rounded-full overflow-hidden opacity-95 scale-[0.98] border border-black shadow-inner">
+                      <img src={currentSong.cover_url} alt="Cover" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute w-16 h-16 sm:w-24 sm:h-24 bg-[#0a0a0c] rounded-full border-[12px] border-[#161618] flex items-center justify-center shadow-2xl">
+                       <div className="w-3 h-3 bg-rose-500 rounded-full animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.8)]" />
+                    </div>
+                  </motion.div>
+                  
+                  {/* Outer Rings */}
+                  <div className="absolute -inset-8 border border-white/[0.02] rounded-full animate-[spin_60s_linear_infinite]" />
+                  <div className="absolute -inset-12 border border-white/[0.01] rounded-full animate-[spin_40s_linear_infinite_reverse]" />
                 </div>
 
-                {/* Progress Bar Mock */}
-                <div className="space-y-2">
-                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
-                    <motion.div 
-                      className="h-full bg-gradient-to-r from-rose-500 to-purple-500" 
-                      animate={{ width: ['20%', '85%', '20%'] }} 
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    />
+                {/* Info & Controls */}
+                <div className="flex-1 space-y-10 text-center lg:text-left w-full">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center lg:justify-start gap-4 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
+                      <div className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                      Now Resonating
+                    </div>
+                    <h2 className="text-4xl sm:text-6xl font-serif text-white group-hover:text-rose-400 transition-colors leading-tight tracking-tight">{currentSong.title}</h2>
+                    <p className="text-2xl sm:text-3xl font-handwritten text-gray-400 italic opacity-80">{currentSong.artist}</p>
                   </div>
-                  <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-gray-500">
-                    <span>1:24</span>
-                    <span>3:45</span>
+                  
+                  <div className="glass-panel p-8 rounded-[2.5rem] border-white/5 bg-white/[0.02] relative group/note overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-rose-500/20" />
+                    <p className="text-sm sm:text-lg text-gray-300 font-medium italic leading-relaxed font-handwritten">
+                      "{currentSong.note}"
+                    </p>
+                  </div>
+
+                  <div className="space-y-10">
+                    <div className="flex items-center justify-center lg:justify-start gap-10 sm:gap-16">
+                      <button className="p-4 text-gray-600 hover:text-white transition-all active:scale-90 hover:scale-110"><SkipBack size={36} fill="currentColor" /></button>
+                      <motion.button 
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white text-black flex items-center justify-center shadow-[0_20px_60px_rgba(255,255,255,0.15)] hover:shadow-white/20 transition-all duration-500"
+                      >
+                        <Play size={48} fill="currentColor" className="ml-2" />
+                      </motion.button>
+                      <button className="p-4 text-gray-600 hover:text-white transition-all active:scale-90 hover:scale-110"><SkipForward size={36} fill="currentColor" /></button>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="space-y-3">
+                      <div className="w-full h-2 bg-white/[0.03] rounded-full overflow-hidden border border-white/5 relative">
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-rose-500 via-purple-500 to-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.4)]" 
+                          animate={{ width: ['20%', '85%', '20%'] }} 
+                          transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
+                        <span>1:24</span>
+                        <span>3:45</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
           </section>
 
           {/* Archive List */}
-          <section className="space-y-8">
-            <div className="flex items-center justify-between px-2">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/[0.03] text-rose-400 border border-white/5">
-                  <Disc size={20} />
+          <section className="space-y-10 px-2 sm:px-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-2xl bg-white/[0.03] text-rose-400 border border-white/5 shadow-xl">
+                  <Disc size={24} className="animate-spin-slow" />
                 </div>
-                <h2 className="text-xl font-bold uppercase tracking-[0.2em] text-white/90">The Sonic Archive</h2>
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-serif text-white tracking-tight">The Sonic Archive</h2>
+                  <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em]">Echoes of our shared history</p>
+                </div>
               </div>
-              <div className="flex items-center gap-4 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
-                <span className="flex items-center gap-1.5"><Volume2 size={12} /> Sync On</span>
-                <span className="w-1 h-1 rounded-full bg-gray-700" />
-                <span>{songs.length} Tracks</span>
+              <div className="flex items-center gap-6 text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] bg-white/[0.02] px-6 py-3 rounded-full border border-white/5">
+                <span className="flex items-center gap-2.5 text-rose-400"><Volume2 size={14} /> Frequency Synced</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-800" />
+                <span>{songs.length} Resonance Points</span>
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {songs.length <= 1 ? (
-                <div className="col-span-full text-center py-20 premium-card border-dashed border-2 opacity-50 space-y-4">
-                  <Music size={40} strokeWidth={1} className="mx-auto" />
-                  <p className="font-handwritten text-xl italic">The archives are empty. Add a song that reminds you of us...</p>
+                <div className="col-span-full text-center py-40 premium-card border-dashed border-2 flex flex-col items-center border-white/5 opacity-50">
+                  <div className="p-10 bg-rose-500/5 rounded-[2.5rem] w-fit text-rose-400/20 border border-rose-500/10 mb-8">
+                    <Music size={72} strokeWidth={1} />
+                  </div>
+                  <p className="font-handwritten text-2xl italic text-gray-400">The archive is silent. Seal a song that reminds you of us...</p>
                 </div>
               ) : (
                 songs.slice(1).map((song, i) => (
-                  <motion.div 
+                  <Card 
                     key={song.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="premium-card p-4 flex items-center gap-5 group cursor-pointer active:scale-[0.98] transition-all border-white/5 hover:border-rose-500/20"
+                    className="p-5 flex items-center gap-6 group cursor-pointer active:scale-[0.98] transition-all duration-500 border-white/5 hover:border-rose-500/20"
                   >
-                    <div className="w-20 h-20 rounded-2xl overflow-hidden bg-[#050506] border border-white/5 relative flex-shrink-0">
-                      <img src={song.cover_url} alt="Cover" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="w-24 h-24 rounded-[1.8rem] overflow-hidden bg-[#0a0a0c] border border-white/5 relative shrink-0 shadow-2xl group-hover:rotate-3 transition-transform duration-700">
+                      <img src={song.cover_url} alt="Cover" className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000" />
                       <div className="absolute inset-0 bg-rose-500/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                        <Play size={24} fill="currentColor" className="text-white" />
+                        <Play size={28} fill="currentColor" className="text-white scale-75 group-hover:scale-100 transition-transform duration-500" />
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <p className="font-bold text-lg text-white truncate group-hover:text-rose-400 transition-colors">{song.title}</p>
-                      <p className="text-[11px] text-gray-500 font-black uppercase tracking-widest truncate">{song.artist}</p>
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <p className="font-serif text-xl text-white truncate group-hover:text-rose-400 transition-colors leading-tight">{song.title}</p>
+                      <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] truncate opacity-70 group-hover:opacity-100 transition-opacity">{song.artist}</p>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <button className="p-3 rounded-2xl bg-white/[0.03] text-gray-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all border border-white/5">
-                        <Heart size={18} />
+                    <div className="flex flex-col gap-2 shrink-0">
+                      <button className="p-3.5 rounded-2xl bg-white/[0.03] text-gray-600 hover:text-rose-400 hover:bg-rose-500/10 transition-all border border-white/5 active:scale-90">
+                        <Heart size={20} />
                       </button>
-                      <button className="p-3 rounded-2xl bg-white/[0.03] text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 transition-all border border-white/5">
-                        <Share2 size={18} />
+                      <button className="p-3.5 rounded-2xl bg-white/[0.03] text-gray-600 hover:text-blue-400 hover:bg-blue-500/10 transition-all border border-white/5 active:scale-90">
+                        <Share2 size={20} />
                       </button>
                     </div>
-                  </motion.div>
+                  </Card>
                 ))
               )}
             </div>
@@ -245,75 +265,68 @@ export default function Playlist() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+              className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
             />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 30 }}
-              className="relative glass-panel rounded-[3rem] w-full max-w-lg p-8 sm:p-12 space-y-10 overflow-hidden shadow-[0_0_100px_rgba(244,63,94,0.1)] border-white/10"
-            >
-              <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-rose-500/5 blur-[80px] rounded-full pointer-events-none" />
+            <Card className="w-full max-w-2xl p-8 sm:p-14 space-y-12 relative overflow-hidden border-white/5">
+              <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-rose-500/5 blur-[100px] rounded-full pointer-events-none" />
               
               <div className="flex justify-between items-center relative z-10">
-                <div className="space-y-1">
-                  <h2 className="text-3xl font-serif text-rose-400">Add an Anthem</h2>
-                  <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em]">Share our rhythm with the sanctuary</p>
+                <div className="space-y-2">
+                  <h2 className="text-4xl font-serif text-white tracking-tight leading-none">Seal an Anthem</h2>
+                  <p className="text-[10px] text-rose-400 font-black uppercase tracking-[0.4em]">Broadcast our rhythm to the vault</p>
                 </div>
                 <button 
                   onClick={() => setIsModalOpen(false)} 
-                  className="p-3 text-gray-500 hover:text-white hover:bg-white/5 rounded-2xl transition-all active:scale-90"
+                  className="p-4 text-gray-500 hover:text-white hover:bg-white/10 rounded-2xl transition-all active:scale-90"
                 >
                   <X size={24} />
                 </button>
               </div>
 
-              <div className="space-y-6 relative z-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] px-1">Song Title</label>
+              <div className="space-y-10 relative z-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">Song Title</label>
                     <input
                       placeholder="e.g. Perfect, Yellow..."
                       value={newSong.title}
                       onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
-                      className="input-field"
+                      className="input-field py-5 text-lg"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] px-1">Artist</label>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">Vocal Artist</label>
                     <input
                       placeholder="e.g. Ed Sheeran, Coldplay..."
                       value={newSong.artist}
                       onChange={(e) => setNewSong({ ...newSong, artist: e.target.value })}
-                      className="input-field"
+                      className="input-field py-5 text-lg"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] px-1">Why this song?</label>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">The Resonance Note</label>
                   <textarea
-                    placeholder="Capture the vibe of this melody..."
+                    placeholder="Capture the frequency of this melody in words..."
                     value={newSong.note}
                     onChange={(e) => setNewSong({ ...newSong, note: e.target.value })}
-                    className="input-field min-h-[140px] resize-none leading-relaxed"
+                    className="input-field min-h-[180px] resize-none leading-relaxed text-lg font-medium py-8"
                   />
                 </div>
                 
-                <button
+                <Button
                   onClick={handleAddSong}
-                  disabled={!newSong.title || isSaving}
-                  className="btn-primary w-full mt-6 py-5 flex items-center justify-center gap-4 text-base tracking-wide disabled:opacity-50"
+                  isLoading={isSaving}
+                  disabled={!newSong.title}
+                  className="w-full gap-5 py-6"
+                  size="xl"
                 >
-                  {isSaving ? <Loader2 className="animate-spin" size={24} /> : (
-                    <>
-                      <Sparkles size={22} className="text-white" />
-                      <span>Seal this Vibe</span>
-                    </>
-                  )}
-                </button>
+                  <Send size={22} className="rotate-[-20deg]" />
+                  <span>Transmit to Archive</span>
+                </Button>
               </div>
-            </motion.div>
+            </Card>
           </div>
         )}
       </AnimatePresence>
