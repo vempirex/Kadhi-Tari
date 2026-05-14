@@ -4,6 +4,7 @@ import React from 'react';
 
 interface CardProps extends HTMLMotionProps<'div'> {
   variant?: 'primary' | 'glass' | 'soft' | 'outline' | 'flat';
+  children?: React.ReactNode;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ 
