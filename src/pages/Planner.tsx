@@ -1,56 +1,130 @@
-import { motion } from 'framer-motion';
-import { MapPin, Film, Coffee, Calendar, Plus, ChevronRight, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, Clock, MapPin, Coffee, CheckCircle2, Circle, Plus, X, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
-const plans = [
-  { title: 'Late night walk at the park', type: 'Outing', icon: MapPin, status: 'Pending since forever 😭', color: 'text-red-400' },
-  { title: 'Movie Marathon: Interstellar', type: 'Movie', icon: Film, status: 'Voting in progress', color: 'text-blue-400' },
-  { title: 'That new aesthetic cafe', type: 'Cafe', icon: Coffee, status: 'Planned for Saturday', color: 'text-green-400' },
-];
+interface Plan {
+  id: string;
+  title: string;
+  plan_date: string;
+  plan_time: string;
+  category: string;
+  is_completed: boolean;
+}
 
 export default function Planner() {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newPlan, setNewPlan] = useState({ 
+    title: '', 
+    plan_date: new Date().toISOString().split('T')[0], 
+    plan_time: '21:00',
+    category: 'Call'
+  });
+
+  useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  const fetchPlans = async () => {
+    const { data, error } = await supabase
+      .from('plans')
+      .select('*')
+      .order('plan_date', { ascending: true });
+    
+    if (!error && data) setPlans(data);
+    setIsLoading(false);
+  };
+
+  const handleAddPlan = async () => {
+    if (!newPlan.title) return;
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    const { error } = await supabase.from('plans').insert([
+      {
+        ...newPlan,
+        user_id: user?.id
+      }
+    ]);
+
+    if (!error) {
+      setIsModalOpen(false);
+      setNewPlan({ title: '', plan_date: new Date().toISOString().split('T')[0], plan_time: '21:00', category: 'Call' });
+      fetchPlans();
+    }
+  };
+
+  const togglePlan = async (id: string, currentStatus: boolean) => {
+    const { error } = await supabase
+      .from('plans')
+      .update({ is_completed: !currentStatus })
+      .eq('id', id);
+
+    if (!error) {
+      setPlans(plans.map(p => p.id === id ? { ...p, is_completed: !currentStatus } : p));
+    }
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-12">
       <header className="flex justify-between items-center px-2">
-        <h1 className="text-2xl font-serif glow-text">Outing & Movie Planner 🎬</h1>
+        <div>
+          <h1 className="text-2xl font-serif glow-text">Shared Planner</h1>
+          <p className="text-gray-400 text-sm font-handwritten">Next up on our journey...</p>
+        </div>
         <motion.button 
           whileHover={{ scale: 1.1 }}
-          className="p-3 rounded-full bg-secondary text-background"
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsModalOpen(true)}
+          className="p-3 rounded-full bg-secondary text-background shadow-lg shadow-secondary/20"
         >
           <Plus size={24} />
         </motion.button>
       </header>
 
-      <div className="space-y-4">
-        {plans.map((plan, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="glass-card rounded-3xl p-5 flex items-center justify-between group cursor-pointer"
-          >
-            <div className="flex items-center gap-4">
-              <div className={`p-4 rounded-2xl bg-white/5 ${plan.color}`}>
-                <plan.icon size={24} />
+      <div className="space-y-6">
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <Loader2 className="animate-spin text-primary" />
+          </div>
+        ) : (
+          plans.map((plan, i) => (
+            <motion.div 
+              key={plan.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className={`glass-card rounded-3xl p-6 flex items-center gap-6 group transition-all ${plan.is_completed ? 'opacity-50 grayscale' : ''}`}
+            >
+              <div 
+                onClick={() => togglePlan(plan.id, plan.is_completed)}
+                className="cursor-pointer text-primary hover:scale-110 transition-transform"
+              >
+                {plan.is_completed ? <CheckCircle2 size={28} /> : <Circle size={28} />}
               </div>
-              <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{plan.type}</p>
-                <h3 className="font-bold">{plan.title}</h3>
-                <div className="flex items-center gap-1">
-                  <Clock size={10} className="text-gray-600" />
-                  <p className={`text-xs italic font-medium ${plan.status.includes('😭') ? 'text-red-400/80' : 'text-gray-400'}`}>
-                    {plan.status}
-                  </p>
+              
+              <div className="flex-1 space-y-1">
+                <h3 className={`text-lg font-bold ${plan.is_completed ? 'line-through' : ''}`}>{plan.title}</h3>
+                <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-1">
+                    <Calendar size={12} />
+                    <span>{new Date(plan.plan_date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Clock size={12} />
+                    <span>{plan.plan_time}</span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full bg-white/5 uppercase tracking-widest font-bold text-[8px]">
+                    {plan.category}
+                  </span>
                 </div>
               </div>
-            </div>
-            <ChevronRight className="text-gray-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
-          </motion.div>
-        ))}
+            </motion.div>
+          ))
+        )}
       </div>
 
-      {/* Suggestion Section */}
-      <section className="pt-8 space-y-4">
         <div className="flex items-center gap-2 px-2">
           <Star size={18} className="text-secondary" />
           <h2 className="text-lg font-medium">Idea Box</h2>
