@@ -52,8 +52,8 @@ export default function Onboarding() {
   const checkExistingProfile = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      const { data } = await supabase.from('profiles').select('username').eq('id', user.id).single();
-      if (data?.username) navigate('/');
+      const { data } = await supabase.from('profiles').select('username').eq('id', user.id).maybeSingle();
+      if (data?.username) window.location.href = '/';
     }
   };
 
@@ -105,45 +105,54 @@ export default function Onboarding() {
   };
 
   const handleComplete = async () => {
-    if (!formData.username || !formData.full_name || isLoading) return;
+    setError(null);
+    if (!formData.username || !formData.full_name || isLoading) {
+      setError("Please ensure your handle and full name are provided.");
+      return;
+    }
     setIsLoading(true);
     
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        if (formData.password) {
-          const { error: pwdError } = await supabase.auth.updateUser({ password: formData.password });
-          if (pwdError) throw pwdError;
-        }
+      console.log("Starting final sync...");
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError) throw userError;
+      if (!user) throw new Error("Authentication session lost. Please log in again.");
 
-        const { error } = await supabase
-          .from('profiles')
-          .upsert({
-            id: user.id,
-            username: formData.username,
-            display_name: formData.display_name || formData.full_name,
-            full_name: formData.full_name,
-            bio: formData.bio,
-            relationship_status: formData.relationship_status,
-            favorite_quote: formData.favorite_quote,
-            avatar_url: formData.avatar_url,
-            cover_url: formData.cover_url,
-            anniversary: formData.anniversary,
-            birthday: formData.birthday,
-            location: formData.location,
-            interests: formData.interests,
-            email: user.email,
-            updated_at: new Date().toISOString(),
-          });
-
-        if (error) throw error;
-        
-        // Force a full refresh to clear any cached AuthGuard states
-        window.location.href = '/';
+      if (formData.password) {
+        console.log("Securing passphrase...");
+        const { error: pwdError } = await supabase.auth.updateUser({ password: formData.password });
+        if (pwdError) throw pwdError;
       }
+
+      console.log("Archiving profile...");
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          username: formData.username,
+          display_name: formData.display_name || formData.full_name,
+          full_name: formData.full_name,
+          bio: formData.bio,
+          relationship_status: formData.relationship_status,
+          favorite_quote: formData.favorite_quote,
+          avatar_url: formData.avatar_url,
+          cover_url: formData.cover_url,
+          anniversary: formData.anniversary,
+          birthday: formData.birthday,
+          location: formData.location,
+          interests: formData.interests,
+          email: user.email,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (profileError) throw profileError;
+      
+      console.log("Success. Entering sanctuary...");
+      window.location.replace('/');
     } catch (err: any) {
-      console.error("Save error:", err);
-      setError(err.message || "Failed to save profile. Please try again.");
+      console.error("Onboarding failure:", err);
+      setError(err.message || "An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -16,12 +16,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       setSession(session);
       
       if (session) {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('profiles')
           .select('username')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
         
+        if (error) console.error("AuthGuard profile check error:", error);
         setHasProfile(!!data?.username);
       }
       setLoading(false);
