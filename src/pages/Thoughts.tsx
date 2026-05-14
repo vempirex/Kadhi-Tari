@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cloud, Sparkles, MessageCircle, Heart, Plus, Send, Zap, Wind, Star, Sun, Moon, Compass, Globe, Fingerprint, Shield } from 'lucide-react';
+import { Cloud, Sparkles, MessageCircle, Heart, Plus, Zap, Wind, Moon, Fingerprint } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/Button';

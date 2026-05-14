@@ -21,7 +21,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="fixed left-0 top-32 bottom-0 w-[45rem] hidden lg:flex flex-col p-12 gap-24 border-r-4 border-white/5 bg-black/[0.1] backdrop-blur-[150px] z-[1400] overflow-y-auto no-scrollbar shadow-[50px_0_150px_rgba(0,0,0,1)] shadow-inner">
+    <aside className="fixed left-0 top-[15rem] bottom-0 w-[28rem] hidden lg:flex flex-col p-12 gap-24 border-r-4 border-white/5 bg-black/[0.1] backdrop-blur-[150px] z-[1400] overflow-y-auto no-scrollbar shadow-[50px_0_150px_rgba(0,0,0,1)] shadow-inner">
       <div className="absolute inset-y-0 right-0 w-[4px] bg-gradient-to-b from-transparent via-white/[0.1] to-transparent pointer-events-none" />
       
       <div className="space-y-16">

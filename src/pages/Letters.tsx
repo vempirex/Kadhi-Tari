@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Mail, MailOpen, X, Heart, Clock, AlertCircle, Plus, Sparkles, Send, Quote, Bookmark, Zap, ArrowLeft, SendHorizonal, Star, Shield, Feather, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
+import { Mail, MailOpen, X, Heart, Clock, AlertCircle, Plus, Sparkles, Send, Quote, Bookmark, Zap, ArrowLeft, SendHorizontal, Star, Shield, Feather, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { twMerge } from 'tailwind-merge';
 import { Button } from '../components/ui/Button';
@@ -303,7 +303,7 @@ export default function Letters() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-[4rem] italic">
-                      <SendHorizonal size={192} strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
+                      <SendHorizontal size={192} strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
                       Seal into Vault
                     </span>
                   </Button>

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, Camera, Heart, Image as ImageIcon, Zap, Sparkles, SendHorizonal, Fingerprint, Star } from 'lucide-react';
+import { X, Upload, Camera, Heart, Image as ImageIcon, Zap, Sparkles, SendHorizontal, Fingerprint, Star } from 'lucide-react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { supabase } from '../lib/supabase';
@@ -189,7 +189,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                   <span className="relative z-10 flex items-center justify-center gap-32">
                     <Heart size={160} strokeWidth={0.01} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", selectedImage ? "fill-white scale-125 shadow-[0_0_100px_white]" : "fill-transparent")} />
                     <span className="drop-shadow-3xl">{type === 'post' ? 'Archive Memory' : 'Ignite Story'}</span>
-                    <SendHorizonal size={160} strokeWidth={0.01} className="group-hover/submit:translate-x-12 group-hover/submit:-translate-y-6 transition-all duration-[2000ms] drop-shadow-3xl" />
+                    <SendHorizontal size={160} strokeWidth={0.01} className="group-hover/submit:translate-x-12 group-hover/submit:-translate-y-6 transition-all duration-[2000ms] drop-shadow-3xl" />
                   </span>
                 </Button>
               </div>

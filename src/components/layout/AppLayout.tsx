@@ -14,7 +14,7 @@ export default function AppLayout() {
       <Sidebar />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-[28rem] pt-32 sm:pt-48 content-safe-bottom min-h-screen relative overflow-x-hidden">
+      <main className="flex-1 lg:ml-[28rem] pt-[16rem] sm:pt-[22rem] content-safe-bottom min-h-screen relative overflow-x-hidden">
         {/* Background Decorative Elements (Global Sanctuary Vibes) */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           <motion.div 

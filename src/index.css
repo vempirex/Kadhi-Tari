@@ -112,7 +112,7 @@
 }
 
 .content-safe-bottom {
-  @apply pb-40 sm:pb-56 lg:pb-32;
+  @apply pb-[25rem] sm:pb-[35rem] lg:pb-32;
 }
 
 /* Animations */
