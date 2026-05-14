@@ -14,8 +14,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(({
 }, ref) => {
   const variants = {
     premium: 'premium-card',
-    glass: 'glass-panel',
-    plain: 'bg-white/[0.02] border border-white/5 rounded-[2rem]'
+    glass: 'glass-panel rounded-[5rem]',
+    plain: 'bg-white/[0.01] border border-white/5 rounded-[4rem] shadow-inner'
   };
 
   return (

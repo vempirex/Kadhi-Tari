@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Laugh, Trophy, Star, MessageSquare, Plus, X, Heart, Sparkles, Send } from 'lucide-react';
+import { Laugh, Trophy, Star, MessageSquare, Plus, X, Heart, Sparkles, Send, Shield, Zap, Globe, Fingerprint } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { twMerge } from 'tailwind-merge';
 
 interface Joke {
   id: string;
@@ -18,10 +19,10 @@ const iconMap: Record<string, any> = {
 };
 
 const tags = [
-  { id: 'Award', label: 'Award', icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
-  { id: 'Skill', label: 'Skill', icon: Star, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  { id: 'Moment', label: 'Moment', icon: Laugh, color: 'text-rose-400', bg: 'bg-rose-500/10' },
-  { id: 'Quote', label: 'Quote', icon: MessageSquare, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+  { id: 'Award', label: 'Award', icon: Trophy, color: 'text-yellow-500', bg: 'bg-yellow-500/15' },
+  { id: 'Skill', label: 'Skill', icon: Star, color: 'text-blue-500', bg: 'bg-blue-500/15' },
+  { id: 'Moment', label: 'Moment', icon: Laugh, color: 'text-rose-500', bg: 'bg-rose-500/15' },
+  { id: 'Quote', label: 'Quote', icon: MessageSquare, color: 'text-purple-500', bg: 'bg-purple-500/15' },
 ];
 
 export default function Jokes() {
@@ -71,52 +72,61 @@ export default function Jokes() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-16 pb-24">
-      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 px-2 sm:px-0">
-        <div className="space-y-4 text-center sm:text-left">
-          <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
-            <Laugh size={12} className="animate-pulse" />
+    <div className="max-w-7xl mx-auto space-y-32 sm:space-y-48 pb-48 relative overflow-hidden">
+      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-16 px-6 sm:px-0 relative z-20">
+        <div className="space-y-12 text-center sm:text-left relative z-10">
+          <div className="flex items-center justify-center sm:justify-start gap-8 text-rose-500 font-black uppercase tracking-[1em] text-[14px] mb-6 italic">
+            <Laugh size={32} strokeWidth={1} className="animate-pulse fill-rose-500" />
             Vibrant Echoes
           </div>
-          <h1 className="text-4xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">Inside Jokes</h1>
-          <p className="text-gray-400 text-lg font-handwritten italic opacity-80 max-w-md mx-auto sm:mx-0">The secret dialect of our shared universe...</p>
+          <h1 className="text-7xl sm:text-[11rem] font-serif glow-text leading-[0.85] tracking-tighter italic">Inside Jokes</h1>
+          <p className="text-gray-500 text-4xl sm:text-[8rem] font-handwritten italic opacity-80 max-w-5xl mx-auto sm:mx-0 leading-tight selection:bg-rose-500/40">
+            "The secret dialect of our shared universe. Artifacts of shared laughter frozen in our private constellation..."
+          </p>
         </div>
+        
         <Button 
           onClick={() => setIsModalOpen(true)}
-          className="sm:w-fit gap-3"
-          size="lg"
+          className="rounded-[4rem] px-24 h-auto py-12 shadow-[0_100px_250px_rgba(244,63,94,0.6)] group relative overflow-hidden border-none"
+          size="xl"
         >
-          <Plus size={20} strokeWidth={3} />
-          <span>New Artifact</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-rose-900 to-orange-800 opacity-0 group-hover:opacity-100 transition-all duration-[1500ms]" />
+          <span className="relative z-10 flex items-center gap-12 text-4xl tracking-tighter italic">
+            <Plus size={64} strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+            <span>Seal an Artifact</span>
+          </span>
         </Button>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 px-2 sm:px-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-32 sm:gap-48 px-6 sm:px-0 relative z-10">
         {isLoading ? (
-          <div className="col-span-full flex flex-col items-center justify-center py-40 gap-8">
+          <div className="col-span-full flex flex-col items-center justify-center py-[25rem] gap-20">
             <div className="relative">
-              <div className="w-20 h-20 rounded-[2rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-              <Heart size={24} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse" />
+              <div className="w-32 h-32 rounded-[4.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
+              <Heart size-[6rem] strokeWidth={0.1} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
             </div>
-            <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.5em] animate-pulse">Syncing Laughter...</p>
+            <p className="text-[14px] text-gray-800 font-black uppercase tracking-[1.2em] animate-pulse italic">Syncing Shared Frequencies...</p>
           </div>
         ) : jokes.length === 0 ? (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="col-span-full text-center py-40 premium-card space-y-10 border-dashed border-2 flex flex-col items-center border-white/5"
+            initial={{ opacity: 0, scale: 0.95, filter: 'blur(50px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            className="col-span-full text-center py-[25rem] space-y-32 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)] rounded-[8rem] shadow-inner"
           >
-            <div className="p-10 bg-rose-500/5 rounded-[2.5rem] w-fit text-rose-400/20 border border-rose-500/10 shadow-inner">
-              <Laugh size={72} strokeWidth={1} />
+            <div className="p-48 bg-rose-500/[0.03] rounded-[9rem] w-fit text-rose-500/5 border-2 border-rose-500/10 shadow-inner group-hover:scale-125 transition-all duration-[8s]">
+              <Laugh size-[30rem] strokeWidth={0.1} className="drop-shadow-3xl" />
             </div>
-            <div className="space-y-4 px-8">
-              <h2 className="text-3xl font-serif text-white/90 tracking-tight">Silent Corridors</h2>
-              <p className="text-gray-500 italic max-w-sm mx-auto text-lg leading-relaxed font-handwritten opacity-70">
-                "Our secret language is waiting to be written. Share a moment that only we understand."
+            <div className="space-y-16 px-24">
+              <h2 className="text-8xl sm:text-[12rem] font-serif text-white/90 tracking-tighter italic leading-none">Silent Corridors</h2>
+              <p className="text-gray-800 italic max-w-6xl mx-auto text-[7rem] leading-tight font-handwritten opacity-70 selection:bg-rose-500/40">
+                "Our secret language is waiting to be written. Share a moment that only we understand and let the echoes begin..."
               </p>
             </div>
-            <Button variant="outline" onClick={() => setIsModalOpen(true)} className="gap-3">
-              Create First Joke <Plus size={16} />
+            <Button 
+              onClick={() => setIsModalOpen(true)} 
+              className="rounded-[6rem] px-32 py-20 text-6xl h-auto group border-none shadow-[0_100px_200px_rgba(244,63,94,0.6)]"
+            >
+              Seal First Artifact <Plus size-[6rem] strokeWidth={0.1} className="ml-16 group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
             </Button>
           </motion.div>
         ) : (
@@ -124,120 +134,147 @@ export default function Jokes() {
             const Icon = iconMap[joke.icon_name] || Laugh;
             const tag = tags.find(t => t.id === joke.tag) || tags[2];
             return (
-              <Card
+              <motion.div
                 key={joke.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="p-8 sm:p-10 relative overflow-hidden group hover:border-rose-500/20 transition-all duration-700 cursor-pointer active:scale-[0.98]"
+                initial={{ opacity: 0, y: 150, filter: 'blur(60px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: "-150px" }}
+                transition={{ delay: i * 0.1, duration: 2, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-1000 text-rose-400">
-                  <Icon size={120} strokeWidth={1} />
-                </div>
-
-                <div className="space-y-6 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className={twMerge("px-4 py-1.5 rounded-full border border-white/5 text-[10px] font-black uppercase tracking-widest flex items-center gap-2", tag.bg, tag.color)}>
-                      <tag.icon size={12} strokeWidth={3} />
-                      {joke.tag}
-                    </div>
+                <Card
+                  className="p-16 sm:p-48 relative overflow-hidden group hover:border-rose-500/60 transition-all duration-[2000ms] cursor-pointer active:scale-[0.96] bg-white/[0.01] backdrop-blur-[120px] shadow-[0_150px_350px_rgba(0,0,0,1)] rounded-[7rem] shadow-inner"
+                >
+                  <div className="absolute top-0 right-0 p-32 opacity-[0.01] group-hover:opacity-[0.1] group-hover:scale-150 group-hover:rotate-[30deg] transition-all duration-[5000ms] text-rose-500 pointer-events-none">
+                    <Icon size-[50rem] strokeWidth={0.05} />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-serif text-white group-hover:text-rose-400 transition-colors duration-500 leading-tight tracking-tight">{joke.title}</h3>
-                  <p className="text-gray-400 text-lg leading-relaxed italic font-handwritten opacity-80 group-hover:opacity-100 transition-opacity">
-                    "{joke.description}"
-                  </p>
-                </div>
-              </Card>
+
+                  <div className="space-y-24 relative z-10">
+                    <div className="flex items-center gap-12">
+                      <div className={twMerge("px-20 py-8 rounded-full border-2 border-white/5 text-[18px] font-black uppercase tracking-[0.8em] flex items-center gap-10 shadow-inner italic shadow-3xl", tag.bg, tag.color)}>
+                        <tag.icon size-[4rem] strokeWidth={1} className="drop-shadow-2xl" />
+                        {joke.tag}
+                      </div>
+                    </div>
+                    <h3 className="text-7xl sm:text-[10rem] font-serif text-white group-hover:text-rose-400 transition-all duration-[1500ms] leading-none tracking-tighter italic selection:bg-rose-500/40">{joke.title}</h3>
+                    <p className="text-gray-800 text-[6rem] sm:text-[8rem] leading-tight italic font-handwritten opacity-80 group-hover:opacity-100 transition-all duration-[1500ms] selection:bg-rose-500/40">
+                      "{joke.description}"
+                    </p>
+                  </div>
+
+                  {/* Decorative Footnote */}
+                  <div className="mt-[4rem] pt-16 border-t-4 border-white/5 flex items-center justify-between opacity-10 group-hover:opacity-60 transition-all duration-[1500ms] italic">
+                    <div className="flex items-center gap-10 text-[18px] font-black uppercase tracking-[1.2em] text-gray-950">
+                      <Fingerprint size-[4rem] strokeWidth={1} />
+                      <span>Encrypted Artifact</span>
+                    </div>
+                    <Sparkles size-[4rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-2xl" />
+                  </div>
+                </Card>
+              </motion.div>
             );
           })
         )}
       </div>
 
-      {/* Add Joke Modal */}
+      {/* Add Joke Modal - Sanctuary Reimagining */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[500] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 overflow-y-auto no-scrollbar">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
+              className="absolute inset-0 bg-black/99 backdrop-blur-[150px]"
             />
-            <Card className="w-full max-w-xl p-8 sm:p-14 space-y-12 relative overflow-hidden border-white/5">
-              <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-rose-500/5 blur-[100px] rounded-full pointer-events-none" />
-              
-              <div className="flex justify-between items-center relative z-10">
-                <div className="space-y-2">
-                  <h2 className="text-4xl font-serif text-white tracking-tight leading-none">Record a Moment</h2>
-                  <p className="text-[10px] text-rose-400 font-black uppercase tracking-[0.4em]">Seal a shared artifact in the vault</p>
-                </div>
-                <button 
-                  onClick={() => setIsModalOpen(false)} 
-                  className="p-4 text-gray-500 hover:text-white hover:bg-white/10 rounded-2xl transition-all active:scale-90"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="space-y-10 relative z-10">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">Artifact Title</label>
-                  <input
-                    placeholder="e.g. The 2-minute champion..."
-                    value={newJoke.title}
-                    onChange={(e) => setNewJoke({ ...newJoke, title: e.target.value })}
-                    className="input-field py-5 text-lg"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">The Backstory</label>
-                  <textarea
-                    placeholder="Capture the essence of this artifact..."
-                    value={newJoke.description}
-                    onChange={(e) => setNewJoke({ ...newJoke, description: e.target.value })}
-                    className="input-field min-h-[140px] resize-none leading-relaxed text-lg font-medium py-6"
-                  />
-                </div>
-
-                <div className="space-y-5">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] px-1">Artifact Essence</label>
-                  <div className="grid grid-cols-2 gap-4">
-                    {tags.map(t => (
-                      <button
-                        key={t.id}
-                        onClick={() => setNewJoke({ ...newJoke, tag: t.id, icon_name: t.id === 'Moment' ? 'Laugh' : t.id })}
-                        className={twMerge(
-                          "p-5 rounded-[1.8rem] border-2 text-left transition-all flex items-center gap-4 group",
-                          newJoke.tag === t.id 
-                            ? "bg-rose-500/10 border-rose-500 text-rose-400 shadow-[0_0_40px_rgba(244,63,94,0.15)]" 
-                            : "bg-white/[0.03] border-white/5 text-gray-600 hover:bg-white/10"
-                        )}
-                      >
-                        <t.icon size={22} strokeWidth={2.5} className="group-hover:scale-110 transition-transform" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">{t.label}</span>
-                      </button>
-                    ))}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 300, filter: 'blur(80px)' }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.9, y: 300, filter: 'blur(80px)' }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-[2010] w-full max-w-7xl m-auto"
+            >
+              <Card className="w-full p-20 sm:p-64 space-y-48 relative overflow-hidden border-4 border-white/5 bg-white/[0.01] shadow-[0_200px_500px_rgba(0,0,0,1)] backdrop-blur-[150px] shadow-inner rounded-[8rem]">
+                <div className="absolute top-[-50%] right-[-50%] w-[150%] h-[150%] bg-rose-500/[0.15] blur-[250px] rounded-full pointer-events-none animate-pulse" />
+                
+                <div className="flex justify-between items-start relative z-10">
+                  <div className="space-y-16">
+                    <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[1.5em] text-[18px] mb-10 italic">
+                      <Shield size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+                      Archive Transmission
+                    </div>
+                    <h2 className="text-8xl sm:text-[13rem] font-serif text-white tracking-tighter leading-none italic">Record an Artifact</h2>
+                    <p className="text-gray-800 font-handwritten text-[8rem] sm:text-[10rem] italic opacity-80 leading-none">"Seal a shared memory into the eternal vault..."</p>
                   </div>
+                  <button 
+                    onClick={() => setIsModalOpen(false)} 
+                    className="p-16 text-gray-800 hover:text-white hover:bg-white/15 rounded-[5rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]"
+                  >
+                    <X size-[10rem] strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+                  </button>
                 </div>
 
-                <Button
-                  onClick={handleAddJoke}
-                  isLoading={isAdding}
-                  disabled={!newJoke.title}
-                  className="w-full gap-5 py-6"
-                  size="xl"
-                >
-                  <Send size={22} className="rotate-[-20deg]" />
-                  <span>Transmit to Vault</span>
-                </Button>
-              </div>
-            </Card>
+                <div className="space-y-48 relative z-10">
+                  <div className="space-y-12">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[1.5em] px-12 italic">Artifact Title</label>
+                    <input
+                      placeholder="e.g. The 2-minute champion..."
+                      value={newJoke.title}
+                      onChange={(e) => setNewJoke({ ...newJoke, title: e.target.value })}
+                      className="input-field py-24 px-24 text-8xl sm:text-[14rem] font-serif tracking-tighter italic bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.05] focus:border-rose-500/60 transition-all duration-[1500ms] shadow-inner rounded-[7rem] text-white placeholder:text-gray-950 selection:bg-rose-500/40 leading-none"
+                    />
+                  </div>
+
+                  <div className="space-y-12">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[1.5em] px-12 italic">The Backstory</label>
+                    <textarea
+                      placeholder="Capture the essence of this shared moment... Why does it matter?"
+                      value={newJoke.description}
+                      onChange={(e) => setNewJoke({ ...newJoke, description: e.target.value })}
+                      className="input-field min-h-[600px] resize-none leading-[1.6] py-24 px-24 text-[8rem] font-handwritten italic bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.05] focus:border-rose-500/60 transition-all duration-[2000ms] shadow-inner rounded-[8rem] no-scrollbar text-white placeholder:text-gray-950 selection:bg-rose-500/40"
+                    />
+                  </div>
+
+                  <div className="space-y-24">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[1.5em] px-12 italic">Artifact Essence</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-16 sm:gap-32">
+                      {tags.map(t => (
+                        <button
+                          key={t.id}
+                          onClick={() => setNewJoke({ ...newJoke, tag: t.id, icon_name: t.id === 'Moment' ? 'Laugh' : t.id })}
+                          className={twMerge(
+                            "p-20 rounded-[6rem] border-4 text-center transition-all duration-[1500ms] flex flex-col items-center gap-12 group relative overflow-hidden shadow-3xl shadow-inner",
+                            newJoke.tag === t.id 
+                              ? "bg-rose-500/25 border-rose-500 text-rose-500 shadow-[0_100px_200px_rgba(244,63,94,0.7)] scale-105" 
+                              : "bg-white/[0.01] border-white/5 text-gray-950 hover:bg-white/[0.08] hover:border-white/40 hover:text-gray-800"
+                          )}
+                        >
+                          <t.icon size-[10rem] strokeWidth={0.05} className="group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[1500ms] relative z-10 drop-shadow-2xl fill-current" />
+                          <span className="text-[18px] font-black uppercase tracking-[1em] leading-tight italic relative z-10">{t.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleAddJoke}
+                    isLoading={isAdding}
+                    disabled={!newJoke.title}
+                    className="w-full gap-32 py-24 text-8xl tracking-tighter shadow-[0_120px_300px_rgba(244,63,94,0.6)] relative overflow-hidden group/submit border-none rounded-[8rem]"
+                    size="xl"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[1500ms]" />
+                    <span className="relative z-10 flex items-center justify-center gap-24 italic">
+                      <Send size-[10rem] strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-20 group-hover/submit:-translate-y-20 transition-all duration-[2500ms] drop-shadow-3xl" />
+                      Transmit to Vault
+                    </span>
+                  </Button>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         )}
       </AnimatePresence>
     </div>
   );
 }
-

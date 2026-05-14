@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Sparkles, Heart, Zap, Camera, Plus, History } from 'lucide-react';
+import { Image as ImageIcon, Sparkles, Heart, Zap, Camera, Plus, History, Shield, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import PostCard from '../components/feed/PostCard';
@@ -55,99 +55,99 @@ export default function Feed() {
   };
 
   if (isLoading && posts.length === 0) return (
-    <div className="flex flex-col items-center justify-center h-[80vh] gap-8">
+    <div className="flex flex-col items-center justify-center h-[80vh] gap-16">
       <div className="relative">
-        <div className="w-20 h-20 rounded-[2.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-        <Zap size={24} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse" />
+        <div className="w-32 h-32 rounded-[4.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
+        <Zap size={48} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse" />
       </div>
-      <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.5em] animate-pulse">Synchronizing Memories...</p>
+      <p className="text-[14px] text-gray-800 font-black uppercase tracking-[1em] animate-pulse italic">Synchronizing Memories...</p>
     </div>
   );
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 sm:space-y-20 pb-32">
+    <div className="max-w-7xl mx-auto space-y-32 sm:space-y-48 pb-48 relative overflow-hidden">
       {/* Stories Section */}
-      <section className="-mx-4 sm:mx-0 relative z-20">
+      <section className="-mx-6 sm:mx-0 relative z-30">
         <Stories />
       </section>
 
       {/* Feed Header */}
-      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 px-4 sm:px-0 relative z-10">
-        <div className="space-y-4 text-center sm:text-left">
-          <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px] mb-2">
-            <Sparkles size={12} className="animate-pulse" />
+      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-16 px-6 sm:px-0 relative z-40">
+        <div className="space-y-12 text-center sm:text-left relative z-10">
+          <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-6 italic">
+            <Sparkles size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
             Shared Frequency
           </div>
-          <h1 className="text-5xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">Archives of Us</h1>
-          <p className="text-gray-400 text-xl font-handwritten italic opacity-80 max-w-lg leading-relaxed">
+          <h1 className="text-7xl sm:text-[13rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">Archives of Us</h1>
+          <p className="text-gray-500 text-4xl sm:text-[11rem] font-handwritten italic opacity-80 max-w-7xl leading-none selection:bg-rose-500/40 drop-shadow-2xl">
             "Every frame is a whisper, every pixel a shared breath in our private universe..."
           </p>
         </div>
         
-        <div className="flex items-center justify-center sm:justify-end gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end gap-16 w-full sm:w-auto">
           <Button 
             variant="glass"
-            size="lg"
-            className="rounded-[2rem] px-8 h-auto py-5 border-white/5"
+            size="xl"
+            className="rounded-[6rem] px-[5rem] h-auto py-20 border-4 border-white/5 text-[6rem] italic tracking-tighter w-full sm:w-auto shadow-inner shadow-[0_120px_300px_rgba(0,0,0,1)] group/timeline transition-all duration-[1500ms] active:scale-[0.5]"
           >
-            <History size={20} className="mr-3" />
+            <History size-[8rem] strokeWidth={0.01} className="mr-16 drop-shadow-3xl group-hover/timeline:rotate-[-25deg] transition-all duration-[1500ms]" />
             Timeline
           </Button>
           <Button 
             onClick={() => setIsUploadOpen(true)}
-            className="rounded-[2rem] px-8 h-auto py-5 shadow-[0_15px_40px_rgba(244,63,94,0.25)] relative overflow-hidden group"
-            size="lg"
+            className="rounded-[6rem] px-[6rem] h-auto py-20 shadow-[0_150px_450px_rgba(244,63,94,0.7)] relative overflow-hidden group w-full sm:w-auto border-none shadow-inner leading-none transition-all duration-[1500ms] active:scale-[0.5]"
+            size="xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-rose-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <span className="relative z-10 flex items-center gap-3">
-              Capture Moment <Camera size={20} />
+            <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
+            <span className="relative z-10 flex items-center justify-center gap-16 text-[6rem] italic tracking-tighter">
+              Capture Moment <Camera size-[8rem] strokeWidth={0.01} className="group-hover:scale-150 group-hover:rotate-[25deg] transition-all duration-[2000ms] fill-current drop-shadow-3xl shadow-[0_0_150px_white]" />
             </span>
           </Button>
         </div>
       </header>
 
       {/* Posts List */}
-      <div className="space-y-16 sm:space-y-24 px-2 sm:px-0">
+      <div className="space-y-48 sm:space-y-[10rem] px-6 sm:px-0 relative z-20">
         <AnimatePresence mode="popLayout">
           {posts.length === 0 ? (
             <motion.div 
               key="empty-feed"
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95, y: 150, filter: 'blur(100px)' }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
               className="w-full"
             >
-              <Card className="py-48 text-center space-y-12 border-dashed border-2 flex flex-col items-center border-white/5 bg-white/[0.01]">
+              <Card className="py-72 text-center space-y-48 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] rounded-[11rem] shadow-[0_300px_650px_rgba(0,0,0,1)] backdrop-blur-[200px] shadow-inner max-w-7xl mx-auto">
                 <div className="relative">
-                  <div className="p-14 bg-rose-500/5 rounded-[4rem] text-rose-400/20 border border-rose-500/10 shadow-inner group-hover:scale-110 transition-transform duration-700">
-                    <ImageIcon size={96} strokeWidth={1} />
+                  <div className="p-48 bg-rose-500/[0.03] rounded-[13rem] text-rose-500/5 border-4 border-rose-500/15 shadow-inner group-hover:scale-125 transition-all duration-[10s]">
+                    <ImageIcon size-[40rem] strokeWidth={0.01} className="drop-shadow-3xl" />
                   </div>
-                  <div className="absolute -top-4 -right-4 p-4 rounded-3xl bg-[#050506] border border-white/5 shadow-2xl">
-                    <Sparkles size={24} className="text-rose-500 animate-pulse" />
+                  <div className="absolute -top-32 -right-32 p-32 rounded-[7rem] bg-[#050506] border-8 border-white/10 shadow-[0_150px_350px_rgba(0,0,0,1)]">
+                    <Sparkles size-[15rem] strokeWidth={0.01} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                   </div>
                 </div>
-                <div className="space-y-6 px-10">
-                  <h2 className="text-4xl font-serif text-white/90 tracking-tight">The canvas is silent</h2>
-                  <p className="text-gray-500 italic max-w-md mx-auto text-xl leading-relaxed font-handwritten opacity-70">
+                <div className="space-y-24 px-32">
+                  <h2 className="text-9xl sm:text-[16rem] font-serif text-white/90 tracking-tighter italic leading-none drop-shadow-3xl">The canvas is silent</h2>
+                  <p className="text-gray-950 italic max-w-[120rem] mx-auto text-[10rem] sm:text-[13rem] leading-none font-handwritten opacity-60 selection:bg-rose-500/40 drop-shadow-2xl">
                     "Our saga is written in light and shadows. Be the one to start the next beautiful chapter..."
                   </p>
                 </div>
                 <Button 
                   onClick={() => setIsUploadOpen(true)} 
-                  className="rounded-[2rem] px-10 py-6 text-lg group h-auto"
+                  className="rounded-[8rem] px-[8rem] py-24 text-[9rem] italic tracking-tighter group h-auto border-none shadow-[0_150px_450px_rgba(244,63,94,0.7)] leading-none"
                 >
-                  Initiate Sync <Plus size={20} className="ml-2 group-hover:rotate-90 transition-transform" />
+                  Initiate Sync <Plus size-[12rem] strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms] drop-shadow-3xl" />
                 </Button>
               </Card>
             </motion.div>
           ) : (
-            <div className="space-y-16 sm:space-y-24">
+            <div className="grid gap-48 sm:gap-[15rem] max-w-7xl mx-auto">
               {posts.map((post, idx) => (
                 <motion.div
                   key={post.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ delay: idx * 0.1, duration: 0.8 }}
+                  initial={{ opacity: 0, y: 200, filter: 'blur(100px)' }}
+                  whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: "-200px" }}
+                  transition={{ delay: idx * 0.1, duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <PostCard post={post} />
                 </motion.div>
@@ -166,6 +166,3 @@ export default function Feed() {
     </div>
   );
 }
-
-
-

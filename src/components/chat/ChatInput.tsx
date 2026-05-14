@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Send, Image as ImageIcon, Smile, Mic, Plus, Sparkles, Zap, Command } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, Mic, Plus, Sparkles, Zap, Command, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { Button } from '../ui/Button';
 
@@ -20,24 +20,26 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
   };
 
   return (
-    <div className="p-8 sm:p-12 bg-gradient-to-t from-black via-black/80 to-transparent relative z-30">
-      <form onSubmit={handleSubmit} className="relative group max-w-6xl mx-auto">
-        {/* Subtle Glow */}
-        <div className="absolute inset-0 bg-rose-500/5 blur-[50px] rounded-full pointer-events-none opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000" />
+    <div className="p-12 sm:p-[4rem] bg-gradient-to-t from-black via-black/95 to-transparent relative z-30">
+      <form onSubmit={handleSubmit} className="relative group max-w-[1800px] mx-auto">
+        {/* Cinematic Glow */}
+        <div className="absolute inset-0 bg-rose-500/[0.1] blur-[150px] rounded-full pointer-events-none opacity-0 group-focus-within:opacity-100 transition-all duration-[2500ms]" />
         
-        <div className="bg-white/[0.03] backdrop-blur-[30px] rounded-[3rem] p-3 flex items-center gap-4 border border-white/5 focus-within:border-rose-500/30 focus-within:bg-white/[0.05] transition-all duration-700 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative z-10">
-          <div className="flex items-center gap-2 px-3">
+        <div className="bg-white/[0.01] backdrop-blur-[200px] rounded-[6rem] p-6 flex items-center gap-8 border-4 border-white/5 focus-within:border-rose-500/60 focus-within:bg-white/[0.04] transition-all duration-[1500ms] shadow-[0_150px_450px_rgba(0,0,0,1)] relative z-10 shadow-inner overflow-hidden">
+           <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent pointer-events-none" />
+          
+          <div className="flex items-center gap-6 px-10 relative z-10">
             <button 
               type="button" 
-              className="p-5 text-gray-600 hover:text-rose-400 transition-all duration-500 hover:bg-white/5 rounded-2xl group/btn active:scale-90"
+              className="p-16 text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] group/btn active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Plus size={24} strokeWidth={2} className="group-hover/btn:rotate-90 transition-transform duration-500" />
+              <Plus size-[6rem] strokeWidth={0.1} className="group-hover/btn:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
             </button>
             <button 
               type="button" 
-              className="p-5 hidden lg:block text-gray-600 hover:text-rose-400 transition-all duration-500 hover:bg-white/5 rounded-2xl active:scale-90"
+              className="p-16 hidden lg:block text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <ImageIcon size={24} strokeWidth={2} />
+              <ImageIcon size-[6rem] strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
           </div>
           
@@ -47,43 +49,43 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
             placeholder="Whisper into our private universe..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="flex-1 bg-transparent border-none outline-none text-lg sm:text-xl px-2 text-white placeholder:text-gray-800 font-medium tracking-tight py-6 placeholder:italic transition-all"
+            className="flex-1 bg-transparent border-none outline-none text-[6rem] sm:text-[8rem] px-8 text-white placeholder:text-gray-950 font-serif italic tracking-tighter py-12 placeholder:italic transition-all duration-[1500ms] relative z-10 selection:bg-rose-500/40 leading-none"
           />
           
-          <div className="flex items-center gap-2 px-3">
+          <div className="flex items-center gap-6 px-[2rem] relative z-10">
             <button 
               type="button" 
-              className="p-5 hidden sm:block text-gray-600 hover:text-rose-400 transition-all duration-500 hover:bg-white/5 rounded-2xl active:scale-90"
+              className="p-16 hidden sm:block text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Smile size={24} strokeWidth={2} />
+              <Smile size-[6.5rem] strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
             <button 
               type="button" 
-              className="p-5 text-gray-600 hover:text-rose-400 transition-all duration-500 hover:bg-white/5 rounded-2xl active:scale-90"
+              className="p-16 text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Mic size={24} strokeWidth={2} />
+              <Mic size-[6.5rem] strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
             
             <Button 
               type="submit"
               disabled={!text.trim()}
-              className="rounded-[2rem] w-16 h-16 p-0 flex items-center justify-center shadow-[0_20px_50px_rgba(244,63,94,0.25)] relative overflow-hidden group/send"
+              className="rounded-[5rem] w-[12rem] h-[12rem] p-0 flex items-center justify-center shadow-[0_80px_200px_rgba(244,63,94,1)] relative overflow-hidden group/send border-none shadow-inner"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-rose-600 to-orange-500 opacity-0 group-hover/send:opacity-100 transition-opacity duration-700" />
-              <Send size={24} strokeWidth={3} className={text.trim() ? "translate-x-0.5 -translate-y-0.5 transition-transform duration-500 relative z-10" : "relative z-10"} />
+              <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/send:opacity-100 transition-all duration-[1500ms]" />
+              <Send size-[6rem] strokeWidth={0.1} className={twMerge("transition-all duration-[2000ms] relative z-10 drop-shadow-3xl", text.trim() ? "translate-x-4 -translate-y-4 rotate-[-20deg]" : "")} />
             </Button>
           </div>
         </div>
 
         {/* Input Footer Hints */}
-        <div className="mt-6 flex justify-center gap-8 opacity-0 group-focus-within:opacity-40 transition-opacity duration-1000">
-          <div className="flex items-center gap-2">
-            <Command size={10} className="text-rose-400" />
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] text-gray-500">Press Enter to whisper</span>
+        <div className="mt-12 flex justify-center gap-24 opacity-0 group-focus-within:opacity-40 transition-all duration-[2500ms] italic">
+          <div className="flex items-center gap-6">
+            <Command size-[3rem] strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
+            <span className="text-[14px] font-black uppercase tracking-[1em] text-gray-950">Press Enter to whisper</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Sparkles size={10} className="text-rose-400" />
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] text-gray-500">Sanctuary Encrypted</span>
+          <div className="flex items-center gap-6">
+            <Fingerprint size-[3rem] strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
+            <span className="text-[14px] font-black uppercase tracking-[1em] text-gray-950">Sanctuary Encrypted</span>
           </div>
         </div>
       </form>

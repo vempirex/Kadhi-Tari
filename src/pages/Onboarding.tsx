@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Camera, ArrowRight, Heart, Sparkles, User, Calendar, Loader2, Image as ImageIcon, CheckCircle2, Zap, ArrowLeft } from 'lucide-react';
+import { Camera, ArrowRight, Heart, Sparkles, User, Calendar, Loader2, Image as ImageIcon, CheckCircle2, Zap, ArrowLeft, Globe, Shield, Sparkle, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
 
 export default function Onboarding() {
@@ -94,73 +93,89 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050506] flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
-      {/* Background Decor */}
+    <div className="min-h-screen bg-[#050506] flex items-center justify-center p-6 sm:p-[4rem] relative overflow-hidden">
+      {/* Background Decor - Enhanced Sanctuary Aesthetics */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-rose-500/10 rounded-full blur-[150px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-purple-500/10 rounded-full blur-[150px] opacity-30 animate-pulse" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-[-40%] left-[-20%] w-[120%] h-[120%] bg-rose-500/[0.15] rounded-full blur-[250px] opacity-40 animate-pulse" />
+        <div className="absolute bottom-[-40%] right-[-20%] w-[120%] h-[120%] bg-orange-500/[0.12] rounded-full blur-[250px] opacity-40 animate-pulse" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,6,1)_100%)]" />
       </div>
 
-      <motion.div layout className="w-full max-w-3xl relative z-10">
-        <Card className="p-10 sm:p-16 overflow-hidden border-white/5 relative bg-white/[0.01] shadow-[0_50px_120px_rgba(0,0,0,0.5)]">
-          {/* Progress Bar */}
-          <div className="absolute top-0 left-0 w-full h-2 bg-white/[0.02]">
+      <motion.div layout className="w-full max-w-7xl relative z-10">
+        <Card className="p-24 sm:p-[6rem] overflow-hidden border-4 border-white/5 relative bg-white/[0.01] shadow-[0_250px_600px_rgba(0,0,0,1)] backdrop-blur-[200px] rounded-[10rem] shadow-inner">
+           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
+          
+          {/* Progress Bar - Cinematic Reimagining */}
+          <div className="absolute top-0 left-0 w-full h-8 bg-white/[0.01] shadow-inner">
             <motion.div 
-              className="h-full bg-gradient-to-r from-rose-500 via-orange-400 to-rose-500"
+              className="h-full bg-gradient-to-r from-rose-950 via-rose-500 to-rose-950 shadow-[0_0_150px_rgba(244,63,94,1)] relative"
               initial={{ width: '0%' }}
               animate={{ width: `${(step / 3) * 100}%` }}
-              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            />
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+            >
+               <div className="absolute top-0 left-0 w-full h-full bg-white/20 blur-[10px]" />
+            </motion.div>
           </div>
 
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div 
                 key="step1" 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-                animate={{ opacity: 1, scale: 1, y: 0 }} 
-                exit={{ opacity: 0, scale: 0.95, y: -20 }} 
-                transition={{ duration: 0.5 }}
-                className="space-y-12"
+                initial={{ opacity: 0, scale: 0.9, y: 150, filter: 'blur(100px)' }} 
+                animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }} 
+                exit={{ opacity: 0, scale: 0.9, y: -150, filter: 'blur(100px)' }} 
+                transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+                className="space-y-[6rem]"
               >
-                <header className="space-y-4 text-center sm:text-left">
-                  <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
-                    <Zap size={12} className="animate-pulse" />
+                <header className="space-y-16 text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
+                    <Zap size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                     Genesis Initiation
                   </div>
-                  <h1 className="text-4xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">Welcome, Soulmate</h1>
-                  <p className="text-gray-400 font-handwritten text-2xl italic opacity-80 leading-relaxed max-w-xl">
-                    "Every frequency needs a name. Let's define your essence in this shared void..."
+                  <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Welcome, Soulmate</h1>
+                  <p className="text-gray-800 font-handwritten text-[8rem] sm:text-[11rem] italic opacity-80 leading-none max-w-6xl drop-shadow-2xl">
+                    "Every shared frequency needs a name. Let's define your essence in this beautiful shared void..."
                   </p>
                 </header>
 
-                <div className="space-y-8">
-                  <Input 
-                    label="Sanctuary Handle" 
-                    icon={Sparkles} 
-                    value={formData.username}
-                    onChange={(e) => setFormData({...formData, username: e.target.value})}
-                    placeholder="e.g. starlight_echo"
-                    className="py-6 text-lg"
-                  />
-                  <Input 
-                    label="Display Identity" 
-                    icon={User} 
-                    value={formData.display_name}
-                    onChange={(e) => setFormData({...formData, display_name: e.target.value})}
-                    placeholder="e.g. My Infinite"
-                    className="py-6 text-lg"
-                  />
+                <div className="space-y-[4rem]">
+                  <div className="space-y-16 group">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Sanctuary Handle</label>
+                    <div className="relative">
+                      <Sparkles className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                      <input 
+                        value={formData.username}
+                        onChange={(e) => setFormData({...formData, username: e.target.value})}
+                        placeholder="e.g. starlight_echo"
+                        className="input-field py-24 pl-[12rem] text-[9rem] sm:text-[12rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white placeholder:text-gray-950 selection:bg-rose-500/40 leading-none shadow-3xl"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-16 group">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Display Identity</label>
+                    <div className="relative">
+                      <User className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                      <input 
+                        value={formData.display_name}
+                        onChange={(e) => setFormData({...formData, display_name: e.target.value})}
+                        placeholder="e.g. My Infinite"
+                        className="input-field py-24 pl-[12rem] text-[9rem] sm:text-[12rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white placeholder:text-gray-950 selection:bg-rose-500/40 leading-none shadow-3xl"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <Button 
                   onClick={() => setStep(2)}
                   disabled={!formData.username || !formData.display_name}
-                  className="w-full gap-4 py-8 text-xl tracking-tight shadow-[0_20px_50px_rgba(244,63,94,0.3)]"
+                  className="w-full gap-[3rem] py-[4rem] text-[10rem] italic tracking-tighter shadow-[0_150px_350px_rgba(244,63,94,0.7)] relative overflow-hidden group/btn border-none rounded-[10rem] leading-none"
                   size="xl"
                 >
-                  <span>Forge Identity</span>
-                  <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/btn:opacity-100 transition-all duration-[2000ms]" />
+                  <span className="relative z-10 flex items-center justify-center gap-24">
+                    <span>Forge Identity</span>
+                    <ArrowRight size-[10rem] strokeWidth={0.01} className="group-hover/btn:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
+                  </span>
                 </Button>
               </motion.div>
             )}
@@ -168,61 +183,87 @@ export default function Onboarding() {
             {step === 2 && (
               <motion.div 
                 key="step2" 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-                animate={{ opacity: 1, scale: 1, y: 0 }} 
-                exit={{ opacity: 0, scale: 0.95, y: -20 }} 
-                transition={{ duration: 0.5 }}
-                className="space-y-12"
+                initial={{ opacity: 0, scale: 0.9, y: 150, filter: 'blur(100px)' }} 
+                animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }} 
+                exit={{ opacity: 0, scale: 0.9, y: -150, filter: 'blur(100px)' }} 
+                transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+                className="space-y-[6rem]"
               >
-                <header className="space-y-4 text-center sm:text-left">
-                  <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
-                    <ImageIcon size={12} />
+                <header className="space-y-16 text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
+                    <ImageIcon size-[5rem] strokeWidth={1} className="drop-shadow-3xl" />
                     Visual Resonance
                   </div>
-                  <h1 className="text-4xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">Visual Presence</h1>
+                  <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Visual Presence</h1>
+                  <p className="text-gray-800 font-handwritten text-[8rem] sm:text-[11rem] italic opacity-80 leading-none max-w-6xl drop-shadow-2xl">
+                    "A visual anchor for our shared world. Choose memories that speak when words fail..."
+                  </p>
                 </header>
 
-                <div className="space-y-12 relative pt-8">
-                  <div className="relative h-56 sm:h-64 rounded-[3.5rem] bg-white/[0.02] border-2 border-dashed border-white/5 overflow-hidden group shadow-2xl">
-                    {previews.cover && <img src={previews.cover} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3s]" alt="Cover" />}
-                    <label className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
-                      <div className="p-5 rounded-full bg-white/10 border border-white/20 mb-4 scale-90 group-hover:scale-100 transition-transform duration-500">
-                        <Camera size={32} className="text-white" />
+                <div className="space-y-[4rem] relative pt-24">
+                  {/* Cover Upload - Sanctuary Aesthetics */}
+                  <div className="relative h-[45rem] sm:h-[65rem] rounded-[8rem] bg-white/[0.01] border-8 border-dashed border-white/5 overflow-hidden group/cover shadow-[0_200px_500px_rgba(0,0,0,1)] shadow-inner backdrop-blur-[200px]">
+                    {previews.cover ? (
+                      <img src={previews.cover} className="w-full h-full object-cover group-hover/cover:scale-150 transition-all duration-[12000ms] grayscale-[0.6] group-hover/cover:grayscale-0" alt="Cover" />
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-950 opacity-10">
+                        <ImageIcon size-[40rem] strokeWidth={0.01} className="drop-shadow-3xl" />
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">Project Banner</span>
+                    )}
+                    <label className="absolute inset-0 bg-black/80 opacity-0 group-hover/cover:opacity-100 transition-all duration-[2000ms] flex flex-col items-center justify-center cursor-pointer backdrop-blur-[150px]">
+                      <div className="p-24 rounded-[7rem] bg-white/15 border-4 border-white/30 mb-24 scale-90 group-hover/cover:scale-125 transition-all duration-[2000ms] shadow-[0_80px_150px_rgba(0,0,0,1)] shadow-inner">
+                        <Camera size-[12rem] strokeWidth={0.05} className="text-white drop-shadow-3xl" />
+                      </div>
+                      <span className="text-[24px] font-black uppercase tracking-[2em] text-white italic drop-shadow-3xl">Morph Banner</span>
                       <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
                     </label>
+                    {isUploading.cover && (
+                      <div className="absolute inset-0 bg-black/90 backdrop-blur-[200px] flex items-center justify-center">
+                        <Loader2 size-[15rem] strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex justify-center -mt-32 relative z-20">
+                  {/* Avatar Upload - Sanctuary Aesthetics */}
+                  <div className="flex justify-center -mt-[15rem] sm:-mt-[25rem] relative z-20">
                     <div className="relative group/avatar">
-                      <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-[4rem] p-1.5 bg-gradient-to-tr from-rose-500 to-orange-400 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
-                        <div className="w-full h-full rounded-[3.8rem] border-[8px] border-[#050506] overflow-hidden bg-[#0a0a0c]">
+                      <div className="w-[30rem] h-[30rem] sm:w-[50rem] sm:h-[50rem] rounded-[10rem] p-5 bg-gradient-to-tr from-rose-950 via-rose-500 to-orange-950 shadow-[0_200px_450px_rgba(0,0,0,1)] relative shadow-inner overflow-hidden">
+                         <div className="absolute inset-0 bg-white/20 blur-[50px] opacity-0 group-hover/avatar:opacity-100 transition-all duration-[2000ms]" />
+                        <div className="w-full h-full rounded-[9.5rem] border-[25px] border-[#050506] overflow-hidden bg-[#050506] relative z-10">
                           {previews.avatar ? (
-                            <img src={previews.avatar} className="w-full h-full object-cover transition-transform duration-1000 group-hover/avatar:scale-110" alt="Avatar" />
+                            <img src={previews.avatar} className="w-full h-full object-cover transition-all duration-[8000ms] group-hover/avatar:scale-150 grayscale-[0.6] group-hover/avatar:grayscale-0" alt="Avatar" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-800 bg-[#050506]">
-                              <User size={80} strokeWidth={1} />
+                            <div className="w-full h-full flex items-center justify-center text-gray-950 bg-[#050506]">
+                              <User size-[35rem] strokeWidth={0.01} className="drop-shadow-3xl" />
                             </div>
                           )}
                         </div>
+                        {isUploading.avatar && (
+                          <div className="absolute inset-0 bg-black/90 rounded-[10rem] backdrop-blur-[150px] flex items-center justify-center z-20">
+                            <Loader2 size-[10rem] strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
+                          </div>
+                        )}
                       </div>
-                      <label className="absolute inset-0 bg-black/60 rounded-[4rem] opacity-0 group-hover/avatar:opacity-100 transition-all duration-500 flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
-                        <Camera size={32} className="text-white" />
-                        <span className="text-[8px] text-white font-black uppercase tracking-[0.4em] mt-2">Portrait</span>
+                      <label className="absolute inset-0 bg-black/85 rounded-[10rem] opacity-0 group-hover/avatar:opacity-100 transition-all duration-[2000ms] flex flex-col items-center justify-center cursor-pointer backdrop-blur-[100px] z-30">
+                        <Camera size-[12rem] strokeWidth={0.05} className="text-white drop-shadow-3xl" />
+                        <span className="text-[20px] text-white font-black uppercase tracking-[1.5em] mt-16 italic drop-shadow-3xl">Portrait</span>
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
                       </label>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-6">
-                  <Button variant="glass" className="flex-1 py-7" onClick={() => setStep(1)}>
-                    <ArrowLeft size={20} className="mr-2" />
+                <div className="flex flex-col sm:flex-row gap-32">
+                  <Button onClick={() => setStep(1)} className="flex-1 py-24 rounded-[7rem] border-4 border-white/5 bg-white/[0.01] hover:bg-white/[0.08] text-7xl italic tracking-tighter shadow-inner transition-all duration-[1500ms] active:scale-[0.5]">
+                    <ArrowLeft size-[8rem] strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
                     Back
                   </Button>
-                  <Button className="flex-[2] py-7 text-lg tracking-tight shadow-[0_15px_40px_rgba(244,63,94,0.2)]" onClick={() => setStep(3)}>
-                    Continue the Sync
+                  <Button className="flex-[2] py-24 rounded-[7rem] text-[8rem] italic tracking-tighter shadow-[0_150px_350px_rgba(244,63,94,0.7)] relative overflow-hidden group/next border-none leading-none shadow-inner" onClick={() => setStep(3)}>
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/next:opacity-100 transition-all duration-[2000ms]" />
+                    <span className="relative z-10 flex items-center justify-center gap-24">
+                      Continue the Sync
+                      <ArrowRight size-[8rem] strokeWidth={0.01} className="group-hover/next:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
+                    </span>
                   </Button>
                 </div>
               </motion.div>
@@ -231,49 +272,66 @@ export default function Onboarding() {
             {step === 3 && (
               <motion.div 
                 key="step3" 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-                animate={{ opacity: 1, scale: 1, y: 0 }} 
-                exit={{ opacity: 0, scale: 0.95, y: -20 }} 
-                transition={{ duration: 0.5 }}
-                className="space-y-12"
+                initial={{ opacity: 0, scale: 0.9, y: 150, filter: 'blur(100px)' }} 
+                animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }} 
+                exit={{ opacity: 0, scale: 0.9, y: -150, filter: 'blur(100px)' }} 
+                transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+                className="space-y-[6rem]"
               >
-                <header className="space-y-4 text-center sm:text-left">
-                  <div className="flex items-center justify-center sm:justify-start gap-3 text-rose-400 font-black uppercase tracking-[0.4em] text-[10px]">
-                    <Heart size={12} className="animate-pulse" />
+                <header className="space-y-16 text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
+                    <Heart size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                     Emotional Anchoring
                   </div>
-                  <h1 className="text-4xl sm:text-6xl font-serif glow-text leading-tight tracking-tight">The Final Frequency</h1>
+                  <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Final Frequency</h1>
+                  <p className="text-gray-800 font-handwritten text-[8rem] sm:text-[11rem] italic opacity-80 leading-none max-w-6xl drop-shadow-2xl">
+                    "The finishing strokes on our shared masterpiece. Define the depth of our connection..."
+                  </p>
                 </header>
 
-                <div className="space-y-8">
-                  <div className="space-y-3 group">
-                    <label className="text-[10px] font-black text-gray-600 uppercase tracking-[0.4em] px-1 group-focus-within:text-rose-400 transition-colors">Our Collective Saga (Bio)</label>
+                <div className="space-y-[4rem]">
+                  <div className="space-y-16 group">
+                    <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 group-focus-within:text-rose-500 transition-all duration-[1500ms] italic leading-none">Our Collective Saga (Bio)</label>
                     <textarea 
-                      className="input-field min-h-[160px] py-7 px-8 resize-none text-lg font-medium bg-white/[0.02] border-white/5 focus:bg-rose-500/[0.02] focus:border-rose-500/30 transition-all duration-500 leading-relaxed" 
-                      placeholder="Whisper the essence of our journey..."
+                      className="input-field min-h-[500px] py-32 px-32 resize-none text-[8rem] sm:text-[10rem] font-handwritten italic bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] leading-[1.4] shadow-inner text-white no-scrollbar placeholder:text-gray-950 selection:bg-rose-500/40 rounded-[8rem] drop-shadow-3xl" 
+                      placeholder="Whisper the essence of our journey... Why does this frequency exist?"
                       value={formData.bio}
                       onChange={(e) => setFormData({...formData, bio: e.target.value})}
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <Input label="Resonance Status" icon={Heart} value={formData.relationship_status} onChange={(e) => setFormData({...formData, relationship_status: e.target.value})} className="py-6" />
-                    <Input label="Genesis Date" icon={Calendar} type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="py-6" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-32">
+                    <div className="space-y-16 group">
+                      <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Resonance Status</label>
+                      <div className="relative">
+                        <Heart className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                        <input value={formData.relationship_status} onChange={(e) => setFormData({...formData, relationship_status: e.target.value})} className="input-field py-24 pl-[12rem] text-[8rem] sm:text-[10rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white placeholder:text-gray-950 selection:bg-rose-500/40 leading-none shadow-3xl" />
+                      </div>
+                    </div>
+                    <div className="space-y-16 group">
+                      <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Genesis Date</label>
+                      <div className="relative">
+                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                        <input type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="input-field py-24 pl-[12rem] text-[7rem] sm:text-[9rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white selection:bg-rose-500/40 leading-none shadow-3xl" />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex gap-6 pt-4">
-                  <Button variant="glass" className="flex-1 py-7" onClick={() => setStep(2)}>
-                    <ArrowLeft size={20} className="mr-2" />
+                <div className="flex flex-col sm:flex-row gap-32 pt-24">
+                  <Button onClick={() => setStep(2)} className="flex-1 py-24 rounded-[7rem] border-4 border-white/5 bg-white/[0.01] hover:bg-white/[0.08] text-[7rem] italic tracking-tighter shadow-inner transition-all duration-[1500ms] active:scale-[0.5]">
+                    <ArrowLeft size-[8rem] strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
                     Back
                   </Button>
                   <Button 
-                    className="flex-[2] py-7 text-xl tracking-tight shadow-[0_25px_60px_rgba(244,63,94,0.3)] relative overflow-hidden group" 
+                    className="flex-[2] py-24 rounded-[7rem] text-[10rem] italic tracking-tighter shadow-[0_200px_450px_rgba(244,63,94,0.7)] relative overflow-hidden group/finish border-none leading-none shadow-inner" 
                     isLoading={isLoading} 
                     onClick={handleComplete}
+                    size="xl"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-rose-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                    <span className="relative z-10 flex items-center justify-center gap-3">
-                      Initialize Sanctuary <CheckCircle2 size={24} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/finish:opacity-100 transition-all duration-[2000ms]" />
+                    <span className="relative z-10 flex items-center justify-center gap-24">
+                      <span>Initialize Sanctuary</span>
+                      <CheckCircle2 size-[12rem] strokeWidth={0.01} className="group-hover/finish:scale-125 transition-all duration-[2000ms] shadow-[0_0_150px_white] drop-shadow-3xl" />
                     </span>
                   </Button>
                 </div>
