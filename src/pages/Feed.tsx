@@ -29,9 +29,13 @@ export default function Feed() {
 
     const channel = supabase
       .channel('feed_updates')
-      .on('postgres_changes', { event: 'INSERT', table: 'posts' }, () => {
-        fetchPosts();
-      })
+      .on(
+        'postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'posts' }, 
+        () => {
+          fetchPosts();
+        }
+      )
       .subscribe();
 
     return () => {

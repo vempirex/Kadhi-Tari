@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { Settings, MapPin, Heart, Calendar, Camera, Edit3, Grid, Image as ImageIcon, Bookmark } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 interface Profile {
   username: string;

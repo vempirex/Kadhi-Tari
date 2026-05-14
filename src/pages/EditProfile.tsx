@@ -96,14 +96,14 @@ export default function EditProfile() {
             label="Display Name" 
             icon={User} 
             value={formData.display_name} 
-            onChange={(v) => setFormData({...formData, display_name: v})} 
+            onChange={(v: string) => setFormData({...formData, display_name: v})} 
             placeholder="How you're seen..." 
           />
           <InputField 
             label="Username" 
             icon={User} 
             value={formData.username} 
-            onChange={(v) => setFormData({...formData, username: v})} 
+            onChange={(v: string) => setFormData({...formData, username: v})} 
             placeholder="Unique handle" 
           />
           
@@ -124,14 +124,14 @@ export default function EditProfile() {
             label="Relationship Status" 
             icon={Heart} 
             value={formData.relationship_status} 
-            onChange={(v) => setFormData({...formData, relationship_status: v})} 
+            onChange={(v: string) => setFormData({...formData, relationship_status: v})} 
             placeholder="In a happy relationship..." 
           />
           <InputField 
             label="Our Quote" 
             icon={Quote} 
             value={formData.favorite_quote} 
-            onChange={(v) => setFormData({...formData, favorite_quote: v})} 
+            onChange={(v: string) => setFormData({...formData, favorite_quote: v})} 
             placeholder="A quote that defines us..." 
           />
         </div>
