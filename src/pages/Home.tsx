@@ -27,9 +27,11 @@ export default function Home() {
 
   const fetchData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
+    let profileData = null;
     if (user) {
-      const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-      setProfile(profileData);
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      profileData = data;
+      setProfile(data);
     }
 
     const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });

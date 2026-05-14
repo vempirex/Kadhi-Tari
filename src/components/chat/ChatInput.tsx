@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Send, Image as ImageIcon, Smile, Mic, Plus, Sparkles, Zap, Command, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { Button } from '../ui/Button';
 
 interface ChatInputProps {
