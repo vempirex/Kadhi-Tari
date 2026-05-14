@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Moon, Sun, Coffee, Zap, Battery, Heart, Clock } from 'lucide-react';
 import { useState } from 'react';
+import Stories from '../components/Stories';
 
 const moods = [
   { icon: Moon, label: 'Peaceful', color: 'text-blue-400' },
@@ -22,6 +23,9 @@ export default function Home() {
 
   return (
     <div className="space-y-8 pb-12">
+      {/* Stories Section */}
+      <Stories />
+
       {/* Header Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

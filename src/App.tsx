@@ -9,10 +9,8 @@ import MemoryTimeline from './pages/MemoryTimeline';
 import Jokes from './pages/Jokes';
 import Planner from './pages/Planner';
 import Chat from './pages/Chat';
-import Secret from './pages/Secret';
-import Login from './pages/Login';
-import Navbar from './components/Navbar';
-import AuthGuard from './components/AuthGuard';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -26,7 +24,7 @@ function App() {
               opacity: [0.1, 0.15, 0.1] 
             }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary rounded-full blur-[120px]"
+            className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-rose-500 rounded-full blur-[120px]"
           />
           <motion.div 
             animate={{ 
@@ -34,7 +32,7 @@ function App() {
               opacity: [0.05, 0.1, 0.05] 
             }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
-            className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-secondary rounded-full blur-[150px]"
+            className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-rose-300 rounded-full blur-[150px]"
           />
         </div>
 
@@ -52,6 +50,8 @@ function App() {
               <Route path="/planner" element={<PageTransition><Planner /></PageTransition>} />
               <Route path="/chat" element={<PageTransition><Chat /></PageTransition>} />
               <Route path="/secret" element={<PageTransition><Secret /></PageTransition>} />
+              <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+              <Route path="/profile/edit" element={<PageTransition><EditProfile /></PageTransition>} />
             </Route>
           </Routes>
         </AnimatePresence>

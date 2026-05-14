@@ -1,99 +1,112 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, Image, Mail, Music, MessageCircle, MoreHorizontal, Calendar, Smile, Clock, Cloud, X, Lock } from 'lucide-react';
+import { Home, Image, Mail, MessageCircle, MoreHorizontal, User, Plus, X, Camera, PenTool, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-const mainNav = [
-  { icon: Home, path: '/', label: 'Home' },
-  { icon: Image, path: '/feed', label: 'Feed' },
-  { icon: MessageCircle, path: '/chat', label: 'Chat' },
-  { icon: Mail, path: '/letters', label: 'Letters' },
-];
-
-const secondaryNav = [
-  { icon: Music, path: '/playlist', label: 'Playlist' },
-  { icon: Cloud, path: '/thoughts', label: 'Thoughts' },
-  { icon: Clock, path: '/timeline', label: 'Timeline' },
-  { icon: Smile, path: '/jokes', label: 'Jokes' },
-  { icon: Calendar, path: '/planner', label: 'Planner' },
-  { icon: Lock, path: '/secret', label: 'Secret' },
-];
 
 export default function Navbar() {
   const location = useLocation();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const navItems = [
+    { icon: Home, path: '/', label: 'Home' },
+    { icon: Image, path: '/feed', label: 'Feed' },
+    { icon: MessageCircle, path: '/chat', label: 'Chat' },
+    { icon: User, path: '/profile', label: 'Profile' },
+  ];
 
   return (
     <>
-      <main className="max-w-2xl mx-auto">
+      <main className="min-h-screen pb-32">
         <Outlet />
       </main>
 
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50">
-        <div className="glass-card rounded-[2rem] p-2 flex justify-between items-center relative">
-          {mainNav.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link 
-                key={item.path} 
-                to={item.path}
-                className="relative p-4 flex flex-col items-center gap-1 group"
-              >
-                <item.icon 
-                  size={22} 
-                  className={twMerge(
-                    "transition-all duration-300",
-                    isActive ? "text-primary scale-110" : "text-gray-500 group-hover:text-white"
-                  )} 
+      {/* FAB - Floating Action Button */}
+      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsCreateOpen(!isCreateOpen)}
+          className={twMerge(
+            "w-16 h-16 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center shadow-2xl shadow-rose-500/40 transition-all duration-300",
+            isCreateOpen && "rotate-45"
+          )}
+        >
+          <Plus size={32} className="text-white" />
+        </motion.button>
+
+        {/* Create Options Menu */}
+        <AnimatePresence>
+          {isCreateOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.8 }}
+              animate={{ opacity: 1, y: -20, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.8 }}
+              className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col gap-4 items-center"
+            >
+              <CreateOption icon={Camera} label="Story" onClick={() => setIsCreateOpen(false)} />
+              <CreateOption icon={Image} label="Post" onClick={() => setIsCreateOpen(false)} />
+              <CreateOption icon={PenTool} label="Note" onClick={() => setIsCreateOpen(false)} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Bottom Navigation */}
+      <nav className="bottom-nav">
+        {navItems.map((item, idx) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <Link 
+              key={item.path} 
+              to={item.path}
+              className={twMerge(
+                "relative p-4 flex flex-col items-center transition-all duration-300",
+                isActive ? "text-rose-400 scale-110" : "text-gray-500 hover:text-white"
+              )}
+            >
+              <item.icon size={24} />
+              {isActive && (
+                <motion.div 
+                  layoutId="nav-indicator"
+                  className="absolute -top-1 w-1 h-1 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]"
                 />
-                {isActive && (
-                  <motion.div 
-                    layoutId="nav-glow"
-                    className="absolute inset-0 bg-primary/10 blur-xl rounded-full -z-10"
-                  />
-                )}
-              </Link>
-            )
-          })}
-
-          <button 
-            onClick={() => setIsMoreOpen(!isMoreOpen)}
-            className="relative p-4 flex flex-col items-center gap-1 group text-gray-500 hover:text-white"
-          >
-            <MoreHorizontal size={22} className={isMoreOpen ? "text-primary rotate-90" : "transition-transform duration-300"} />
-          </button>
-
-          {/* More Menu Overlay */}
-          <AnimatePresence>
-            {isMoreOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                className="absolute bottom-20 right-0 w-full glass-card rounded-[2.5rem] p-6 grid grid-cols-3 gap-4 shadow-2xl border-primary/10"
-              >
-                {secondaryNav.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsMoreOpen(false)}
-                    className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-white/5 transition-colors group"
-                  >
-                    <div className="p-3 rounded-xl bg-white/5 text-gray-400 group-hover:text-primary group-hover:bg-primary/10 transition-all">
-                      <item.icon size={20} />
-                    </div>
-                    <span className="text-[10px] uppercase tracking-widest font-bold text-gray-500 group-hover:text-white">
-                      {item.label}
-                    </span>
-                  </Link>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+              )}
+            </Link>
+          )
+        })}
       </nav>
+
+      {/* Blur Overlay when Create is Open */}
+      <AnimatePresence>
+        {isCreateOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsCreateOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
+
+function CreateOption({ icon: Icon, label, onClick }: { icon: any, label: string, onClick: () => void }) {
+  return (
+    <motion.button
+      whileHover={{ x: 5 }}
+      onClick={onClick}
+      className="flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/10 px-6 py-3 rounded-2xl min-w-[140px] group hover:bg-white/20 transition-all"
+    >
+      <div className="p-2 rounded-lg bg-rose-500/20 text-rose-400 group-hover:bg-rose-500 group-hover:text-white transition-all">
+        <Icon size={18} />
+      </div>
+      <span className="text-sm font-medium tracking-wide">{label}</span>
+    </motion.button>
+  );
+}
+
 
