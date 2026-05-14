@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Moon, Heart, Loader2, Mail, Lock, User, CheckCircle2 } from 'lucide-react';
+import { Heart, Loader2, Mail, Lock, User, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
