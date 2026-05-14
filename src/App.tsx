@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Onboarding from './pages/Onboarding';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AppLayout from './components/layout/AppLayout';
 import AuthGuard from './components/AuthGuard';
 import { AuthProvider } from './contexts/AuthContext';
@@ -36,6 +37,7 @@ export default function App() {
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/onboarding" element={<AuthGuard><Onboarding /></AuthGuard>} />
               
               <Route element={<AuthGuard><AppLayout /></AuthGuard>}>
