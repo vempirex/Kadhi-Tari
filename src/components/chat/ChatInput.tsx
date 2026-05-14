@@ -33,13 +33,13 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
               type="button" 
               className="p-16 text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] group/btn active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Plus size-[6rem] strokeWidth={0.1} className="group-hover/btn:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+              <Plus size={96} strokeWidth={0.1} className="group-hover/btn:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
             </button>
             <button 
               type="button" 
               className="p-16 hidden lg:block text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <ImageIcon size-[6rem] strokeWidth={0.1} className="drop-shadow-3xl" />
+              <ImageIcon size={96} strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
           </div>
           
@@ -57,13 +57,13 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
               type="button" 
               className="p-16 hidden sm:block text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Smile size-[6.5rem] strokeWidth={0.1} className="drop-shadow-3xl" />
+              <Smile size={104} strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
             <button 
               type="button" 
               className="p-16 text-gray-950 hover:text-rose-500 transition-all duration-[1500ms] hover:bg-white/15 rounded-[4rem] active:scale-[0.5] shadow-inner shadow-3xl"
             >
-              <Mic size-[6.5rem] strokeWidth={0.1} className="drop-shadow-3xl" />
+              <Mic size={104} strokeWidth={0.1} className="drop-shadow-3xl" />
             </button>
             
             <Button 
@@ -72,7 +72,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
               className="rounded-[5rem] w-[12rem] h-[12rem] p-0 flex items-center justify-center shadow-[0_80px_200px_rgba(244,63,94,1)] relative overflow-hidden group/send border-none shadow-inner"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/send:opacity-100 transition-all duration-[1500ms]" />
-              <Send size-[6rem] strokeWidth={0.1} className={twMerge("transition-all duration-[2000ms] relative z-10 drop-shadow-3xl", text.trim() ? "translate-x-4 -translate-y-4 rotate-[-20deg]" : "")} />
+              <Send size={96} strokeWidth={0.1} className={twMerge("transition-all duration-[2000ms] relative z-10 drop-shadow-3xl", text.trim() ? "translate-x-4 -translate-y-4 rotate-[-20deg]" : "")} />
             </Button>
           </div>
         </div>
@@ -80,11 +80,11 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
         {/* Input Footer Hints */}
         <div className="mt-12 flex justify-center gap-24 opacity-0 group-focus-within:opacity-40 transition-all duration-[2500ms] italic">
           <div className="flex items-center gap-6">
-            <Command size-[3rem] strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
+            <Command size={48} strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
             <span className="text-[14px] font-black uppercase tracking-[1em] text-gray-950">Press Enter to whisper</span>
           </div>
           <div className="flex items-center gap-6">
-            <Fingerprint size-[3rem] strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
+            <Fingerprint size={48} strokeWidth={1} className="text-rose-500 drop-shadow-3xl" />
             <span className="text-[14px] font-black uppercase tracking-[1em] text-gray-950">Sanctuary Encrypted</span>
           </div>
         </div>

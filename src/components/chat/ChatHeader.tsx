@@ -22,7 +22,7 @@ export default function ChatHeader({ otherUser }: ChatHeaderProps) {
           onClick={() => navigate(-1)} 
           className="rounded-[4rem] p-12 h-auto aspect-square border-4 border-white/10 lg:hidden group shadow-3xl hover:bg-rose-500/25 active:scale-[0.5] shadow-inner"
         >
-          <ArrowLeft size-[4.5rem] strokeWidth={1} className="group-hover:-translate-x-4 transition-all duration-[1500ms] drop-shadow-3xl" />
+          <ArrowLeft size={72} strokeWidth={1} className="group-hover:-translate-x-4 transition-all duration-[1500ms] drop-shadow-3xl" />
         </Button>
         
         <div className="flex items-center gap-16">
@@ -53,7 +53,7 @@ export default function ChatHeader({ otherUser }: ChatHeaderProps) {
                 <span className="text-[16px] text-rose-500 font-black uppercase tracking-[1em] italic relative z-10 drop-shadow-2xl leading-none">Live Resonance</span>
               </div>
               <div className="hidden sm:flex items-center gap-6 opacity-30 italic group-hover:opacity-100 transition-all duration-1000">
-                <Fingerprint size-[3.5rem] strokeWidth={1} className="text-gray-950 drop-shadow-3xl" />
+                <Fingerprint size={56} strokeWidth={1} className="text-gray-950 drop-shadow-3xl" />
                 <span className="text-[14px] text-gray-950 font-black uppercase tracking-[0.8em] leading-none">Synchronized Thread</span>
               </div>
             </div>
@@ -74,7 +74,7 @@ function IconButton({ icon: Icon }: { icon: any }) {
   return (
     <button className="p-16 text-gray-950 hover:text-white transition-all duration-[1500ms] hover:bg-white/15 rounded-[4.5rem] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-[0_40px_100px_rgba(0,0,0,1)] relative overflow-hidden italic shadow-inner">
       <div className="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/[0.08] transition-all duration-[1500ms]" />
-      <Icon size-[6.5rem] strokeWidth={0.1} className="group-hover:scale-150 group-hover:rotate-[20deg] transition-all duration-[1500ms] relative z-10 drop-shadow-3xl" />
+      <Icon size={104} strokeWidth={0.1} className="group-hover:scale-150 group-hover:rotate-[20deg] transition-all duration-[1500ms] relative z-10 drop-shadow-3xl" />
     </button>
   );
 }

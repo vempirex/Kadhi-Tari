@@ -129,7 +129,7 @@ export default function Onboarding() {
               >
                 <header className="space-y-16 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
-                    <Zap size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+                    <Zap size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                     Genesis Initiation
                   </div>
                   <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Welcome, Soulmate</h1>
@@ -142,7 +142,7 @@ export default function Onboarding() {
                   <div className="space-y-16 group">
                     <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Sanctuary Handle</label>
                     <div className="relative">
-                      <Sparkles className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                      <Sparkles className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.01} />
                       <input 
                         value={formData.username}
                         onChange={(e) => setFormData({...formData, username: e.target.value})}
@@ -154,7 +154,7 @@ export default function Onboarding() {
                   <div className="space-y-16 group">
                     <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Display Identity</label>
                     <div className="relative">
-                      <User className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                      <User className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.01} />
                       <input 
                         value={formData.display_name}
                         onChange={(e) => setFormData({...formData, display_name: e.target.value})}
@@ -174,7 +174,7 @@ export default function Onboarding() {
                   <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/btn:opacity-100 transition-all duration-[2000ms]" />
                   <span className="relative z-10 flex items-center justify-center gap-24">
                     <span>Forge Identity</span>
-                    <ArrowRight size-[10rem] strokeWidth={0.01} className="group-hover/btn:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
+                    <ArrowRight size={160} strokeWidth={0.01} className="group-hover/btn:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
                   </span>
                 </Button>
               </motion.div>
@@ -191,7 +191,7 @@ export default function Onboarding() {
               >
                 <header className="space-y-16 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
-                    <ImageIcon size-[5rem] strokeWidth={1} className="drop-shadow-3xl" />
+                    <ImageIcon size={80} strokeWidth={1} className="drop-shadow-3xl" />
                     Visual Resonance
                   </div>
                   <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Visual Presence</h1>
@@ -207,19 +207,19 @@ export default function Onboarding() {
                       <img src={previews.cover} className="w-full h-full object-cover group-hover/cover:scale-150 transition-all duration-[12000ms] grayscale-[0.6] group-hover/cover:grayscale-0" alt="Cover" />
                     ) : (
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-950 opacity-10">
-                        <ImageIcon size-[40rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                        <ImageIcon size={640} strokeWidth={0.01} className="drop-shadow-3xl" />
                       </div>
                     )}
                     <label className="absolute inset-0 bg-black/80 opacity-0 group-hover/cover:opacity-100 transition-all duration-[2000ms] flex flex-col items-center justify-center cursor-pointer backdrop-blur-[150px]">
                       <div className="p-24 rounded-[7rem] bg-white/15 border-4 border-white/30 mb-24 scale-90 group-hover/cover:scale-125 transition-all duration-[2000ms] shadow-[0_80px_150px_rgba(0,0,0,1)] shadow-inner">
-                        <Camera size-[12rem] strokeWidth={0.05} className="text-white drop-shadow-3xl" />
+                        <Camera size={192} strokeWidth={0.05} className="text-white drop-shadow-3xl" />
                       </div>
                       <span className="text-[24px] font-black uppercase tracking-[2em] text-white italic drop-shadow-3xl">Morph Banner</span>
                       <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
                     </label>
                     {isUploading.cover && (
                       <div className="absolute inset-0 bg-black/90 backdrop-blur-[200px] flex items-center justify-center">
-                        <Loader2 size-[15rem] strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
+                        <Loader2 size={240} strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
                       </div>
                     )}
                   </div>
@@ -234,18 +234,18 @@ export default function Onboarding() {
                             <img src={previews.avatar} className="w-full h-full object-cover transition-all duration-[8000ms] group-hover/avatar:scale-150 grayscale-[0.6] group-hover/avatar:grayscale-0" alt="Avatar" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-950 bg-[#050506]">
-                              <User size-[35rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                              <User size={560} strokeWidth={0.01} className="drop-shadow-3xl" />
                             </div>
                           )}
                         </div>
                         {isUploading.avatar && (
                           <div className="absolute inset-0 bg-black/90 rounded-[10rem] backdrop-blur-[150px] flex items-center justify-center z-20">
-                            <Loader2 size-[10rem] strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
+                            <Loader2 size={160} strokeWidth={0.01} className="text-rose-500 animate-spin drop-shadow-3xl" />
                           </div>
                         )}
                       </div>
                       <label className="absolute inset-0 bg-black/85 rounded-[10rem] opacity-0 group-hover/avatar:opacity-100 transition-all duration-[2000ms] flex flex-col items-center justify-center cursor-pointer backdrop-blur-[100px] z-30">
-                        <Camera size-[12rem] strokeWidth={0.05} className="text-white drop-shadow-3xl" />
+                        <Camera size={192} strokeWidth={0.05} className="text-white drop-shadow-3xl" />
                         <span className="text-[20px] text-white font-black uppercase tracking-[1.5em] mt-16 italic drop-shadow-3xl">Portrait</span>
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
                       </label>
@@ -255,14 +255,14 @@ export default function Onboarding() {
 
                 <div className="flex flex-col sm:flex-row gap-32">
                   <Button onClick={() => setStep(1)} className="flex-1 py-24 rounded-[7rem] border-4 border-white/5 bg-white/[0.01] hover:bg-white/[0.08] text-7xl italic tracking-tighter shadow-inner transition-all duration-[1500ms] active:scale-[0.5]">
-                    <ArrowLeft size-[8rem] strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
+                    <ArrowLeft size={128} strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
                     Back
                   </Button>
                   <Button className="flex-[2] py-24 rounded-[7rem] text-[8rem] italic tracking-tighter shadow-[0_150px_350px_rgba(244,63,94,0.7)] relative overflow-hidden group/next border-none leading-none shadow-inner" onClick={() => setStep(3)}>
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/next:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-24">
                       Continue the Sync
-                      <ArrowRight size-[8rem] strokeWidth={0.01} className="group-hover/next:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
+                      <ArrowRight size={128} strokeWidth={0.01} className="group-hover/next:translate-x-12 transition-all duration-[2000ms] drop-shadow-3xl" />
                     </span>
                   </Button>
                 </div>
@@ -280,7 +280,7 @@ export default function Onboarding() {
               >
                 <header className="space-y-16 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-10 italic">
-                    <Heart size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+                    <Heart size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                     Emotional Anchoring
                   </div>
                   <h1 className="text-9xl sm:text-[15rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Final Frequency</h1>
@@ -303,14 +303,14 @@ export default function Onboarding() {
                     <div className="space-y-16 group">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Resonance Status</label>
                       <div className="relative">
-                        <Heart className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                        <Heart className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.01} />
                         <input value={formData.relationship_status} onChange={(e) => setFormData({...formData, relationship_status: e.target.value})} className="input-field py-24 pl-[12rem] text-[8rem] sm:text-[10rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white placeholder:text-gray-950 selection:bg-rose-500/40 leading-none shadow-3xl" />
                       </div>
                     </div>
                     <div className="space-y-16 group">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic group-focus-within:text-rose-500 transition-all duration-[1500ms] leading-none">Genesis Date</label>
                       <div className="relative">
-                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.01} />
+                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/15 group-focus-within:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.01} />
                         <input type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="input-field py-24 pl-[12rem] text-[7rem] sm:text-[9rem] font-serif bg-white/[0.01] border-4 border-white/5 focus:bg-rose-500/[0.08] focus:border-rose-500/80 transition-all duration-[2000ms] shadow-inner rounded-[7rem] italic text-white selection:bg-rose-500/40 leading-none shadow-3xl" />
                       </div>
                     </div>
@@ -319,7 +319,7 @@ export default function Onboarding() {
 
                 <div className="flex flex-col sm:flex-row gap-32 pt-24">
                   <Button onClick={() => setStep(2)} className="flex-1 py-24 rounded-[7rem] border-4 border-white/5 bg-white/[0.01] hover:bg-white/[0.08] text-[7rem] italic tracking-tighter shadow-inner transition-all duration-[1500ms] active:scale-[0.5]">
-                    <ArrowLeft size-[8rem] strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
+                    <ArrowLeft size={128} strokeWidth={0.01} className="mr-12 drop-shadow-3xl" />
                     Back
                   </Button>
                   <Button 
@@ -331,7 +331,7 @@ export default function Onboarding() {
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/finish:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-24">
                       <span>Initialize Sanctuary</span>
-                      <CheckCircle2 size-[12rem] strokeWidth={0.01} className="group-hover/finish:scale-125 transition-all duration-[2000ms] shadow-[0_0_150px_white] drop-shadow-3xl" />
+                      <CheckCircle2 size={192} strokeWidth={0.01} className="group-hover/finish:scale-125 transition-all duration-[2000ms] shadow-[0_0_150px_white] drop-shadow-3xl" />
                     </span>
                   </Button>
                 </div>

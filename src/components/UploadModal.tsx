@@ -98,7 +98,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
               <div className="flex justify-between items-start relative z-10">
                 <div className="space-y-16">
                   <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-6 italic leading-none drop-shadow-3xl">
-                    <Zap size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 shadow-[0_0_80px_rgba(244,63,94,1)]" />
+                    <Zap size={80} strokeWidth={1} className="animate-pulse fill-rose-500 shadow-[0_0_80px_rgba(244,63,94,1)]" />
                     {type === 'post' ? 'Capture Archive' : 'Broadcast Frequency'}
                   </div>
                   <h2 className="text-8xl sm:text-[14rem] font-serif text-white tracking-tighter leading-none italic drop-shadow-3xl">
@@ -112,7 +112,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                   onClick={onClose} 
                   className="p-24 text-gray-950 hover:text-white hover:bg-white/15 rounded-[6rem] transition-all duration-[1500ms] active:scale-[0.5] border-[6px] border-transparent hover:border-white/20 shadow-inner shadow-[0_100px_250px_rgba(0,0,0,1)] group"
                 >
-                  <X size-[10rem] strokeWidth={0.01} className="group-hover:rotate-180 transition-transform duration-[1500ms] drop-shadow-3xl" />
+                  <X size={160} strokeWidth={0.01} className="group-hover:rotate-180 transition-transform duration-[1500ms] drop-shadow-3xl" />
                 </button>
               </div>
 
@@ -135,7 +135,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                       <div className="absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 transition-all duration-[1500ms] flex flex-col items-center justify-center backdrop-blur-[100px] z-20">
                         <div className="p-32 rounded-[8rem] bg-white/15 border-[6px] border-white/30 mb-24 scale-90 group-hover:scale-125 group-hover:rotate-[20deg] transition-all duration-[1500ms] shadow-[0_100px_250px_rgba(0,0,0,1)] shadow-inner overflow-hidden relative">
                            <div className="absolute inset-0 bg-white/20 blur-[50px]" />
-                          <Camera className="text-white drop-shadow-3xl relative z-10" size-[15rem] strokeWidth={0.01} />
+                          <Camera className="text-white drop-shadow-3xl relative z-10" size={240} strokeWidth={0.01} />
                         </div>
                         <span className="text-[28px] font-black uppercase tracking-[2em] text-white drop-shadow-3xl italic">Switch Reflection</span>
                       </div>
@@ -144,7 +144,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                     <div className="flex flex-col items-center gap-32 relative z-10">
                       <div className="p-48 rounded-[10rem] bg-white/[0.01] border-4 border-white/5 group-hover:scale-125 group-hover:bg-rose-500/30 group-hover:border-rose-500/60 transition-all duration-[2000ms] shadow-[0_150px_450px_rgba(0,0,0,1)] shadow-inner overflow-hidden relative">
                           <div className="absolute inset-0 bg-rose-500/20 blur-[60px] opacity-0 group-hover:opacity-100 transition-all" />
-                        <Upload className="text-gray-950 group-hover:text-rose-500 group-hover:rotate-[15deg] transition-all duration-[2000ms] drop-shadow-3xl relative z-10" size-[20rem] strokeWidth={0.01} />
+                        <Upload className="text-gray-950 group-hover:text-rose-500 group-hover:rotate-[15deg] transition-all duration-[2000ms] drop-shadow-3xl relative z-10" size={320} strokeWidth={0.01} />
                       </div>
                       <div className="space-y-16 text-center">
                         <p className="text-[28px] text-gray-950 font-black uppercase tracking-[1.5em] group-hover:text-rose-500 transition-all duration-[2000ms] italic leading-none drop-shadow-3xl">Drop Reflection</p>
@@ -160,13 +160,13 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                     <div className="flex items-center justify-between px-[4rem]">
                       <label className="text-[22px] font-black text-gray-950 uppercase tracking-[1.5em] italic leading-none group-focus-within:text-rose-500 transition-all duration-[2000ms] drop-shadow-2xl">The Whisper (Caption)</label>
                       <div className="flex items-center gap-12 opacity-20 group-focus-within:opacity-100 transition-all duration-[2000ms]">
-                        <Sparkles size-[3rem] className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
+                        <Sparkles size={48} className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
                         <span className="text-[14px] font-black uppercase tracking-[1em] text-white italic">Soul Script</span>
                       </div>
                     </div>
                     <div className="relative">
                        <div className="absolute top-32 left-32 text-gray-950 group-focus-within:text-rose-500/30 transition-all duration-[2000ms] pointer-events-none drop-shadow-3xl">
-                          <Star size-[10rem] strokeWidth={0.01} className="fill-current" />
+                          <Star size={160} strokeWidth={0.01} className="fill-current" />
                        </div>
                       <textarea
                         placeholder="Capture the vibe, the feeling, the shared frequency of this moment..."
@@ -187,9 +187,9 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2500ms]" />
                   <span className="relative z-10 flex items-center justify-center gap-32">
-                    <Heart size-[10rem] strokeWidth={0.01} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", selectedImage ? "fill-white scale-125 shadow-[0_0_100px_white]" : "fill-transparent")} />
+                    <Heart size={160} strokeWidth={0.01} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", selectedImage ? "fill-white scale-125 shadow-[0_0_100px_white]" : "fill-transparent")} />
                     <span className="drop-shadow-3xl">{type === 'post' ? 'Archive Memory' : 'Ignite Story'}</span>
-                    <SendHorizonal size-[10rem] strokeWidth={0.01} className="group-hover/submit:translate-x-12 group-hover/submit:-translate-y-6 transition-all duration-[2000ms] drop-shadow-3xl" />
+                    <SendHorizonal size={160} strokeWidth={0.01} className="group-hover/submit:translate-x-12 group-hover/submit:-translate-y-6 transition-all duration-[2000ms] drop-shadow-3xl" />
                   </span>
                 </Button>
               </div>

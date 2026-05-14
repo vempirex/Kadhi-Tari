@@ -33,7 +33,7 @@ export default function BottomNav() {
               "p-6 rounded-[3rem] transition-all duration-[1500ms] relative z-10",
               isActive ? "bg-rose-500/25 scale-125 shadow-[0_50px_100px_rgba(244,63,94,0.6)] border-2 border-rose-500/40" : "group-hover:bg-white/15"
             )}>
-              <item.icon size-[4.5rem] strokeWidth={isActive ? 1.5 : 0.5} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", isActive && "rotate-[20deg] animate-pulse fill-current")} />
+              <item.icon size={72} strokeWidth={isActive ? 1.5 : 0.5} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", isActive && "rotate-[20deg] animate-pulse fill-current")} />
             </div>
             
             <span className={twMerge(
@@ -53,7 +53,7 @@ export default function BottomNav() {
 
             {isActive && (
               <div className="absolute -top-6">
-                 <Sparkles size-[2rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-2xl" />
+                 <Sparkles size={32} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-2xl" />
               </div>
             )}
           </Link>

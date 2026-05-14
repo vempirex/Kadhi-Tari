@@ -67,7 +67,7 @@ export default function StoryViewer({ stories, activeIdx, onClose, onNext, onPre
                 {currentStory.profiles?.display_name || currentStory.profiles?.username}
               </span>
               <div className="flex items-center gap-8">
-                <Sparkles size-[3rem] className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
+                <Sparkles size={48} className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
                 <span className="text-[14px] text-white/40 font-black uppercase tracking-[0.8em] block drop-shadow-2xl italic">
                   {new Date(currentStory.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
@@ -78,7 +78,7 @@ export default function StoryViewer({ stories, activeIdx, onClose, onNext, onPre
             onClick={onClose} 
             className="p-[3rem] bg-white/[0.01] backdrop-blur-[150px] rounded-[6rem] hover:bg-white/15 transition-all duration-[1500ms] border-4 border-white/5 active:scale-[0.5] group shadow-[0_100px_250px_rgba(0,0,0,1)] shadow-inner"
           >
-            <X size-[8rem] strokeWidth={0.01} className="group-hover:rotate-180 transition-transform duration-[1500ms] drop-shadow-3xl" />
+            <X size={128} strokeWidth={0.01} className="group-hover:rotate-180 transition-transform duration-[1500ms] drop-shadow-3xl" />
           </button>
         </div>
 
@@ -111,13 +111,13 @@ export default function StoryViewer({ stories, activeIdx, onClose, onNext, onPre
               disabled={activeIdx === 0}
               className="p-[4rem] rounded-[7rem] bg-black/40 backdrop-blur-[200px] border-4 border-white/5 text-white pointer-events-auto hover:bg-rose-500/20 hover:border-rose-500/60 transition-all duration-[1500ms] active:scale-[0.5] disabled:opacity-0 shadow-[0_150px_350px_rgba(0,0,0,1)] group shadow-inner"
             >
-              <ChevronLeft size-[10rem] strokeWidth={0.01} className="group-hover:-translate-x-6 transition-transform duration-[1500ms] drop-shadow-3xl" />
+              <ChevronLeft size={160} strokeWidth={0.01} className="group-hover:-translate-x-6 transition-transform duration-[1500ms] drop-shadow-3xl" />
             </button>
             <button 
               onClick={onNext}
               className="p-[4rem] rounded-[7rem] bg-black/40 backdrop-blur-[200px] border-4 border-white/5 text-white pointer-events-auto hover:bg-rose-500/20 hover:border-rose-500/60 transition-all duration-[1500ms] active:scale-[0.5] shadow-[0_150px_350px_rgba(0,0,0,1)] group shadow-inner"
             >
-              <ChevronRight size-[10rem] strokeWidth={0.01} className="group-hover:translate-x-6 transition-transform duration-[1500ms] drop-shadow-3xl" />
+              <ChevronRight size={160} strokeWidth={0.01} className="group-hover:translate-x-6 transition-transform duration-[1500ms] drop-shadow-3xl" />
             </button>
           </div>
 
@@ -132,7 +132,7 @@ export default function StoryViewer({ stories, activeIdx, onClose, onNext, onPre
         <div className="p-24 pb-[6rem] sm:pb-[4rem] bg-gradient-to-t from-black via-black/95 to-transparent flex items-center gap-12 z-[5001] relative">
           <div className="flex-1 bg-white/[0.01] backdrop-blur-[200px] rounded-[8rem] p-4 pl-[4rem] flex items-center gap-12 border-4 border-white/5 group focus-within:border-rose-500/60 transition-all duration-[2000ms] shadow-[0_150px_350px_rgba(0,0,0,1)] shadow-inner relative overflow-hidden">
              <div className="absolute inset-0 bg-gradient-to-r from-rose-500/[0.1] to-transparent opacity-0 group-focus-within:opacity-100 transition-all duration-[2000ms]" />
-            <MessageCircle size-[6rem] strokeWidth={0.01} className="text-gray-950 group-focus-within:text-rose-500 transition-colors drop-shadow-3xl fill-current relative z-10" />
+            <MessageCircle size={96} strokeWidth={0.01} className="text-gray-950 group-focus-within:text-rose-500 transition-colors drop-shadow-3xl fill-current relative z-10" />
             <input 
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -144,12 +144,12 @@ export default function StoryViewer({ stories, activeIdx, onClose, onNext, onPre
               className="h-[10rem] w-[10rem] rounded-[5rem] p-0 flex items-center justify-center shrink-0 shadow-[0_100px_250px_rgba(244,63,94,1)] border-none relative z-10 active:scale-[0.5] transition-all duration-[1000ms]"
               disabled={!comment.trim()}
             >
-              <Send size-[6rem] strokeWidth={0.01} className="rotate-[-30deg] group-hover:translate-x-12 group-hover:-translate-y-12 transition-all duration-[2000ms] drop-shadow-3xl shadow-[0_0_80px_white]" />
+              <Send size={96} strokeWidth={0.01} className="rotate-[-30deg] group-hover:translate-x-12 group-hover:-translate-y-12 transition-all duration-[2000ms] drop-shadow-3xl shadow-[0_0_80px_white]" />
             </Button>
           </div>
           <button className="p-32 rounded-[8rem] bg-white/[0.01] backdrop-blur-[200px] border-4 border-white/5 text-gray-950 hover:text-rose-500 hover:border-rose-500/40 transition-all duration-[2000ms] active:scale-[1.5] group shadow-[0_150px_350px_rgba(0,0,0,1)] shadow-inner relative overflow-hidden">
             <div className="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/10 transition-colors" />
-            <Heart size-[8rem] strokeWidth={0.01} className="group-hover:fill-rose-500 transition-all duration-[1500ms] relative z-10 drop-shadow-[0_0_100px_rgba(244,63,94,1)] group-hover:scale-125" />
+            <Heart size={128} strokeWidth={0.01} className="group-hover:fill-rose-500 transition-all duration-[1500ms] relative z-10 drop-shadow-[0_0_100px_rgba(244,63,94,1)] group-hover:scale-125" />
           </button>
         </div>
       </div>

@@ -89,7 +89,7 @@ export default function MemoryTimeline() {
       <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-16 px-6 sm:px-0 relative z-30">
         <div className="space-y-12 text-center sm:text-left relative z-10">
           <div className="flex items-center justify-center sm:justify-start gap-[2rem] text-rose-500 font-black uppercase tracking-[1em] text-[18px] mb-6 italic">
-            <History size-[3.5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+            <History size={56} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
             The Eternal Thread
           </div>
           <h1 className="text-7xl sm:text-[12rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">Our Journey</h1>
@@ -105,7 +105,7 @@ export default function MemoryTimeline() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
           <span className="relative z-10 flex items-center gap-16 text-[5rem] tracking-tighter italic">
-            <Plus size-[6rem] strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+            <Plus size={96} strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
             <span>Mark Milestone</span>
           </span>
         </Button>
@@ -131,10 +131,10 @@ export default function MemoryTimeline() {
             <Card className="py-72 text-center space-y-32 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)] max-w-7xl mx-auto shadow-inner rounded-[9rem]">
               <div className="relative">
                 <div className="p-48 bg-rose-500/[0.03] rounded-[10rem] text-rose-500/5 border-4 border-rose-500/10 shadow-inner group-hover:scale-125 transition-all duration-[10s]">
-                  <Calendar size-[35rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                  <Calendar size={560} strokeWidth={0.01} className="drop-shadow-3xl" />
                 </div>
                 <div className="absolute -top-32 -right-32 p-32 rounded-[7rem] bg-[#050506] border-8 border-white/10 shadow-[0_120px_250px_rgba(0,0,0,1)]">
-                  <Star size-[12rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+                  <Star size={192} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                 </div>
               </div>
               <div className="space-y-24 px-32">
@@ -147,7 +147,7 @@ export default function MemoryTimeline() {
                 onClick={() => setIsModalOpen(true)} 
                 className="rounded-[8rem] px-[8rem] py-24 text-[8rem] h-auto group border-none shadow-[0_150px_350px_rgba(244,63,94,0.7)]"
               >
-                Capture First Milestone <Plus size-[10rem] strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
+                Capture First Milestone <Plus size={160} strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
               </Button>
             </Card>
           </motion.div>
@@ -181,7 +181,7 @@ export default function MemoryTimeline() {
                     isEven ? "sm:translate-x-[15rem]" : "sm:-translate-x-[calc(100%+15rem)]"
                   )}>
                     <div className="px-48 py-20 rounded-full bg-white/[0.01] border-4 border-white/5 text-[26px] font-black text-rose-500 uppercase tracking-[1.2em] backdrop-blur-[150px] shadow-[0_150px_350px_rgba(0,0,0,1)] flex items-center gap-24 group-hover:scale-110 transition-all duration-[2000ms] italic group-hover:bg-rose-500/30 group-hover:border-rose-500/60 shadow-inner drop-shadow-3xl">
-                      <Calendar size-[4rem] strokeWidth={1} className="opacity-40 drop-shadow-2xl" />
+                      <Calendar size={64} strokeWidth={1} className="opacity-40 drop-shadow-2xl" />
                       {new Date(event.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </div>
                   </div>
@@ -205,7 +205,7 @@ export default function MemoryTimeline() {
                           event.color_class
                         )}>
                            <div className="absolute inset-0 bg-current opacity-10 blur-[30px]" />
-                          <Icon size-[15rem] strokeWidth={0.05} className="drop-shadow-[0_0_150px_rgba(244,63,94,1)] group-hover/card:animate-pulse fill-current relative z-10" />
+                          <Icon size={240} strokeWidth={0.05} className="drop-shadow-[0_0_150px_rgba(244,63,94,1)] group-hover/card:animate-pulse fill-current relative z-10" />
                         </div>
                         <h3 className="text-8xl sm:text-[14rem] font-serif font-black text-white group-hover/card:text-rose-400 transition-all duration-[2000ms] leading-none tracking-tighter relative z-10 italic selection:bg-rose-500/40 drop-shadow-3xl">{event.title}</h3>
                       </div>
@@ -216,7 +216,7 @@ export default function MemoryTimeline() {
                           isEven ? "sm:flex-row-reverse" : ""
                         )}>
                           <div className="w-[8rem] h-[6px] bg-current opacity-15 shadow-inner rounded-full" />
-                          <MapPin size-[5rem] strokeWidth={1} className="text-rose-500 animate-bounce drop-shadow-2xl" />
+                          <MapPin size={80} strokeWidth={1} className="text-rose-500 animate-bounce drop-shadow-2xl" />
                           {event.location}
                         </div>
                       )}
@@ -238,7 +238,7 @@ export default function MemoryTimeline() {
                       )}>
                         <div className="w-[8rem] h-[8rem] rounded-[5rem] bg-rose-500/30 flex items-center justify-center text-rose-500 border-4 border-rose-500/60 shadow-inner shadow-[0_60px_150px_rgba(0,0,0,1)] relative overflow-hidden group/heart">
                             <div className="absolute inset-0 bg-rose-500/20 blur-[30px]" />
-                          <Heart size-[5rem] strokeWidth={1} fill="currentColor" className="animate-pulse shadow-[0_0_60px_rgba(244,63,94,1)] relative z-10 drop-shadow-3xl" />
+                          <Heart size={80} strokeWidth={1} fill="currentColor" className="animate-pulse shadow-[0_0_60px_rgba(244,63,94,1)] relative z-10 drop-shadow-3xl" />
                         </div>
                         <span className="text-[20px] font-black uppercase tracking-[1.2em] text-gray-950 italic drop-shadow-2xl">Archived in Infinity</span>
                       </div>
@@ -275,7 +275,7 @@ export default function MemoryTimeline() {
                 <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-16">
                     <div className="flex items-center gap-[3rem] text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-12 italic">
-                      <Zap size-[6rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+                      <Zap size={96} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                       Seal an Eternal Frequency
                     </div>
                     <h2 className="text-8xl sm:text-[15rem] font-serif text-white tracking-tighter leading-none italic drop-shadow-3xl">Archive a Milestone</h2>
@@ -285,7 +285,7 @@ export default function MemoryTimeline() {
                     onClick={() => setIsModalOpen(false)} 
                     className="p-16 text-gray-800 hover:text-white hover:bg-white/15 rounded-[6rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_80px_200px_rgba(0,0,0,1)]"
                   >
-                    <X size-[12rem] strokeWidth={0.01} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+                    <X size={192} strokeWidth={0.01} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
                   </button>
                 </div>
 
@@ -294,7 +294,7 @@ export default function MemoryTimeline() {
                     <div className="space-y-24">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic">When did it bloom?</label>
                       <div className="relative group/date">
-                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/20 group-focus-within/date:text-rose-500 transition-all duration-[1500ms]" size-[8rem] strokeWidth={0.05} />
+                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/20 group-focus-within/date:text-rose-500 transition-all duration-[1500ms]" size={128} strokeWidth={0.05} />
                         <input
                           type="date"
                           value={newEvent.event_date}
@@ -306,7 +306,7 @@ export default function MemoryTimeline() {
                     <div className="space-y-24">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic">Where were we?</label>
                       <div className="relative group/loc">
-                        <MapPin className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/20 group-focus-within/loc:text-blue-500 transition-all duration-[1500ms]" size-[8rem] strokeWidth={0.05} />
+                        <MapPin className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/20 group-focus-within/loc:text-blue-500 transition-all duration-[1500ms]" size={128} strokeWidth={0.05} />
                         <input
                           placeholder="e.g. Under the silver stars"
                           value={newEvent.location}
@@ -355,7 +355,7 @@ export default function MemoryTimeline() {
                             )}
                           >
                             <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1500" />
-                            <Icon size-[15rem] strokeWidth={0.01} className="group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[2000ms] relative z-10 drop-shadow-[0_0_150px_rgba(244,63,94,1)] fill-current" />
+                            <Icon size={240} strokeWidth={0.01} className="group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[2000ms] relative z-10 drop-shadow-[0_0_150px_rgba(244,63,94,1)] fill-current" />
                           </button>
                         )
                       })}
@@ -371,7 +371,7 @@ export default function MemoryTimeline() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-48 italic">
-                      <Heart size-[12rem] strokeWidth={0.1} className="fill-white group-hover/submit:scale-125 transition-all duration-[1500ms] animate-pulse shadow-[0_0_150px_white] drop-shadow-3xl" />
+                      <Heart size={192} strokeWidth={0.1} className="fill-white group-hover/submit:scale-125 transition-all duration-[1500ms] animate-pulse shadow-[0_0_150px_white] drop-shadow-3xl" />
                       Seal this Milestone
                     </span>
                   </Button>

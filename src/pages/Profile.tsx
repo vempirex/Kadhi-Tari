@@ -89,20 +89,20 @@ export default function Profile() {
             onClick={() => navigate('/profile/edit')} 
             className="rounded-[4rem] p-16 h-auto aspect-square bg-white/[0.01] hover:bg-white/15 border-4 border-white/10 backdrop-blur-[150px] group/settings shadow-3xl shadow-inner"
           >
-            <Settings size-[4rem] strokeWidth={1} className="group-hover/settings:rotate-180 transition-all duration-[2000ms]" />
+            <Settings size={64} strokeWidth={1} className="group-hover/settings:rotate-180 transition-all duration-[2000ms]" />
           </Button>
           <div className="flex gap-12">
             <Button 
               onClick={() => navigate('/profile/edit')}
               className="rounded-[4rem] p-16 h-auto aspect-square bg-white/[0.01] hover:bg-white/15 border-4 border-white/10 backdrop-blur-[150px] shadow-3xl shadow-inner"
             >
-              <Edit3 size-[4rem] strokeWidth={1} />
+              <Edit3 size={64} strokeWidth={1} />
             </Button>
             <Button 
               onClick={handleLogout} 
               className="rounded-[4rem] p-16 h-auto aspect-square bg-rose-500/10 hover:bg-rose-500/25 border-4 border-rose-500/20 text-rose-500 backdrop-blur-[150px] shadow-3xl shadow-inner"
             >
-              <LogOut size-[4rem] strokeWidth={1} />
+              <LogOut size={64} strokeWidth={1} />
             </Button>
           </div>
         </div>
@@ -128,12 +128,12 @@ export default function Profile() {
               <h1 className="text-8xl sm:text-[14rem] font-serif glow-text leading-none tracking-tighter italic text-white drop-shadow-3xl">{profile.display_name || profile.username}</h1>
               <div className="flex items-center justify-center sm:justify-start gap-12">
                 <div className="flex items-center gap-6 text-rose-500 font-black uppercase tracking-[1em] text-[18px] italic">
-                  <Sparkles size-[3rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+                  <Sparkles size={48} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
                   @{profile.username}
                 </div>
                 <div className="w-5 h-5 rounded-full bg-gray-950 shadow-inner" />
                 <div className="flex items-center gap-6 text-gray-950 font-black uppercase tracking-[1em] text-[18px] italic">
-                  <ShieldCheck size-[3rem] strokeWidth={1} className="text-blue-500 drop-shadow-2xl" />
+                  <ShieldCheck size={48} strokeWidth={1} className="text-blue-500 drop-shadow-2xl" />
                   Sanctuary Guardian
                 </div>
               </div>
@@ -186,15 +186,15 @@ export default function Profile() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-[1500ms] flex flex-col justify-end p-20 sm:p-32">
                         <div className="translate-y-20 group-hover:translate-y-0 transition-all duration-[1500ms] space-y-12">
                           <div className="flex items-center gap-10 text-rose-500 font-black uppercase tracking-[1em] text-[16px] mb-6 italic">
-                            <Camera size-[4rem] strokeWidth={1} className="drop-shadow-3xl" />
+                            <Camera size={64} strokeWidth={1} className="drop-shadow-3xl" />
                             Captured
                           </div>
                           <p className="text-6xl font-serif italic text-white tracking-tighter leading-none drop-shadow-3xl">
                             {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                           </p>
                           <div className="flex gap-12 pt-10">
-                             <Heart size-[4rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-3xl shadow-rose-500 shadow-2xl" />
-                             <Star size-[4rem] strokeWidth={1} className="text-orange-500 fill-orange-500 animate-pulse delay-[500ms] drop-shadow-3xl shadow-orange-500 shadow-2xl" />
+                             <Heart size={64} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-3xl shadow-rose-500 shadow-2xl" />
+                             <Star size={64} strokeWidth={1} className="text-orange-500 fill-orange-500 animate-pulse delay-[500ms] drop-shadow-3xl shadow-orange-500 shadow-2xl" />
                           </div>
                         </div>
                       </div>
@@ -204,7 +204,7 @@ export default function Profile() {
               ) : (
                 <div className="col-span-full py-[20rem] text-center border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] rounded-[9rem] shadow-inner backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)]">
                   <div className="p-32 bg-rose-500/[0.03] rounded-[7rem] w-fit mx-auto border-4 border-rose-500/10 shadow-inner mb-16">
-                    <ImageIcon size-[25rem] strokeWidth={0.05} className="text-rose-500/10 drop-shadow-3xl" />
+                    <ImageIcon size={400} strokeWidth={0.05} className="text-rose-500/10 drop-shadow-3xl" />
                   </div>
                   <div className="space-y-16 px-24">
                     <h3 className="text-8xl sm:text-[11rem] font-serif text-white/90 tracking-tighter italic leading-none">Silent Archives</h3>
@@ -224,7 +224,7 @@ function StatCard({ icon: Icon, value, label, color }: any) {
   return (
     <Card className="p-16 sm:p-32 flex flex-col items-center gap-12 text-center border-4 border-white/5 bg-white/[0.01] group hover:bg-white/[0.06] transition-all duration-[1500ms] backdrop-blur-[120px] rounded-[6rem] shadow-[0_150px_450px_rgba(0,0,0,1)] shadow-inner group">
       <div className={twMerge("p-16 rounded-[4.5rem] bg-white/[0.01] transition-all duration-[2000ms] group-hover:scale-125 group-hover:rotate-[20deg] shadow-[0_60px_150px_rgba(0,0,0,1)] border-4 border-white/5 relative z-10 shadow-inner", color)}>
-        <Icon size-[8rem] strokeWidth={0.1} className="drop-shadow-3xl fill-current" />
+        <Icon size={128} strokeWidth={0.1} className="drop-shadow-3xl fill-current" />
       </div>
       <div className="space-y-10">
         <p className="text-6xl sm:text-[8rem] font-serif text-white truncate max-w-[400px] tracking-tighter italic leading-none drop-shadow-2xl">{value}</p>
@@ -243,7 +243,7 @@ function TabButton({ active, onClick, icon: Icon, label }: any) {
         active ? "text-gray-950" : "text-gray-800 hover:text-white"
       )}
     >
-      <Icon size-[4rem] strokeWidth={active ? 1 : 0.5} className="transition-all duration-[1500ms] group-hover:scale-125 group-hover:rotate-[15deg] drop-shadow-3xl" />
+      <Icon size={64} strokeWidth={active ? 1 : 0.5} className="transition-all duration-[1500ms] group-hover:scale-125 group-hover:rotate-[15deg] drop-shadow-3xl" />
       <span>{label}</span>
       {active && (
         <motion.div 

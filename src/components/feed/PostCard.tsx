@@ -66,7 +66,7 @@ export default function PostCard({ post }: PostCardProps) {
               {post.profiles?.display_name || post.profiles?.username}
             </p>
             <div className="flex items-center gap-10">
-              <Fingerprint size-[5rem] strokeWidth={0.01} className="text-gray-950 opacity-40 drop-shadow-2xl" />
+              <Fingerprint size={80} strokeWidth={0.01} className="text-gray-950 opacity-40 drop-shadow-2xl" />
               <p className="text-[20px] text-gray-950 font-black uppercase tracking-[1em] italic opacity-30 group-hover:opacity-100 transition-all duration-[2000ms]">
                 {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </p>
@@ -74,7 +74,7 @@ export default function PostCard({ post }: PostCardProps) {
           </div>
         </div>
         <button className="text-gray-950 hover:text-white p-20 hover:bg-white/15 rounded-[6rem] transition-all duration-[1500ms] active:scale-[0.5] border-[6px] border-transparent hover:border-white/20 shadow-inner shadow-3xl group/more">
-          <MoreHorizontal size-[10rem] strokeWidth={0.01} className="drop-shadow-3xl group-hover/more:scale-125 transition-all duration-[1500ms]" />
+          <MoreHorizontal size={160} strokeWidth={0.01} className="drop-shadow-3xl group-hover/more:scale-125 transition-all duration-[1500ms]" />
         </button>
       </div>
 
@@ -103,7 +103,7 @@ export default function PostCard({ post }: PostCardProps) {
               transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
             >
-              <Heart size-[40rem] className="text-rose-500 fill-rose-500 drop-shadow-[0_0_200px_rgba(244,63,94,1)] shadow-rose-500 shadow-3xl" strokeWidth={0.01} />
+              <Heart size={640} className="text-rose-500 fill-rose-500 drop-shadow-[0_0_200px_rgba(244,63,94,1)] shadow-rose-500 shadow-3xl" strokeWidth={0.01} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -111,14 +111,14 @@ export default function PostCard({ post }: PostCardProps) {
         {/* View Details Hint */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-all duration-[2000ms] pointer-events-none">
           <div className="px-32 py-16 rounded-full bg-black/85 backdrop-blur-[150px] border-[6px] border-white/15 text-[22px] font-black uppercase tracking-[1.2em] text-white flex items-center gap-12 scale-90 group-hover/media:scale-100 transition-all duration-[2000ms] italic shadow-inner shadow-[0_150px_350px_rgba(0,0,0,1)]">
-            <Zap size-[6rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl shadow-[0_0_50px_rgba(244,63,94,1)]" />
+            <Zap size={96} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl shadow-[0_0_50px_rgba(244,63,94,1)]" />
             Double Tap to Heart
           </div>
         </div>
         
         {/* Decorative Corner Elements */}
         <div className="absolute top-24 left-24 opacity-5 group-hover/media:opacity-40 transition-all duration-[2000ms]">
-           <Shield size-[10rem] className="text-white drop-shadow-3xl" strokeWidth={0.01} />
+           <Shield size={160} className="text-white drop-shadow-3xl" strokeWidth={0.01} />
         </div>
       </div>
 
@@ -134,7 +134,7 @@ export default function PostCard({ post }: PostCardProps) {
                 isLiked ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
               )}
             >
-              <Heart size-[12rem] className={twMerge("transition-all duration-[2000ms]", isLiked ? "fill-rose-500 scale-125 drop-shadow-[0_0_150px_rgba(244,63,94,1)] shadow-rose-500 shadow-2xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
+              <Heart size={192} className={twMerge("transition-all duration-[2000ms]", isLiked ? "fill-rose-500 scale-125 drop-shadow-[0_0_150px_rgba(244,63,94,1)] shadow-rose-500 shadow-2xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
             </motion.button>
             <motion.button 
               whileTap={{ scale: 2.5 }}
@@ -144,13 +144,13 @@ export default function PostCard({ post }: PostCardProps) {
                 showComments ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
               )}
             >
-              <MessageCircle size-[12rem] className={twMerge("transition-all duration-[2000ms]", showComments ? "fill-rose-500/30 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:-rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
+              <MessageCircle size={192} className={twMerge("transition-all duration-[2000ms]", showComments ? "fill-rose-500/30 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:-rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
             </motion.button>
             <motion.button 
               whileTap={{ scale: 2.5 }}
               className="text-gray-950 hover:text-rose-500 transition-all duration-[2000ms] group/btn"
             >
-              <Share2 size-[12rem] className="group-hover/btn:scale-150 transition-all duration-[2000ms] drop-shadow-3xl group-hover/btn:rotate-[15deg]" strokeWidth={0.01} />
+              <Share2 size={192} className="group-hover/btn:scale-150 transition-all duration-[2000ms] drop-shadow-3xl group-hover/btn:rotate-[15deg]" strokeWidth={0.01} />
             </motion.button>
           </div>
           <motion.button 
@@ -161,7 +161,7 @@ export default function PostCard({ post }: PostCardProps) {
               isBookmarked ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
             )}
           >
-            <Bookmark size-[12rem] className={twMerge("transition-all duration-[2000ms]", isBookmarked ? "fill-rose-500 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[-30deg] drop-shadow-3xl")} strokeWidth={0.01} />
+            <Bookmark size={192} className={twMerge("transition-all duration-[2000ms]", isBookmarked ? "fill-rose-500 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[-30deg] drop-shadow-3xl")} strokeWidth={0.01} />
           </motion.button>
         </div>
 
@@ -170,7 +170,7 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="flex gap-16 items-start">
             <div className="mt-6 px-16 py-8 rounded-full bg-rose-500/20 border-4 border-rose-500/40 flex items-center gap-10 flex-shrink-0 shadow-inner shadow-3xl italic relative overflow-hidden group/moment-tag">
                <div className="absolute inset-0 bg-rose-500/10 blur-[20px] opacity-0 group-hover/moment-tag:opacity-100 transition-all" />
-              <Sparkles size-[4.5rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl relative z-10" />
+              <Sparkles size={72} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl relative z-10" />
               <span className="text-[20px] font-black text-rose-500 uppercase tracking-[1em] relative z-10 drop-shadow-2xl">Moment</span>
             </div>
             <div className="space-y-16">
@@ -202,7 +202,7 @@ export default function PostCard({ post }: PostCardProps) {
                 <div className="flex gap-16 items-start group/comment">
                   <div className="w-[10rem] h-[10rem] rounded-[6rem] bg-rose-500/25 border-4 border-rose-500/50 flex items-center justify-center flex-shrink-0 group-hover/comment:scale-125 group-hover/comment:rotate-[20deg] transition-all duration-[2000ms] shadow-inner shadow-3xl relative overflow-hidden">
                       <div className="absolute inset-0 bg-rose-500/15 blur-[20px] opacity-0 group-hover/comment:opacity-100 transition-all" />
-                    <Heart size-[6rem] strokeWidth={1} className="text-rose-500 fill-rose-500/40 drop-shadow-3xl relative z-10" />
+                    <Heart size={96} strokeWidth={1} className="text-rose-500 fill-rose-500/40 drop-shadow-3xl relative z-10" />
                   </div>
                   <div className="flex-1 bg-white/[0.01] rounded-[8rem] p-24 border-[6px] border-white/5 group-hover/comment:border-rose-500/60 transition-all duration-[2000ms] shadow-inner shadow-3xl relative overflow-hidden">
                       <div className="absolute inset-0 bg-rose-500/5 opacity-0 group-hover/comment:opacity-100 transition-all" />
@@ -231,7 +231,7 @@ export default function PostCard({ post }: PostCardProps) {
                   disabled={!comment.trim()}
                   className="rounded-[6rem] w-[12rem] h-[12rem] p-0 flex items-center justify-center shrink-0 shadow-3xl relative z-10 border-none shadow-[0_100px_200px_rgba(244,63,94,1)] active:scale-[0.5] transition-all duration-[1000ms]"
                 >
-                  <Send size-[8rem] strokeWidth={0.01} className="rotate-[-30deg] group-hover/input:translate-x-16 group-hover/input:-translate-y-16 transition-all duration-[2500ms] drop-shadow-3xl shadow-[0_0_80px_white]" />
+                  <Send size={128} strokeWidth={0.01} className="rotate-[-30deg] group-hover/input:translate-x-16 group-hover/input:-translate-y-16 transition-all duration-[2500ms] drop-shadow-3xl shadow-[0_0_80px_white]" />
                 </Button>
               </div>
             </motion.div>

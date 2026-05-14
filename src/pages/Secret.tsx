@@ -44,14 +44,14 @@ export default function Secret() {
           <div className="flex justify-center relative">
             <div className="p-32 rounded-[10rem] bg-rose-500/[0.04] text-rose-500 border-4 border-rose-500/30 shadow-[0_150px_350px_rgba(244,63,94,1)] relative z-10 group hover:scale-125 transition-all duration-[3000ms] shadow-inner overflow-hidden">
                <div className="absolute inset-0 bg-rose-500/20 blur-[50px] opacity-0 group-hover:opacity-100 transition-all" />
-              <Lock size-[15rem] strokeWidth={0.01} className="group-hover:rotate-[25deg] transition-all duration-[2000ms] fill-rose-500/10 drop-shadow-[0_0_150px_rgba(244,63,94,1)] relative z-10" />
+              <Lock size={240} strokeWidth={0.01} className="group-hover:rotate-[25deg] transition-all duration-[2000ms] fill-rose-500/10 drop-shadow-[0_0_150px_rgba(244,63,94,1)] relative z-10" />
             </div>
             <div className="absolute inset-0 bg-rose-500/60 blur-[200px] opacity-25 animate-pulse" />
           </div>
           
           <div className="space-y-24 relative z-10">
             <div className="flex items-center justify-center gap-16 text-rose-500 font-black uppercase tracking-[2em] text-[20px] mb-12 italic">
-              <Zap size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+              <Zap size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
               Restricted Resonance
             </div>
             <h2 className="text-8xl sm:text-[15rem] font-serif text-white tracking-tighter leading-none italic selection:bg-rose-500/40 drop-shadow-3xl">The Forbidden Vault</h2>
@@ -62,7 +62,7 @@ export default function Secret() {
 
           <div className="space-y-32 relative z-10 max-w-5xl mx-auto">
             <div className="relative group">
-              <Fingerprint className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms]" size-[8rem] strokeWidth={1} className="drop-shadow-3xl" />
+              <Fingerprint className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/15 group-focus-within:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size={128} strokeWidth={1} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -75,7 +75,7 @@ export default function Secret() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-24 top-1/2 -translate-y-1/2 text-gray-950 hover:text-rose-500 transition-all p-12 hover:scale-150 duration-[1500ms] active:scale-[0.5] group"
               >
-                {showPassword ? <EyeOff size-[8rem] strokeWidth={0.05} className="drop-shadow-3xl" /> : <Eye size-[8rem] strokeWidth={0.05} className="drop-shadow-3xl" />}
+                {showPassword ? <EyeOff size={128} strokeWidth={0.05} className="drop-shadow-3xl" /> : <Eye size={128} strokeWidth={0.05} className="drop-shadow-3xl" />}
               </button>
             </div>
 
@@ -86,7 +86,7 @@ export default function Secret() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
               <span className="relative z-10 flex items-center justify-center gap-[4rem]">
-                <Key size-[12rem] strokeWidth={0.05} className="group-hover/submit:rotate-[90deg] transition-all duration-[3000ms] drop-shadow-3xl" />
+                <Key size={192} strokeWidth={0.05} className="group-hover/submit:rotate-[90deg] transition-all duration-[3000ms] drop-shadow-3xl" />
                 <span>Breach the Silence</span>
               </span>
             </Button>
@@ -94,7 +94,7 @@ export default function Secret() {
 
           <div className="flex items-center justify-center gap-16 text-orange-500/40 relative z-10 bg-orange-500/[0.05] py-24 rounded-[6rem] border-4 border-orange-500/15 italic shadow-inner max-w-4xl mx-auto shadow-3xl group">
              <div className="absolute inset-0 bg-orange-500/5 blur-[30px] opacity-0 group-hover:opacity-100 transition-all" />
-            <ShieldAlert size-[5rem] strokeWidth={1} className="animate-bounce drop-shadow-3xl relative z-10" />
+            <ShieldAlert size={80} strokeWidth={1} className="animate-bounce drop-shadow-3xl relative z-10" />
             <span className="text-[22px] font-black uppercase tracking-[1.5em] relative z-10 leading-none">
               Hint: A champion of extending calls
             </span>
@@ -109,7 +109,7 @@ export default function Secret() {
       <header className="flex flex-col items-center gap-16 text-center relative z-30">
         <div className="flex flex-col items-center gap-16">
           <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] italic">
-            <Key size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+            <Key size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
             Restricted Resonance
           </div>
           <h1 className="text-7xl sm:text-[13rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">The Inner Sanctum</h1>
@@ -128,13 +128,13 @@ export default function Secret() {
         >
           <div className="absolute top-0 left-0 w-12 h-full bg-gradient-to-b from-rose-950 via-rose-600/50 to-transparent shadow-inner shadow-3xl" />
           <div className="absolute top-0 right-0 p-64 opacity-[0.01] group-hover:opacity-[0.15] transition-all duration-[6000ms] group-hover:scale-150 group-hover:rotate-[30deg] pointer-events-none text-white">
-            <Sparkles size-[60rem] strokeWidth={0.01} />
+            <Sparkles size={960} strokeWidth={0.01} />
           </div>
 
           <div className="flex items-center gap-24 text-rose-500 relative z-10">
             <div className="p-24 rounded-[7rem] bg-rose-500/20 border-4 border-rose-500/40 shadow-inner shadow-3xl relative overflow-hidden group/star">
                <div className="absolute inset-0 bg-rose-500/10 blur-[30px]" />
-              <Sparkles size-[12rem] strokeWidth={0.01} className="group-hover/star:rotate-[180deg] transition-all duration-[4000ms] fill-rose-500/30 drop-shadow-3xl relative z-10" />
+              <Sparkles size={192} strokeWidth={0.01} className="group-hover/star:rotate-[180deg] transition-all duration-[4000ms] fill-rose-500/30 drop-shadow-3xl relative z-10" />
             </div>
             <h3 className="text-8xl sm:text-[14rem] font-serif tracking-tighter italic leading-none selection:bg-rose-500/40 drop-shadow-3xl">The Core Protocol</h3>
           </div>
@@ -157,7 +157,7 @@ export default function Secret() {
               <div className="absolute inset-0 bg-gradient-to-br from-rose-500/[0.12] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-[2500ms]" />
               <div className="p-48 rounded-[9rem] bg-white/[0.04] border-4 border-white/10 group-hover:bg-rose-500/25 group-hover:border-rose-500/50 group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-2000 relative z-10 shadow-3xl shadow-inner relative overflow-hidden">
                  <div className="absolute inset-0 bg-rose-500/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-all" />
-                <Heart size-[15rem] strokeWidth={0.01} className="text-gray-950 group-hover:text-rose-500 transition-all duration-2000 animate-pulse fill-current drop-shadow-3xl relative z-10" />
+                <Heart size={240} strokeWidth={0.01} className="text-gray-950 group-hover:text-rose-500 transition-all duration-2000 animate-pulse fill-current drop-shadow-3xl relative z-10" />
               </div>
               <div className="space-y-24 relative z-10">
                 <p className="text-[28px] text-gray-950 font-black uppercase tracking-[1.5em] group-hover:text-rose-500 transition-all duration-[1500ms] italic drop-shadow-2xl">Fragment #{i}</p>
@@ -165,7 +165,7 @@ export default function Secret() {
               </div>
               <div className="absolute bottom-32 flex items-center gap-24 opacity-0 group-hover:opacity-100 transition-all duration-2000 translate-y-48 group-hover:translate-y-0">
                 <div className="w-[8rem] h-[6px] bg-rose-500/30 shadow-inner rounded-full" />
-                <Fingerprint size-[7rem] strokeWidth={1} className="text-rose-500/40 drop-shadow-3xl" />
+                <Fingerprint size={112} strokeWidth={1} className="text-rose-500/40 drop-shadow-3xl" />
                 <div className="w-[8rem] h-[6px] bg-rose-500/30 shadow-inner rounded-full" />
               </div>
             </Card>

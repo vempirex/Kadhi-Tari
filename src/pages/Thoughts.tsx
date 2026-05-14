@@ -76,7 +76,7 @@ export default function Thoughts() {
             transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-10 px-16 py-8 rounded-full bg-white/[0.01] border-4 border-white/5 text-rose-500 font-black uppercase tracking-[1.5em] text-[18px] backdrop-blur-[150px] shadow-inner italic"
           >
-            <Wind size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+            <Wind size={64} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
             Nebulous Notations
           </motion.div>
           <h1 className="text-7xl sm:text-[12rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">Ethereal Thoughts</h1>
@@ -91,7 +91,7 @@ export default function Thoughts() {
         <Card className="p-20 sm:p-32 flex items-center gap-24 border-4 border-white/5 bg-white/[0.01] shadow-[0_250px_600px_rgba(0,0,0,1)] backdrop-blur-[200px] focus-within:border-rose-500/60 transition-all duration-[1500ms] rounded-[8rem] group/input shadow-inner relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-rose-500/[0.1] to-transparent opacity-0 group-focus-within/input:opacity-100 transition-all duration-[2500ms]" />
           <div className="pl-16 text-rose-500 opacity-20 group-focus-within/input:opacity-100 transition-all duration-[1500ms]">
-            <Zap size-[10rem] strokeWidth={0.05} className="group-focus-within/input:animate-pulse fill-rose-500 drop-shadow-3xl" />
+            <Zap size={160} strokeWidth={0.05} className="group-focus-within/input:animate-pulse fill-rose-500 drop-shadow-3xl" />
           </div>
           <input 
             type="text" 
@@ -109,7 +109,7 @@ export default function Thoughts() {
             size="xl"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-rose-950 to-orange-950 opacity-0 group-hover/btn:opacity-100 transition-all duration-[1500ms]" />
-            <Plus size-[12rem] strokeWidth={0.05} className="relative z-10 group-hover/btn:rotate-[180deg] transition-all duration-[2000ms] text-white drop-shadow-3xl" />
+            <Plus size={192} strokeWidth={0.05} className="relative z-10 group-hover/btn:rotate-[180deg] transition-all duration-[2000ms] text-white drop-shadow-3xl" />
           </Button>
         </Card>
       </section>
@@ -119,7 +119,7 @@ export default function Thoughts() {
           <div className="flex flex-col items-center justify-center py-[25rem] gap-24">
             <div className="relative">
               <div className="w-32 h-32 rounded-[4.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-              <Cloud size-[10rem] strokeWidth={0.05} className="absolute inset-0 m-auto text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+              <Cloud size={160} strokeWidth={0.05} className="absolute inset-0 m-auto text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
             </div>
             <p className="text-[18px] text-gray-800 font-black uppercase tracking-[1.5em] animate-pulse italic">Capturing Clouds...</p>
           </div>
@@ -130,7 +130,7 @@ export default function Thoughts() {
             className="text-center py-[25rem] space-y-48"
           >
             <div className="p-[12rem] bg-white/[0.01] rounded-[10rem] w-fit mx-auto border-8 border-dashed border-white/5 shadow-inner group hover:scale-125 transition-all duration-[10s] shadow-[0_150px_350px_rgba(0,0,0,1)]">
-              <Sparkles size-[30rem] strokeWidth={0.01} className="text-gray-950 opacity-10 group-hover:opacity-100 transition-all duration-[3000ms] drop-shadow-3xl" />
+              <Sparkles size={480} strokeWidth={0.01} className="text-gray-950 opacity-10 group-hover:opacity-100 transition-all duration-[3000ms] drop-shadow-3xl" />
             </div>
             <p className="font-handwritten text-[10rem] sm:text-[13rem] italic text-gray-800 opacity-20 leading-none drop-shadow-2xl">"The sky is clear today. Let's add some thoughts to our constellation..."</p>
           </motion.div>
@@ -150,14 +150,14 @@ export default function Thoughts() {
                   >
                     {/* Floating Decorative Elements */}
                     <div className="absolute top-0 right-0 p-64 opacity-[0.01] group-hover:opacity-[0.15] transition-all duration-[12000ms] group-hover:scale-150 transform group-hover:rotate-[-45deg] pointer-events-none text-white">
-                      <Cloud size-[60rem] strokeWidth={0.01} />
+                      <Cloud size={960} strokeWidth={0.01} />
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-32 mb-48 relative z-10">
                       <div className="flex items-center gap-24">
                         <div className="w-[12rem] h-[12rem] rounded-[6rem] bg-rose-500/20 border-4 border-rose-500/40 flex items-center justify-center text-rose-500 group-hover:bg-rose-500/40 transition-all duration-[2000ms] shadow-inner shadow-3xl relative overflow-hidden">
                            <div className="absolute inset-0 bg-rose-500/10 blur-[20px]" />
-                          <Moon size-[7rem] strokeWidth={0.01} className="group-hover:rotate-[60deg] transition-all duration-[2000ms] fill-rose-500 shadow-2xl drop-shadow-3xl relative z-10" />
+                          <Moon size={112} strokeWidth={0.01} className="group-hover:rotate-[60deg] transition-all duration-[2000ms] fill-rose-500 shadow-2xl drop-shadow-3xl relative z-10" />
                         </div>
                         <div className="px-32 py-10 rounded-full bg-white/[0.01] text-gray-950 border-4 border-white/5 text-[22px] font-black uppercase tracking-[1.2em] italic shadow-inner backdrop-blur-[150px] shadow-3xl drop-shadow-2xl">
                           Passing By
@@ -165,7 +165,7 @@ export default function Thoughts() {
                       </div>
                       <div className="flex flex-col items-end gap-12 text-right">
                         <div className="flex items-center gap-16">
-                           <Fingerprint size-[5rem] strokeWidth={1} className="text-gray-950 opacity-20 drop-shadow-3xl" />
+                           <Fingerprint size={80} strokeWidth={1} className="text-gray-950 opacity-20 drop-shadow-3xl" />
                           <span className="text-[20px] uppercase tracking-[1em] text-gray-950 font-black italic opacity-40">
                             {new Date(thought.created_at).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
@@ -185,14 +185,14 @@ export default function Thoughts() {
                       <button className="flex items-center gap-16 text-gray-950 hover:text-rose-500 transition-all duration-[2000ms] group/btn">
                         <div className="p-24 rounded-[6rem] bg-white/[0.01] border-4 border-white/5 group-hover/btn:bg-rose-500/30 group-hover/btn:border-rose-500/60 transition-all duration-[2000ms] shadow-inner shadow-3xl group-hover/btn:shadow-[0_100px_200px_rgba(244,63,94,0.7)] relative overflow-hidden">
                            <div className="absolute inset-0 bg-rose-500/10 blur-[30px] opacity-0 group-hover/btn:opacity-100 transition-all" />
-                          <Heart size-[8rem] strokeWidth={0.01} className="group-hover/btn:fill-rose-500 transition-all duration-[2000ms] group-hover/btn:scale-150 group-hover/btn:rotate-[30deg] drop-shadow-3xl relative z-10" />
+                          <Heart size={128} strokeWidth={0.01} className="group-hover/btn:fill-rose-500 transition-all duration-[2000ms] group-hover/btn:scale-150 group-hover/btn:rotate-[30deg] drop-shadow-3xl relative z-10" />
                         </div>
                         <span className="text-[24px] font-black uppercase tracking-[1.5em] italic drop-shadow-2xl">Resonate</span>
                       </button>
                       <button className="flex items-center gap-16 text-gray-950 hover:text-blue-500 transition-all duration-[2000ms] group/btn">
                         <div className="p-24 rounded-[6rem] bg-white/[0.01] border-4 border-white/5 group-hover/btn:bg-blue-500/30 group-hover/btn:border-blue-500/60 transition-all duration-[2000ms] shadow-inner shadow-3xl group-hover/btn:shadow-[0_100px_200px_rgba(59,130,246,0.7)] relative overflow-hidden">
                            <div className="absolute inset-0 bg-blue-500/10 blur-[30px] opacity-0 group-hover/btn:opacity-100 transition-all" />
-                          <MessageCircle size-[8rem] strokeWidth={0.01} className="group-hover/btn:scale-150 transition-all duration-[2000ms] group-hover/btn:-rotate-[30deg] drop-shadow-3xl relative z-10" />
+                          <MessageCircle size={128} strokeWidth={0.01} className="group-hover/btn:scale-150 transition-all duration-[2000ms] group-hover/btn:-rotate-[30deg] drop-shadow-3xl relative z-10" />
                         </div>
                         <span className="text-[24px] font-black uppercase tracking-[1.5em] italic drop-shadow-2xl">Echo</span>
                       </button>

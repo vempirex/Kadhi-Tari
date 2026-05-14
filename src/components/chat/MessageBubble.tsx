@@ -28,7 +28,7 @@ export default function MessageBubble({ message, isMe }: MessageBubbleProps) {
           <span className="text-[14px] font-black uppercase tracking-[1em] text-gray-950">
             {isMe ? 'Sent by you' : 'Partner Resonance'}
           </span>
-          <Sparkles size-[2.5rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
+          <Sparkles size={40} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
         </div>
 
         <div className={twMerge(
@@ -56,7 +56,7 @@ export default function MessageBubble({ message, isMe }: MessageBubbleProps) {
               className="p-8 rounded-full bg-black/95 backdrop-blur-[200px] border-4 border-white/10 text-rose-500 shadow-3xl cursor-pointer shadow-inner relative group"
             >
                <div className="absolute inset-0 bg-rose-500/10 blur-[20px] opacity-0 group-hover:opacity-100 transition-all" />
-              <Heart size-[4.5rem] fill="currentColor" className="drop-shadow-3xl relative z-10" strokeWidth={0.05} />
+              <Heart size={72} fill="currentColor" className="drop-shadow-3xl relative z-10" strokeWidth={0.05} />
             </motion.div>
           </div>
         </div>
@@ -71,8 +71,8 @@ export default function MessageBubble({ message, isMe }: MessageBubbleProps) {
           </span>
           {isMe && (
             <div className="flex items-center gap-8">
-              <Fingerprint size-[3.5rem] strokeWidth={1} className="text-gray-950 opacity-20 drop-shadow-3xl" />
-              <CheckCheck size-[4.5rem] strokeWidth={0.5} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", message.is_read ? "text-rose-500" : "text-gray-950")} />
+              <Fingerprint size={56} strokeWidth={1} className="text-gray-950 opacity-20 drop-shadow-3xl" />
+              <CheckCheck size={72} strokeWidth={0.5} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", message.is_read ? "text-rose-500" : "text-gray-950")} />
             </div>
           )}
         </div>

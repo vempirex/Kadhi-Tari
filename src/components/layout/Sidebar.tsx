@@ -26,7 +26,7 @@ export default function Sidebar() {
       
       <div className="space-y-16">
         <div className="flex items-center gap-8 px-12 opacity-30 italic">
-          <History size-[3rem] strokeWidth={1} className="text-gray-950" />
+          <History size={48} strokeWidth={1} className="text-gray-950" />
           <p className="text-[14px] font-black text-gray-950 uppercase tracking-[1em]">Universe</p>
         </div>
         <div className="space-y-8">
@@ -38,7 +38,7 @@ export default function Sidebar() {
 
       <div className="space-y-16">
         <div className="flex items-center gap-8 px-12 opacity-30 italic">
-          <Zap size-[3rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
+          <Zap size={48} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
           <p className="text-[14px] font-black text-gray-950 uppercase tracking-[1em]">Resonance</p>
         </div>
         <div className="space-y-8">
@@ -55,7 +55,7 @@ export default function Sidebar() {
             className="flex items-center gap-12 px-12 py-10 rounded-[5rem] text-gray-950 hover:text-white bg-black/50 hover:bg-white/[0.05] transition-all duration-[1500ms] group border-4 border-transparent hover:border-white/10 shadow-inner italic"
           >
             <div className="p-6 rounded-[3rem] bg-white/[0.01] border-2 border-white/5 group-hover:rotate-[180deg] group-hover:scale-125 transition-all duration-[2000ms] shadow-3xl">
-              <Settings size-[4rem] strokeWidth={1} className="drop-shadow-3xl" />
+              <Settings size={64} strokeWidth={1} className="drop-shadow-3xl" />
             </div>
             <span className="text-[16px] font-black uppercase tracking-[0.5em] italic">Sanctuary Config</span>
           </Link>
@@ -80,7 +80,7 @@ function SidebarItem({ item, isActive }: { item: any, isActive: boolean }) {
         "relative z-10 transition-all duration-[1500ms] p-6 rounded-[3.5rem]",
         isActive ? "bg-rose-500/25 scale-125 rotate-[20deg] shadow-[0_50px_100px_rgba(244,63,94,0.6)]" : "group-hover:scale-125 group-hover:bg-white/15 group-hover:rotate-12"
       )}>
-        <item.icon size-[4.5rem] strokeWidth={isActive ? 1.5 : 0.5} className="drop-shadow-3xl" />
+        <item.icon size={72} strokeWidth={isActive ? 1.5 : 0.5} className="drop-shadow-3xl" />
       </div>
       <span className={twMerge(
         "text-[18px] font-black uppercase tracking-[0.5em] relative z-10 transition-all duration-[1500ms]",
@@ -94,7 +94,7 @@ function SidebarItem({ item, isActive }: { item: any, isActive: boolean }) {
             className="absolute left-0 top-1/2 -translate-y-1/2 w-[6px] h-16 bg-rose-500 rounded-r-full shadow-[0_0_50px_rgba(244,63,94,1)]"
           />
           <div className="absolute right-12 opacity-30 scale-150 group-hover:opacity-100 transition-all duration-1000">
-            <Sparkles size-[3rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
+            <Sparkles size={48} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
           </div>
         </>
       )}

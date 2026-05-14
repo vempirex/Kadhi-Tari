@@ -103,7 +103,7 @@ export default function Jokes() {
           <div className="col-span-full flex flex-col items-center justify-center py-[25rem] gap-20">
             <div className="relative">
               <div className="w-32 h-32 rounded-[4.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-              <Heart size-[6rem] strokeWidth={0.1} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
+              <Heart size={96} strokeWidth={0.1} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
             </div>
             <p className="text-[14px] text-gray-800 font-black uppercase tracking-[1.2em] animate-pulse italic">Syncing Shared Frequencies...</p>
           </div>
@@ -114,7 +114,7 @@ export default function Jokes() {
             className="col-span-full text-center py-[25rem] space-y-32 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)] rounded-[8rem] shadow-inner"
           >
             <div className="p-48 bg-rose-500/[0.03] rounded-[9rem] w-fit text-rose-500/5 border-2 border-rose-500/10 shadow-inner group-hover:scale-125 transition-all duration-[8s]">
-              <Laugh size-[30rem] strokeWidth={0.1} className="drop-shadow-3xl" />
+              <Laugh size={480} strokeWidth={0.1} className="drop-shadow-3xl" />
             </div>
             <div className="space-y-16 px-24">
               <h2 className="text-8xl sm:text-[12rem] font-serif text-white/90 tracking-tighter italic leading-none">Silent Corridors</h2>
@@ -126,7 +126,7 @@ export default function Jokes() {
               onClick={() => setIsModalOpen(true)} 
               className="rounded-[6rem] px-32 py-20 text-6xl h-auto group border-none shadow-[0_100px_200px_rgba(244,63,94,0.6)]"
             >
-              Seal First Artifact <Plus size-[6rem] strokeWidth={0.1} className="ml-16 group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+              Seal First Artifact <Plus size={96} strokeWidth={0.1} className="ml-16 group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
             </Button>
           </motion.div>
         ) : (
@@ -145,13 +145,13 @@ export default function Jokes() {
                   className="p-16 sm:p-48 relative overflow-hidden group hover:border-rose-500/60 transition-all duration-[2000ms] cursor-pointer active:scale-[0.96] bg-white/[0.01] backdrop-blur-[120px] shadow-[0_150px_350px_rgba(0,0,0,1)] rounded-[7rem] shadow-inner"
                 >
                   <div className="absolute top-0 right-0 p-32 opacity-[0.01] group-hover:opacity-[0.1] group-hover:scale-150 group-hover:rotate-[30deg] transition-all duration-[5000ms] text-rose-500 pointer-events-none">
-                    <Icon size-[50rem] strokeWidth={0.05} />
+                    <Icon size={800} strokeWidth={0.05} />
                   </div>
 
                   <div className="space-y-24 relative z-10">
                     <div className="flex items-center gap-12">
                       <div className={twMerge("px-20 py-8 rounded-full border-2 border-white/5 text-[18px] font-black uppercase tracking-[0.8em] flex items-center gap-10 shadow-inner italic shadow-3xl", tag.bg, tag.color)}>
-                        <tag.icon size-[4rem] strokeWidth={1} className="drop-shadow-2xl" />
+                        <tag.icon size={64} strokeWidth={1} className="drop-shadow-2xl" />
                         {joke.tag}
                       </div>
                     </div>
@@ -164,10 +164,10 @@ export default function Jokes() {
                   {/* Decorative Footnote */}
                   <div className="mt-[4rem] pt-16 border-t-4 border-white/5 flex items-center justify-between opacity-10 group-hover:opacity-60 transition-all duration-[1500ms] italic">
                     <div className="flex items-center gap-10 text-[18px] font-black uppercase tracking-[1.2em] text-gray-950">
-                      <Fingerprint size-[4rem] strokeWidth={1} />
+                      <Fingerprint size={64} strokeWidth={1} />
                       <span>Encrypted Artifact</span>
                     </div>
-                    <Sparkles size-[4rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-2xl" />
+                    <Sparkles size={64} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-2xl" />
                   </div>
                 </Card>
               </motion.div>
@@ -200,7 +200,7 @@ export default function Jokes() {
                 <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-16">
                     <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[1.5em] text-[18px] mb-10 italic">
-                      <Shield size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+                      <Shield size={64} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
                       Archive Transmission
                     </div>
                     <h2 className="text-8xl sm:text-[13rem] font-serif text-white tracking-tighter leading-none italic">Record an Artifact</h2>
@@ -210,7 +210,7 @@ export default function Jokes() {
                     onClick={() => setIsModalOpen(false)} 
                     className="p-16 text-gray-800 hover:text-white hover:bg-white/15 rounded-[5rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]"
                   >
-                    <X size-[10rem] strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+                    <X size={160} strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
                   </button>
                 </div>
 
@@ -249,7 +249,7 @@ export default function Jokes() {
                               : "bg-white/[0.01] border-white/5 text-gray-950 hover:bg-white/[0.08] hover:border-white/40 hover:text-gray-800"
                           )}
                         >
-                          <t.icon size-[10rem] strokeWidth={0.05} className="group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[1500ms] relative z-10 drop-shadow-2xl fill-current" />
+                          <t.icon size={160} strokeWidth={0.05} className="group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[1500ms] relative z-10 drop-shadow-2xl fill-current" />
                           <span className="text-[18px] font-black uppercase tracking-[1em] leading-tight italic relative z-10">{t.label}</span>
                         </button>
                       ))}
@@ -265,7 +265,7 @@ export default function Jokes() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[1500ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-24 italic">
-                      <Send size-[10rem] strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-20 group-hover/submit:-translate-y-20 transition-all duration-[2500ms] drop-shadow-3xl" />
+                      <Send size={160} strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-20 group-hover/submit:-translate-y-20 transition-all duration-[2500ms] drop-shadow-3xl" />
                       Transmit to Vault
                     </span>
                   </Button>

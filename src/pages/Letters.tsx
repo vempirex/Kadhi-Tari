@@ -101,7 +101,7 @@ export default function Letters() {
       <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-16 px-6 sm:px-0 relative z-30">
         <div className="space-y-12 text-center sm:text-left relative z-10">
           <div className="flex items-center justify-center sm:justify-start gap-8 text-rose-500 font-black uppercase tracking-[1em] text-[16px] mb-6 italic">
-            <Quote size-[3.5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+            <Quote size={56} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
             Soul Correspondence
           </div>
           <h1 className="text-7xl sm:text-[11rem] font-serif glow-text leading-[0.85] tracking-tighter italic">Letter Vault</h1>
@@ -117,7 +117,7 @@ export default function Letters() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
           <span className="relative z-10 flex items-center gap-16 text-[5rem] tracking-tighter italic">
-            <Feather size-[6rem] strokeWidth={1} className="group-hover:rotate-[25deg] group-hover:scale-125 transition-all duration-[1500ms] drop-shadow-3xl fill-current" />
+            <Feather size={96} strokeWidth={1} className="group-hover:rotate-[25deg] group-hover:scale-125 transition-all duration-[1500ms] drop-shadow-3xl fill-current" />
             <span>Archive Whisper</span>
           </span>
         </Button>
@@ -133,10 +133,10 @@ export default function Letters() {
             <Card className="py-72 text-center space-y-32 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)] shadow-inner rounded-[9rem] max-w-7xl mx-auto">
               <div className="relative">
                 <div className="p-48 bg-rose-500/[0.03] rounded-[10rem] text-rose-500/5 border-4 border-rose-500/10 shadow-inner group-hover:scale-125 transition-all duration-[8s]">
-                  <MailOpen size-[35rem] strokeWidth={0.05} className="drop-shadow-3xl" />
+                  <MailOpen size={560} strokeWidth={0.05} className="drop-shadow-3xl" />
                 </div>
                 <div className="absolute -top-24 -right-24 p-20 rounded-[5rem] bg-[#050506] border-4 border-white/10 shadow-[0_80px_200px_rgba(0,0,0,1)]">
-                  <Star size-[10rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+                  <Star size={160} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                 </div>
               </div>
               <div className="space-y-16 px-24">
@@ -149,7 +149,7 @@ export default function Letters() {
                 onClick={() => setIsWriteModalOpen(true)} 
                 className="rounded-[6rem] px-[6rem] py-20 text-[7rem] italic tracking-tighter group h-auto border-none shadow-[0_120px_250px_rgba(244,63,94,0.7)]"
               >
-                Pen First Letter <Plus size-[10rem] strokeWidth={0.05} className="ml-16 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
+                Pen First Letter <Plus size={160} strokeWidth={0.05} className="ml-16 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
               </Button>
             </Card>
           </motion.div>
@@ -178,10 +178,10 @@ export default function Letters() {
                       <div className="flex justify-between items-start">
                         <div className={twMerge("p-24 rounded-[7rem] transition-all duration-[1500ms] group-hover:scale-125 shadow-inner border-4 border-white/5", cat.color, "bg-white/[0.01] relative overflow-hidden")}>
                            <div className="absolute inset-0 bg-current opacity-10 blur-[30px]" />
-                          <cat.icon size-[12rem] strokeWidth={0.05} className="group-hover:rotate-[25deg] transition-all duration-[1500ms] drop-shadow-[0_0_100px_currentColor] fill-current" />
+                          <cat.icon size={192} strokeWidth={0.05} className="group-hover:rotate-[25deg] transition-all duration-[1500ms] drop-shadow-[0_0_100px_currentColor] fill-current" />
                         </div>
                         <div className="p-20 rounded-[5rem] bg-white/[0.01] text-gray-950 group-hover:text-rose-500 group-hover:bg-rose-500/25 transition-all border-4 border-white/10 duration-[1500ms] shadow-inner shadow-3xl">
-                          <Mail size-[10rem] strokeWidth={0.05} className="drop-shadow-3xl" />
+                          <Mail size={160} strokeWidth={0.05} className="drop-shadow-3xl" />
                         </div>
                       </div>
                       
@@ -191,7 +191,7 @@ export default function Letters() {
                           <div className="flex items-center gap-12 group/author">
                             <div className="w-[8rem] h-[8rem] rounded-full bg-rose-500/20 border-4 border-rose-500/40 flex items-center justify-center shadow-inner relative overflow-hidden">
                                <div className="absolute inset-0 bg-rose-500/20 blur-[20px]" />
-                              <Heart size-[4.5rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl relative z-10" />
+                              <Heart size={72} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl relative z-10" />
                             </div>
                             <span className="text-[20px] text-rose-500 font-black uppercase tracking-[0.8em] italic drop-shadow-2xl">
                               {letter.profiles?.display_name?.split(' ')[0] || letter.profiles?.username}
@@ -213,7 +213,7 @@ export default function Letters() {
                     
                     {/* Decorative Watermark */}
                     <div className="absolute -bottom-80 -right-80 opacity-[0.01] group-hover:opacity-[0.12] transition-all pointer-events-none duration-[10000ms] group-hover:scale-150 transform group-hover:-rotate-[45deg] text-white">
-                      <Mail size-[70rem] strokeWidth={0.01} />
+                      <Mail size={1120} strokeWidth={0.01} />
                     </div>
                   </Card>
                 </motion.div>
@@ -247,7 +247,7 @@ export default function Letters() {
                 <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-16">
                     <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[1.5em] text-[18px] mb-10 italic">
-                      <Feather size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+                      <Feather size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
                       Seal a Whisper
                     </div>
                     <h2 className="text-8xl sm:text-[14rem] font-serif text-white tracking-tighter leading-none italic">New Transmission</h2>
@@ -257,7 +257,7 @@ export default function Letters() {
                     onClick={() => setIsWriteModalOpen(false)} 
                     className="p-16 text-gray-800 hover:text-white hover:bg-white/15 rounded-[5rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]"
                   >
-                    <X size-[10rem] strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+                    <X size={160} strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
                   </button>
                 </div>
 
@@ -277,7 +277,7 @@ export default function Letters() {
                           )}
                         >
                           <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover/cat-btn:opacity-100 transition-all duration-[1500ms]" />
-                          <cat.icon size-[10rem] strokeWidth={0.05} className="group-hover/cat-btn:scale-125 group-hover/cat-btn:rotate-[30deg] transition-all duration-[1500ms] relative z-10 shadow-2xl drop-shadow-3xl fill-current" />
+                          <cat.icon size={160} strokeWidth={0.05} className="group-hover/cat-btn:scale-125 group-hover/cat-btn:rotate-[30deg] transition-all duration-[1500ms] relative z-10 shadow-2xl drop-shadow-3xl fill-current" />
                           <span className="text-[18px] font-black uppercase tracking-[1em] relative z-10 italic leading-none">{cat.label}</span>
                         </button>
                       ))}
@@ -303,7 +303,7 @@ export default function Letters() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-[4rem] italic">
-                      <SendHorizonal size-[12rem] strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
+                      <SendHorizonal size={192} strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
                       Seal into Vault
                     </span>
                   </Button>
@@ -337,14 +337,14 @@ export default function Letters() {
                 onClick={() => setSelectedLetter(null)} 
                 className="absolute top-48 right-48 p-24 text-black/10 hover:text-rose-950 transition-all hover:scale-150 hover:rotate-[180deg] duration-[2500ms] group"
               >
-                <X size-[20rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                <X size={320} strokeWidth={0.01} className="drop-shadow-3xl" />
               </button>
 
               <div className="relative z-10 space-y-[12rem] font-handwritten italic text-[#2c1810]">
                 <div className="space-y-24">
                   <div className="flex items-center gap-24 text-rose-950/20 mb-24">
                      <div className="w-[20rem] h-[8px] bg-current shadow-inner rounded-full" />
-                     <Fingerprint size-[10rem] strokeWidth={1} className="drop-shadow-2xl" />
+                     <Fingerprint size={160} strokeWidth={1} className="drop-shadow-2xl" />
                      <div className="w-[20rem] h-[8px] bg-current shadow-inner rounded-full" />
                   </div>
                   <p className="text-[15rem] sm:text-[30rem] text-[#1a0f0a] leading-none tracking-tighter drop-shadow-3xl selection:bg-rose-950 selection:text-white">Dearest,</p>
@@ -364,7 +364,7 @@ export default function Letters() {
                   <div className="relative group/stamp">
                     <div className="w-[50rem] h-[50rem] sm:w-[70rem] sm:h-[70rem] rounded-full border-[30px] sm:border-[60px] border-dashed border-rose-950/10 flex items-center justify-center rotate-15 group-hover/stamp:rotate-[90deg] transition-all duration-[8000ms] relative shadow-inner">
                         <div className="absolute inset-0 bg-rose-950/5 blur-[40px]" />
-                       <Heart size-[55rem] className="text-rose-950/15 fill-rose-950/10 drop-shadow-[0_0_150px_rgba(0,0,0,0.1)]" strokeWidth={0.01} />
+                       <Heart size={880} className="text-rose-950/15 fill-rose-950/10 drop-shadow-[0_0_150px_rgba(0,0,0,0.1)]" strokeWidth={0.01} />
                        <div className="absolute inset-0 flex items-center justify-center">
                           <p className="text-rose-950/20 font-black uppercase tracking-[1em] text-[22px] -rotate-45 drop-shadow-2xl">Sanctuary Seal</p>
                        </div>

@@ -86,7 +86,7 @@ export default function Playlist() {
       <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-16 px-6 sm:px-0 relative z-30">
         <div className="space-y-12 text-center sm:text-left relative z-10">
           <div className="flex items-center justify-center sm:justify-start gap-8 text-rose-500 font-black uppercase tracking-[1em] text-[16px] mb-6 italic">
-            <Radio size-[3.5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+            <Radio size={56} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
             Sonic Resonances
           </div>
           <h1 className="text-7xl sm:text-[11rem] font-serif glow-text leading-[0.85] tracking-tighter italic">Our Playlist</h1>
@@ -102,7 +102,7 @@ export default function Playlist() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
           <span className="relative z-10 flex items-center gap-16 text-[5rem] tracking-tighter italic">
-            <Plus size-[6rem] strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+            <Plus size={96} strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
             <span>Add Anthem</span>
           </span>
         </Button>
@@ -112,7 +112,7 @@ export default function Playlist() {
         <div className="flex flex-col items-center justify-center py-[25rem] gap-24">
           <div className="relative">
             <div className="w-32 h-32 rounded-[4.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-            <Zap size-[8rem] strokeWidth={1} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse drop-shadow-3xl" />
+            <Zap size={128} strokeWidth={1} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse drop-shadow-3xl" />
           </div>
           <p className="text-[18px] text-gray-800 font-black uppercase tracking-[1.2em] animate-pulse italic">Syncing Sonic Frequencies...</p>
         </div>
@@ -177,12 +177,12 @@ export default function Playlist() {
                 <div className="flex-1 space-y-48 text-center lg:text-left w-full relative">
                   <div className="space-y-24">
                     <div className="flex items-center justify-center lg:justify-start gap-12 text-rose-500 font-black uppercase tracking-[1.5em] text-[22px] mb-12 italic">
-                      <Zap size-[6rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+                      <Zap size={96} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                       Primary Signal Active
                     </div>
                     <h2 className="text-8xl sm:text-[18rem] font-serif text-white group-hover:text-rose-400 transition-all duration-[4000ms] leading-[0.85] tracking-tighter italic selection:bg-rose-500/40 drop-shadow-3xl">{currentSong.title}</h2>
                     <div className="flex items-center justify-center lg:justify-start gap-24 opacity-30">
-                      <Mic2 size-[12rem] strokeWidth={0.05} className="text-gray-950" />
+                      <Mic2 size={192} strokeWidth={0.05} className="text-gray-950" />
                       <p className="text-7xl sm:text-[12rem] font-handwritten text-gray-950 italic tracking-tighter selection:bg-rose-500/40 leading-none">{currentSong.artist}</p>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ export default function Playlist() {
                   <div className="space-y-64 max-w-7xl mx-auto lg:mx-0">
                     <div className="flex items-center justify-center lg:justify-start gap-32 sm:gap-[20rem]">
                       <button className="p-20 text-gray-950 hover:text-white transition-all duration-[1500ms] active:scale-[2.5] hover:scale-150 hover:rotate-[-45deg] shadow-3xl rounded-full group">
-                         <SkipBack size-[18rem] strokeWidth={0.01} fill="currentColor" className="drop-shadow-3xl group-hover:text-rose-500 transition-all" />
+                         <SkipBack size={288} strokeWidth={0.01} fill="currentColor" className="drop-shadow-3xl group-hover:text-rose-500 transition-all" />
                       </button>
                       <motion.button 
                         onClick={() => setIsPlaying(!isPlaying)}
@@ -207,13 +207,13 @@ export default function Playlist() {
                       >
                         <div className="absolute inset-0 bg-gradient-to-tr from-black/[0.3] to-transparent opacity-0 group-hover/play:opacity-100 transition-all duration-[2000ms]" />
                         {isPlaying ? (
-                          <Pause size-[15rem] strokeWidth={1} fill="currentColor" className="relative z-10 transition-all duration-[2000ms] drop-shadow-3xl" />
+                          <Pause size={240} strokeWidth={1} fill="currentColor" className="relative z-10 transition-all duration-[2000ms] drop-shadow-3xl" />
                         ) : (
-                          <Play size-[15rem] strokeWidth={1} fill="currentColor" className="ml-24 relative z-10 transition-all duration-[2000ms] group-hover/play:scale-125 group-hover/play:rotate-[20deg] drop-shadow-3xl" />
+                          <Play size={240} strokeWidth={1} fill="currentColor" className="ml-24 relative z-10 transition-all duration-[2000ms] group-hover/play:scale-125 group-hover/play:rotate-[20deg] drop-shadow-3xl" />
                         )}
                       </motion.button>
                       <button className="p-20 text-gray-950 hover:text-white transition-all duration-[1500ms] active:scale-[2.5] hover:scale-150 hover:rotate-[45deg] shadow-3xl rounded-full group">
-                        <SkipForward size-[18rem] strokeWidth={0.01} fill="currentColor" className="drop-shadow-3xl group-hover:text-rose-500 transition-all" />
+                        <SkipForward size={288} strokeWidth={0.01} fill="currentColor" className="drop-shadow-3xl group-hover:text-rose-500 transition-all" />
                       </button>
                     </div>
 
@@ -232,7 +232,7 @@ export default function Playlist() {
                       <div className="flex justify-between text-[26px] font-black uppercase tracking-[1.5em] text-gray-950 italic drop-shadow-2xl">
                         <span className="text-rose-500 drop-shadow-2xl">02:14</span>
                         <div className="flex items-center gap-12 opacity-30 group-hover:opacity-100 transition-all duration-1000">
-                           <Fingerprint size-[4rem] strokeWidth={1} className="drop-shadow-3xl" />
+                           <Fingerprint size={64} strokeWidth={1} className="drop-shadow-3xl" />
                            <span>Sync Active</span>
                         </div>
                         <span>05:42</span>
@@ -240,10 +240,10 @@ export default function Playlist() {
                     </div>
                     
                     <div className="flex items-center justify-center lg:justify-start gap-[15rem] pt-24 opacity-30 group-hover:opacity-100 transition-all duration-2000">
-                       <Shuffle size-[7rem] strokeWidth={0.1} className="hover:text-rose-500 cursor-pointer transition-all duration-[2000ms] hover:scale-150 hover:rotate-[30deg] drop-shadow-3xl" />
-                       <Repeat size-[7rem] strokeWidth={0.1} className="hover:text-rose-500 cursor-pointer transition-all duration-[2000ms] hover:scale-150 hover:rotate-[30deg] drop-shadow-3xl" />
+                       <Shuffle size={112} strokeWidth={0.1} className="hover:text-rose-500 cursor-pointer transition-all duration-[2000ms] hover:scale-150 hover:rotate-[30deg] drop-shadow-3xl" />
+                       <Repeat size={112} strokeWidth={0.1} className="hover:text-rose-500 cursor-pointer transition-all duration-[2000ms] hover:scale-150 hover:rotate-[30deg] drop-shadow-3xl" />
                        <div className="flex items-center gap-24 group/vol w-full max-w-[45rem]">
-                         <Volume2 size-[7rem] strokeWidth={0.1} className="group-hover/vol:text-rose-500 transition-all duration-[2000ms] group-hover/vol:scale-125 drop-shadow-3xl" />
+                         <Volume2 size={112} strokeWidth={0.1} className="group-hover/vol:text-rose-500 transition-all duration-[2000ms] group-hover/vol:scale-125 drop-shadow-3xl" />
                          <div className="w-full h-6 bg-white/[0.01] rounded-full shadow-inner overflow-hidden border-4 border-white/5 relative group/vol-bar cursor-pointer">
                            <div className="w-2/3 h-full bg-gradient-to-r from-white/20 to-rose-500/40 rounded-full shadow-inner" />
                          </div>
@@ -261,7 +261,7 @@ export default function Playlist() {
               <div className="flex items-center gap-24">
                 <div className="p-20 rounded-[7rem] bg-white/[0.01] text-rose-500 border-4 border-white/5 shadow-inner relative overflow-hidden group shadow-[0_120px_250px_rgba(0,0,0,1)]">
                   <div className="absolute inset-0 bg-rose-500/25 opacity-0 group-hover:opacity-100 transition-all duration-[2500ms]" />
-                  <History size-[12rem] strokeWidth={0.05} className="animate-spin-slow relative z-10 drop-shadow-3xl" />
+                  <History size={192} strokeWidth={0.05} className="animate-spin-slow relative z-10 drop-shadow-3xl" />
                 </div>
                 <div className="space-y-12">
                   <h2 className="text-8xl sm:text-[11rem] font-serif text-white tracking-tighter leading-none italic drop-shadow-3xl">The Sonic Archive</h2>
@@ -269,7 +269,7 @@ export default function Playlist() {
                 </div>
               </div>
               <div className="flex items-center gap-32 text-[22px] text-gray-950 font-black uppercase tracking-[1.5em] bg-white/[0.01] px-48 py-20 rounded-[5rem] border-4 border-white/5 backdrop-blur-[150px] shadow-[0_100px_200px_rgba(0,0,0,1)] shadow-inner italic shadow-3xl">
-                <span className="flex items-center gap-12 text-rose-500 drop-shadow-2xl"><Zap size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" /> Linked Archive</span>
+                <span className="flex items-center gap-12 text-rose-500 drop-shadow-2xl"><Zap size={64} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" /> Linked Archive</span>
                 <span className="w-8 h-8 rounded-full bg-gray-950 shadow-inner" />
                 <span className="text-gray-950 opacity-40 group-hover:opacity-100 transition-all">{songs.length} Transmissions</span>
               </div>
@@ -285,10 +285,10 @@ export default function Playlist() {
                   <Card className="py-[35rem] text-center space-y-48 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] shadow-[0_250px_600px_rgba(0,0,0,1)] backdrop-blur-[200px] shadow-inner rounded-[10rem] max-w-7xl mx-auto">
                     <div className="relative">
                       <div className="p-64 bg-rose-500/[0.05] rounded-[12rem] text-rose-500/10 border-4 border-rose-500/15 shadow-inner group-hover:scale-125 transition-all duration-[10s]">
-                        <Music size-[40rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                        <Music size={640} strokeWidth={0.01} className="drop-shadow-3xl" />
                       </div>
                       <div className="absolute -top-32 -right-32 p-32 rounded-[7rem] bg-[#050506] border-8 border-white/10 shadow-[0_120px_250px_rgba(0,0,0,1)]">
-                        <Sparkles size-[12rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+                        <Sparkles size={192} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                       </div>
                     </div>
                     <div className="space-y-24 px-32">
@@ -301,7 +301,7 @@ export default function Playlist() {
                       onClick={() => setIsModalOpen(true)} 
                       className="rounded-[8rem] px-[8rem] py-24 text-[8rem] h-auto group border-none shadow-[0_150px_350px_rgba(244,63,94,0.7)]"
                     >
-                      Initialize Archive <Plus size-[10rem] strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
+                      Initialize Archive <Plus size={160} strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
                     </Button>
                   </Card>
                 </motion.div>
@@ -322,22 +322,22 @@ export default function Playlist() {
                          <div className="absolute inset-0 bg-white/15 blur-[40px] opacity-0 group-hover/list-cover:opacity-100 transition-all duration-[2000ms]" />
                         <img src={song.cover_url} alt="Cover" className="w-full h-full object-cover group-hover:scale-150 transition-all duration-[12000ms] grayscale-[0.7] group-hover:grayscale-0 brightness-[0.7] group-hover:brightness-[1]" />
                         <div className="absolute inset-0 bg-rose-950/95 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms] flex items-center justify-center backdrop-blur-[60px]">
-                          <Play size-[12rem] fill="currentColor" className="text-white scale-[0.3] group-hover:scale-100 transition-all duration-[2000ms] drop-shadow-3xl" />
+                          <Play size={192} fill="currentColor" className="text-white scale-[0.3] group-hover:scale-100 transition-all duration-[2000ms] drop-shadow-3xl" />
                         </div>
                       </div>
                       <div className="flex-1 min-w-0 space-y-16 relative z-10">
                         <p className="font-serif text-[10rem] text-white truncate group-hover:text-rose-400 transition-all duration-[2000ms] leading-none tracking-tighter italic selection:bg-rose-500/40 drop-shadow-3xl">{song.title}</p>
                         <div className="flex items-center gap-16 opacity-30 italic leading-none">
-                          <Mic2 size-[6rem] strokeWidth={0.05} className="text-gray-950" />
+                          <Mic2 size={96} strokeWidth={0.05} className="text-gray-950" />
                           <p className="text-[8rem] text-gray-950 font-handwritten truncate selection:bg-rose-500/40 leading-none drop-shadow-2xl">{song.artist}</p>
                         </div>
                       </div>
                       <div className="flex flex-col gap-16 shrink-0 relative z-10">
                         <button className="p-20 rounded-[5rem] bg-white/[0.01] text-gray-950 hover:text-rose-500 hover:bg-rose-500/30 transition-all duration-[2000ms] border-4 border-white/5 active:scale-[5] group/heart shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]">
-                          <Heart size-[7rem] strokeWidth={0.1} className="group-hover/heart:fill-current transition-all duration-[2000ms] drop-shadow-3xl" />
+                          <Heart size={112} strokeWidth={0.1} className="group-hover/heart:fill-current transition-all duration-[2000ms] drop-shadow-3xl" />
                         </button>
                         <button className="p-20 rounded-[5rem] bg-white/[0.01] text-gray-950 hover:text-blue-500 hover:bg-blue-500/30 transition-all duration-[2000ms] border-4 border-white/5 active:scale-[5] shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]">
-                          <Share2 size-[7rem] strokeWidth={0.1} className="drop-shadow-3xl" />
+                          <Share2 size={112} strokeWidth={0.1} className="drop-shadow-3xl" />
                         </button>
                       </div>
                     </Card>
@@ -373,7 +373,7 @@ export default function Playlist() {
                 <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-16">
                     <div className="flex items-center gap-12 text-rose-500 font-black uppercase tracking-[1.5em] text-[18px] mb-10 italic">
-                      <Zap size-[5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
+                      <Zap size={80} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-2xl" />
                       Seal an Anthem
                     </div>
                     <h2 className="text-8xl sm:text-[14rem] font-serif text-white tracking-tighter leading-none italic">Link a Rhythm</h2>
@@ -383,7 +383,7 @@ export default function Playlist() {
                     onClick={() => setIsModalOpen(false)} 
                     className="p-16 text-gray-800 hover:text-white hover:bg-white/15 rounded-[5rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_60px_120px_rgba(0,0,0,1)]"
                   >
-                    <X size-[10rem] strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
+                    <X size={160} strokeWidth={0.1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms]" />
                   </button>
                 </div>
 
@@ -392,7 +392,7 @@ export default function Playlist() {
                     <div className="space-y-16">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[1.5em] px-16 italic">Song Title</label>
                       <div className="relative group/song">
-                        <Music className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/10 group-focus-within/song:text-rose-500 transition-all duration-[1500ms]" size-[8rem] strokeWidth={0.05} />
+                        <Music className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/10 group-focus-within/song:text-rose-500 transition-all duration-[1500ms]" size={128} strokeWidth={0.05} />
                         <input
                           placeholder="e.g. Perfect, Yellow..."
                           value={newSong.title}
@@ -404,7 +404,7 @@ export default function Playlist() {
                     <div className="space-y-16">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[1.5em] px-16 italic">Vocal Artist</label>
                       <div className="relative group/art">
-                        <Mic2 className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/10 group-focus-within/art:text-blue-500 transition-all duration-[1500ms]" size-[8rem] strokeWidth={0.05} />
+                        <Mic2 className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/10 group-focus-within/art:text-blue-500 transition-all duration-[1500ms]" size={128} strokeWidth={0.05} />
                         <input
                           placeholder="e.g. Coldplay..."
                           value={newSong.artist}
@@ -434,7 +434,7 @@ export default function Playlist() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-[4rem] italic">
-                      <Send size-[12rem] strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
+                      <Send size={192} strokeWidth={0.1} className="rotate-[-30deg] group-hover/submit:translate-x-12 group-hover/submit:-translate-y-12 transition-all duration-[2500ms] drop-shadow-3xl" />
                       Transmit to Archive
                     </span>
                   </Button>

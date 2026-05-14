@@ -125,11 +125,11 @@ export default function EditProfile() {
           onClick={() => navigate(-1)} 
           className="rounded-[5rem] p-24 h-auto aspect-square bg-white/[0.01] hover:bg-white/15 border-4 border-white/5 backdrop-blur-[200px] shadow-3xl shadow-inner group/back transition-all duration-[1500ms] active:scale-[0.5]"
         >
-          <ArrowLeft size-[10rem] strokeWidth={0.01} className="group-hover/back:-translate-x-6 transition-all duration-[1500ms] drop-shadow-3xl" />
+          <ArrowLeft size={160} strokeWidth={0.01} className="group-hover/back:-translate-x-6 transition-all duration-[1500ms] drop-shadow-3xl" />
         </Button>
         <div className="text-center">
           <div className="flex items-center justify-center gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-6 italic">
-            <Sparkles size-[4.5rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+            <Sparkles size={72} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
             Vibe Tuning
           </div>
           <h1 className="text-7xl sm:text-[14rem] font-serif glow-text leading-none tracking-tighter italic drop-shadow-3xl">Refine Essence</h1>
@@ -139,7 +139,7 @@ export default function EditProfile() {
           disabled={isSaving}
           className="rounded-[5rem] p-24 h-auto aspect-square bg-rose-950 shadow-[0_120px_300px_rgba(244,63,94,0.7)] group/save border-none shadow-inner transition-all duration-[1500ms] active:scale-[0.5]"
         >
-          {isSaving ? <Loader2 size-[10rem] className="animate-spin text-white drop-shadow-3xl" strokeWidth={0.01} /> : <Check size-[10rem] strokeWidth={0.01} className="text-white group-hover/save:scale-150 group-hover/save:rotate-[20deg] transition-all duration-[2000ms] drop-shadow-3xl shadow-[0_0_150px_white]" />}
+          {isSaving ? <Loader2 size={160} className="animate-spin text-white drop-shadow-3xl" strokeWidth={0.01} /> : <Check size={160} strokeWidth={0.01} className="text-white group-hover/save:scale-150 group-hover/save:rotate-[20deg] transition-all duration-[2000ms] drop-shadow-3xl shadow-[0_0_150px_white]" />}
         </Button>
       </header>
 
@@ -153,11 +153,11 @@ export default function EditProfile() {
               alt="Cover" 
             />
             <label className="absolute inset-0 flex flex-col items-center justify-center bg-black/85 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms] cursor-pointer backdrop-blur-[150px]">
-              {isUploading === 'cover' ? <Loader2 className="animate-spin text-rose-500" size-[15rem] strokeWidth={0.01} /> : (
+              {isUploading === 'cover' ? <Loader2 className="animate-spin text-rose-500" size={240} strokeWidth={0.01} /> : (
                 <div className="flex flex-col items-center gap-24">
                   <div className="p-32 rounded-[8rem] bg-white/15 border-4 border-white/30 shadow-[0_80px_150px_rgba(0,0,0,1)] scale-90 group-hover:scale-125 group-hover:rotate-[20deg] transition-all duration-[2000ms] shadow-inner overflow-hidden relative">
                      <div className="absolute inset-0 bg-white/20 blur-[40px] opacity-0 group-hover:opacity-100 transition-all" />
-                    <Camera size-[15rem] strokeWidth={0.01} className="text-white drop-shadow-3xl relative z-10" />
+                    <Camera size={240} strokeWidth={0.01} className="text-white drop-shadow-3xl relative z-10" />
                   </div>
                   <span className="text-[26px] text-white font-black uppercase tracking-[2em] italic drop-shadow-3xl">Morph Banner</span>
                 </div>
@@ -179,9 +179,9 @@ export default function EditProfile() {
                   </div>
                 </div>
                 <label className="absolute inset-0 bg-black/90 rounded-[10rem] sm:rounded-[12rem] opacity-0 group-hover/avatar:opacity-100 transition-all duration-[2000ms] flex flex-col items-center justify-center cursor-pointer backdrop-blur-[150px] z-30">
-                  {isUploading === 'avatar' ? <Loader2 className="animate-spin text-rose-500" size-[12rem] strokeWidth={0.01} /> : (
+                  {isUploading === 'avatar' ? <Loader2 className="animate-spin text-rose-500" size={192} strokeWidth={0.01} /> : (
                     <div className="flex flex-col items-center gap-16">
-                      <Camera size-[15rem] strokeWidth={0.01} className="text-white drop-shadow-3xl" />
+                      <Camera size={240} strokeWidth={0.01} className="text-white drop-shadow-3xl" />
                       <span className="text-[24px] text-white font-black uppercase tracking-[1.5em] italic drop-shadow-3xl">Portrait</span>
                     </div>
                   )}
@@ -201,7 +201,7 @@ export default function EditProfile() {
             <div className="flex items-center gap-24 px-16 mb-24 relative z-10">
               <div className="p-24 rounded-[7rem] bg-rose-500/20 border-4 border-rose-500/40 text-rose-500 shadow-inner shadow-3xl relative overflow-hidden group/header-icon">
                  <div className="absolute inset-0 bg-rose-500/10 blur-[30px] opacity-0 group-hover/header-icon:opacity-100 transition-all" />
-                <ShieldCheck size-[10rem] strokeWidth={0.01} className="drop-shadow-3xl fill-current relative z-10" />
+                <ShieldCheck size={160} strokeWidth={0.01} className="drop-shadow-3xl fill-current relative z-10" />
               </div>
               <div className="space-y-16">
                 <h2 className="text-[22px] font-black text-rose-500 uppercase tracking-[2em] italic leading-none drop-shadow-2xl">Sanctuary Registry</h2>
@@ -234,7 +234,7 @@ export default function EditProfile() {
             <div className="flex items-center gap-24 px-16 mb-24 relative z-10">
               <div className="p-24 rounded-[7rem] bg-blue-500/20 border-4 border-blue-500/40 text-blue-500 shadow-inner shadow-3xl relative overflow-hidden group/header-icon">
                   <div className="absolute inset-0 bg-blue-500/10 blur-[30px] opacity-0 group-hover/header-icon:opacity-100 transition-all" />
-                <MessageSquare size-[10rem] strokeWidth={0.01} className="drop-shadow-3xl fill-current relative z-10" />
+                <MessageSquare size={160} strokeWidth={0.01} className="drop-shadow-3xl fill-current relative z-10" />
               </div>
               <div className="space-y-16">
                 <h2 className="text-[22px] font-black text-blue-500 uppercase tracking-[2em] italic leading-none drop-shadow-2xl">Shared Narrative</h2>
@@ -246,7 +246,7 @@ export default function EditProfile() {
               <label className="text-[26px] font-black text-gray-950 uppercase tracking-[2em] px-24 group-focus-within:text-rose-500 transition-all duration-[2000ms] italic leading-none drop-shadow-2xl">Our Collective Saga (Bio)</label>
               <div className="relative">
                 <div className="absolute top-32 left-32 text-gray-950 group-focus-within:text-rose-500/30 transition-all duration-[2000ms] pointer-events-none drop-shadow-3xl">
-                  <MessageSquare size-[12rem] strokeWidth={0.01} className="fill-current" />
+                  <MessageSquare size={192} strokeWidth={0.01} className="fill-current" />
                 </div>
                 <textarea
                   value={formData.bio}
@@ -283,9 +283,9 @@ export default function EditProfile() {
           size="xl"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/final:opacity-100 transition-all duration-[2500ms]" />
-          {isSaving ? <Loader2 className="animate-spin relative z-10 text-white drop-shadow-3xl" size-[15rem] strokeWidth={0.01} /> : (
+          {isSaving ? <Loader2 className="animate-spin relative z-10 text-white drop-shadow-3xl" size={240} strokeWidth={0.01} /> : (
             <>
-              <Check size-[15rem] strokeWidth={0.01} className="relative z-10 group-hover/final:scale-150 group-hover/final:rotate-[25deg] transition-all duration-[2500ms] drop-shadow-3xl shadow-[0_0_150px_white]" />
+              <Check size={240} strokeWidth={0.01} className="relative z-10 group-hover/final:scale-150 group-hover/final:rotate-[25deg] transition-all duration-[2500ms] drop-shadow-3xl shadow-[0_0_150px_white]" />
               <span className="relative z-10 drop-shadow-3xl">Crystalize Changes</span>
             </>
           )}
@@ -301,7 +301,7 @@ function InputField({ label, icon: Icon, value, onChange, placeholder }: { label
       <label className="text-[26px] font-black text-gray-950 uppercase tracking-[2em] px-24 group-focus-within:text-rose-500 transition-all duration-[2000ms] italic leading-none drop-shadow-2xl">{label}</label>
       <div className="relative">
         <div className="absolute top-1/2 -translate-y-1/2 left-24 text-gray-950 group-focus-within:text-rose-500/30 transition-all duration-[2000ms] pointer-events-none drop-shadow-3xl">
-          <Icon size-[10rem] strokeWidth={0.01} className="fill-current" />
+          <Icon size={160} strokeWidth={0.01} className="fill-current" />
         </div>
         <input
           type="text"

@@ -34,15 +34,15 @@ export default function StoryCircle({ story, isAddButton, onClick, isLoading }: 
             className="w-[15rem] h-[15rem] sm:w-[22rem] sm:h-[22rem] rounded-[6rem] border-[6px] border-dashed border-rose-500/15 flex items-center justify-center bg-rose-500/[0.02] group-hover:bg-rose-500/[0.08] group-hover:border-rose-500/60 transition-all duration-[1500ms] shadow-[0_80px_200px_rgba(0,0,0,1)] relative overflow-hidden shadow-inner"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-rose-500/[0.1] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-[1500ms]" />
-            <Plus size-[12rem] className="text-rose-500/20 group-hover:text-rose-500 group-hover:scale-125 group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" strokeWidth={0.01} />
+            <Plus size={192} className="text-rose-500/20 group-hover:text-rose-500 group-hover:scale-125 group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" strokeWidth={0.01} />
           </motion.div>
           <div className="absolute -bottom-4 -right-4 w-[6rem] h-[6rem] rounded-[2.5rem] bg-gradient-to-br from-rose-950 via-rose-500 to-rose-950 flex items-center justify-center text-white shadow-[0_30px_80px_rgba(244,63,94,0.7)] border-[6px] border-[#050506] group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[1500ms] z-20 overflow-hidden">
              <div className="absolute inset-0 bg-white/20 blur-[15px]" />
-            <Camera size-[3.5rem] fill="currentColor" className="opacity-95 relative z-10 drop-shadow-2xl" strokeWidth={0.01} />
+            <Camera size={56} fill="currentColor" className="opacity-95 relative z-10 drop-shadow-2xl" strokeWidth={0.01} />
           </div>
         </button>
         <div className="flex items-center gap-8 opacity-20 group-hover:opacity-100 transition-all duration-[1500ms] scale-90 group-hover:scale-110">
-          <Sparkles size-[3rem] className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
+          <Sparkles size={48} className="text-rose-500 animate-pulse drop-shadow-2xl" strokeWidth={1} />
           <span className="text-[14px] text-gray-950 font-black uppercase tracking-[0.8em] group-hover:text-rose-500 transition-colors italic drop-shadow-3xl">Genesis</span>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default function StoryCircle({ story, isAddButton, onClick, isLoading }: 
         <div className="absolute -bottom-4 -right-4 w-[4rem] h-[4rem] rounded-full bg-rose-500 border-[6px] border-[#050506] shadow-[0_20px_60px_rgba(244,63,94,1)] animate-pulse z-20 shadow-inner" />
       </button>
       <div className="flex items-center gap-6 opacity-30 group-hover:opacity-100 transition-all duration-[1500ms] scale-90 group-hover:scale-110">
-        <Star size-[2.5rem] className="text-gray-950 group-hover:text-rose-500 fill-current drop-shadow-3xl" strokeWidth={0.01} />
+        <Star size={40} className="text-gray-950 group-hover:text-rose-500 fill-current drop-shadow-3xl" strokeWidth={0.01} />
         <span className="text-[14px] text-gray-950 font-black uppercase tracking-[0.5em] truncate w-[15rem] sm:w-[22rem] text-center group-hover:text-rose-500 transition-colors duration-[1500ms] px-2 italic drop-shadow-3xl">
           {story.profiles?.display_name?.split(' ')[0] || story.profiles?.username}
         </span>

@@ -99,7 +99,7 @@ export default function Planner() {
       <header className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-16 px-6 sm:px-0 relative z-30">
         <div className="space-y-12 text-center sm:text-left relative z-10">
           <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-6 italic">
-            <Calendar size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+            <Calendar size={64} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
             Celestial Coordination
           </div>
           <h1 className="text-7xl sm:text-[13rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">Our Roadmap</h1>
@@ -115,7 +115,7 @@ export default function Planner() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
           <span className="relative z-10 flex items-center gap-16 text-[6rem] tracking-tighter italic">
-            <Plus size-[10rem] strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+            <Plus size={160} strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
             <span>New Horizon</span>
           </span>
         </Button>
@@ -131,10 +131,10 @@ export default function Planner() {
             <Card className="py-72 text-center space-y-32 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] backdrop-blur-[150px] shadow-[0_200px_500px_rgba(0,0,0,1)] max-w-7xl mx-auto shadow-inner rounded-[10rem]">
               <div className="relative">
                 <div className="p-48 bg-rose-500/[0.03] rounded-[11rem] text-rose-500/5 border-4 border-rose-500/15 shadow-inner group-hover:scale-125 transition-all duration-[10s]">
-                  <Sparkles size-[35rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                  <Sparkles size={560} strokeWidth={0.01} className="drop-shadow-3xl" />
                 </div>
                 <div className="absolute -top-32 -right-32 p-[4rem] rounded-[7rem] bg-[#050506] border-8 border-white/10 shadow-[0_150px_350px_rgba(0,0,0,1)]">
-                  <Zap size-[12rem] strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+                  <Zap size={192} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                 </div>
               </div>
               <div className="space-y-24 px-32">
@@ -147,7 +147,7 @@ export default function Planner() {
                 onClick={() => setIsModalOpen(true)} 
                 className="rounded-[8rem] px-[8rem] py-24 text-[8rem] h-auto group border-none shadow-[0_150px_350px_rgba(244,63,94,0.7)] leading-none"
               >
-                Manifest First Plan <Plus size-[10rem] strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
+                Manifest First Plan <Plus size={160} strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms]" />
               </Button>
             </Card>
           </motion.div>
@@ -180,7 +180,7 @@ export default function Planner() {
                       )}
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-all duration-[1500ms]" />
-                      {plan.is_completed ? <CheckCircle2 size-[15rem] strokeWidth={0.01} className="relative z-10 drop-shadow-3xl animate-pulse" /> : <Circle size-[15rem] strokeWidth={0.01} className="relative z-10" />}
+                      {plan.is_completed ? <CheckCircle2 size={240} strokeWidth={0.01} className="relative z-10 drop-shadow-3xl animate-pulse" /> : <Circle size={240} strokeWidth={0.01} className="relative z-10" />}
                     </button>
                     
                     <div className="flex-1 space-y-32">
@@ -198,14 +198,14 @@ export default function Planner() {
                       <div className="flex flex-wrap items-center gap-32 sm:gap-48 text-[24px] text-gray-950 font-black uppercase tracking-[1.2em] italic">
                         <div className="flex items-center gap-16 group/info bg-white/[0.01] px-32 py-12 rounded-full border-4 border-white/5 backdrop-blur-[150px] shadow-3xl shadow-inner relative overflow-hidden">
                             <div className="absolute inset-0 bg-rose-500/5 opacity-0 group-hover/info:opacity-100 transition-all" />
-                          <Calendar size-[6rem] strokeWidth={1} className="text-rose-500 animate-pulse drop-shadow-2xl relative z-10" />
+                          <Calendar size={96} strokeWidth={1} className="text-rose-500 animate-pulse drop-shadow-2xl relative z-10" />
                           <span className="group-hover/info:text-white transition-all duration-[2000ms] relative z-10 drop-shadow-2xl">
                             {new Date(plan.plan_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
                         </div>
                         <div className="flex items-center gap-16 group/info bg-white/[0.01] px-32 py-12 rounded-full border-4 border-white/5 backdrop-blur-[150px] shadow-3xl shadow-inner relative overflow-hidden">
                              <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover/info:opacity-100 transition-all" />
-                          <Clock size-[6rem] strokeWidth={1} className="text-blue-500 animate-pulse drop-shadow-2xl relative z-10" />
+                          <Clock size={96} strokeWidth={1} className="text-blue-500 animate-pulse drop-shadow-2xl relative z-10" />
                           <span className="group-hover/info:text-white transition-all duration-[2000ms] relative z-10 drop-shadow-2xl">{plan.plan_time}</span>
                         </div>
                       </div>
@@ -213,7 +213,7 @@ export default function Planner() {
 
                     <div className="hidden lg:block opacity-0 group-hover:opacity-100 transition-all duration-[2000ms] translate-x-[10rem] group-hover:translate-x-0 relative z-10">
                       <div className="p-32 rounded-[8rem] bg-white/[0.01] border-4 border-white/5 shadow-[0_200px_450px_rgba(0,0,0,1)] group-hover:bg-rose-500/30 group-hover:border-rose-500/60 shadow-inner transition-all duration-[2000ms]">
-                        <ArrowRight size-[15rem] strokeWidth={0.01} className="text-rose-500 group-hover:translate-x-32 transition-all duration-[2500ms] drop-shadow-3xl" />
+                        <ArrowRight size={240} strokeWidth={0.01} className="text-rose-500 group-hover:translate-x-32 transition-all duration-[2500ms] drop-shadow-3xl" />
                       </div>
                     </div>
                   </Card>
@@ -232,13 +232,13 @@ export default function Planner() {
         <div className="flex items-center justify-between relative z-10">
           <div className="space-y-24 text-center sm:text-left w-full sm:w-auto">
             <div className="flex items-center justify-center sm:justify-start gap-16 text-orange-500 font-black uppercase tracking-[2em] text-[20px] italic">
-              <Zap size-[6rem] strokeWidth={1} className="animate-pulse fill-orange-500 drop-shadow-3xl" />
+              <Zap size={96} strokeWidth={1} className="animate-pulse fill-orange-500 drop-shadow-3xl" />
               Idea Manifestation
             </div>
             <h2 className="text-9xl sm:text-[16rem] font-serif text-white tracking-tighter leading-none italic drop-shadow-3xl">The Dream Space</h2>
             <p className="text-gray-950 font-handwritten text-[9rem] sm:text-[12rem] italic opacity-40 leading-none drop-shadow-2xl">"Whispers of what could be, waiting for a 'Yes'..."</p>
           </div>
-          <Star size-[20rem] strokeWidth={0.01} className="text-yellow-500 fill-yellow-500 animate-pulse opacity-10 hidden lg:block drop-shadow-3xl" />
+          <Star size={320} strokeWidth={0.01} className="text-yellow-500 fill-yellow-500 animate-pulse opacity-10 hidden lg:block drop-shadow-3xl" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-48 sm:gap-[6rem] relative z-10">
@@ -253,7 +253,7 @@ export default function Planner() {
             </div>
             <Button className="w-full sm:w-fit px-[6rem] text-[22px] tracking-[2em] h-[12rem] rounded-[8rem] group shadow-[0_150px_350px_rgba(244,63,94,1)] overflow-hidden relative border-none mt-24 leading-none">
               <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
-              <span className="relative z-10 flex items-center gap-24 italic uppercase drop-shadow-3xl">Echo Yes <Sparkles size-[6rem] strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[2000ms] fill-current drop-shadow-3xl" /></span>
+              <span className="relative z-10 flex items-center gap-24 italic uppercase drop-shadow-3xl">Echo Yes <Sparkles size={96} strokeWidth={1} className="group-hover:rotate-[180deg] transition-all duration-[2000ms] fill-current drop-shadow-3xl" /></span>
             </Button>
           </Card>
           
@@ -261,7 +261,7 @@ export default function Planner() {
             <div className="absolute inset-0 bg-gradient-to-br from-rose-500/[0.15] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
             <div className="p-48 rounded-[9rem] bg-white/[0.01] border-8 border-white/10 group-hover:bg-rose-500/30 group-hover:border-rose-500/60 group-hover:scale-125 group-hover:rotate-[30deg] transition-all duration-[2500ms] shadow-[0_250px_550px_rgba(0,0,0,1)] relative z-10 shadow-inner overflow-hidden">
                 <div className="absolute inset-0 bg-rose-500/20 blur-[50px] opacity-0 group-hover:opacity-100 transition-all" />
-              <Plus size-[30rem] strokeWidth={0.01} className="drop-shadow-3xl relative z-10" />
+              <Plus size={480} strokeWidth={0.01} className="drop-shadow-3xl relative z-10" />
             </div>
             <div className="space-y-24 text-center relative z-10 px-48">
               <span className="text-[32px] font-black uppercase tracking-[2em] group-hover:tracking-[2.5em] transition-all duration-[2500ms] italic drop-shadow-3xl leading-none">Project a Vision</span>
@@ -295,7 +295,7 @@ export default function Planner() {
                 <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-16">
                     <div className="flex items-center gap-16 text-rose-500 font-black uppercase tracking-[2em] text-[20px] mb-12 italic">
-                      <Zap size-[6rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+                      <Zap size={96} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
                       Manifest Destiny
                     </div>
                     <h2 className="text-8xl sm:text-[16rem] font-serif text-white tracking-tighter leading-none italic drop-shadow-3xl">Seal a Horizon</h2>
@@ -305,7 +305,7 @@ export default function Planner() {
                     onClick={() => setIsModalOpen(false)} 
                     className="p-20 text-gray-800 hover:text-white hover:bg-white/15 rounded-[6rem] transition-all duration-[1500ms] active:scale-[0.5] border-4 border-transparent hover:border-white/20 group shadow-inner shadow-[0_100px_250px_rgba(0,0,0,1)]"
                   >
-                    <X size-[12rem] strokeWidth={0.01} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
+                    <X size={192} strokeWidth={0.01} className="group-hover:rotate-[180deg] transition-all duration-[1500ms] drop-shadow-3xl" />
                   </button>
                 </div>
 
@@ -324,7 +324,7 @@ export default function Planner() {
                     <div className="space-y-24">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic leading-none">Earth Date</label>
                       <div className="relative group/date">
-                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/20 group-focus-within/date:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.05} />
+                        <Calendar className="absolute left-24 top-1/2 -translate-y-1/2 text-rose-500/20 group-focus-within/date:text-rose-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.05} />
                         <input
                           type="date"
                           value={newPlan.plan_date}
@@ -336,7 +336,7 @@ export default function Planner() {
                     <div className="space-y-24">
                       <label className="text-[20px] font-black text-gray-950 uppercase tracking-[2em] px-16 italic leading-none">Celestial Time</label>
                       <div className="relative group/time">
-                        <Clock className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/20 group-focus-within/time:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size-[10rem] strokeWidth={0.05} />
+                        <Clock className="absolute left-24 top-1/2 -translate-y-1/2 text-blue-500/20 group-focus-within/time:text-blue-500 transition-all duration-[1500ms] drop-shadow-3xl" size={160} strokeWidth={0.05} />
                         <input
                           type="time"
                           value={newPlan.plan_time}
@@ -362,7 +362,7 @@ export default function Planner() {
                           )}
                         >
                           <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover/cat-btn:opacity-100 transition-all duration-1500" />
-                          <cat.icon size-[10rem] strokeWidth={0.01} className="group-hover/cat-btn:scale-150 group-hover/cat-btn:rotate-[30deg] transition-all duration-[2000ms] relative z-10 shadow-3xl drop-shadow-2xl fill-current" />
+                          <cat.icon size={160} strokeWidth={0.01} className="group-hover/cat-btn:scale-150 group-hover/cat-btn:rotate-[30deg] transition-all duration-[2000ms] relative z-10 shadow-3xl drop-shadow-2xl fill-current" />
                           <span className="text-[28px] font-black uppercase tracking-[1.5em] relative z-10 italic leading-none">{cat.label}</span>
                         </button>
                       ))}
@@ -378,7 +378,7 @@ export default function Planner() {
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover/submit:opacity-100 transition-all duration-[2000ms]" />
                     <span className="relative z-10 flex items-center justify-center gap-48 italic">
-                      <Sparkles size-[12rem] strokeWidth={0.01} className="group-hover/submit:scale-150 group-hover/submit:rotate-[180deg] transition-all duration-[2500ms] animate-pulse fill-current drop-shadow-3xl shadow-[0_0_150px_white]" />
+                      <Sparkles size={192} strokeWidth={0.01} className="group-hover/submit:scale-150 group-hover/submit:rotate-[180deg] transition-all duration-[2500ms] animate-pulse fill-current drop-shadow-3xl shadow-[0_0_150px_white]" />
                       Seal Transmission
                     </span>
                   </Button>

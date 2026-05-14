@@ -51,10 +51,10 @@ export default function Header() {
         <div className="relative">
           <div className="w-[10rem] h-[10rem] rounded-[4rem] bg-gradient-to-br from-rose-700 to-orange-600 flex items-center justify-center shadow-[0_40px_100px_rgba(244,63,94,0.6)] group-hover:scale-125 group-hover:rotate-[20deg] transition-all duration-[1500ms] shadow-inner relative overflow-hidden">
              <div className="absolute inset-0 bg-white/20 blur-[30px] opacity-0 group-hover:opacity-100 transition-all duration-[1500ms]" />
-            <Heart size-[6rem] strokeWidth={1} className="text-white fill-white drop-shadow-[0_0_40px_rgba(255,255,255,1)] animate-pulse relative z-10" />
+            <Heart size={96} strokeWidth={1} className="text-white fill-white drop-shadow-[0_0_40px_rgba(255,255,255,1)] animate-pulse relative z-10" />
           </div>
           <div className="absolute -top-4 -right-4 w-[4rem] h-[4rem] bg-white rounded-full flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,1)] border-4 border-[#050506] z-20">
-            <Sparkles size-[2rem] strokeWidth={1} className="text-rose-500 animate-spin-slow drop-shadow-2xl" />
+            <Sparkles size={32} strokeWidth={1} className="text-rose-500 animate-spin-slow drop-shadow-2xl" />
           </div>
         </div>
         <div className="hidden lg:block space-y-4">
@@ -62,7 +62,7 @@ export default function Header() {
           <div className="flex items-center gap-6">
             <span className="text-[14px] text-rose-500 font-black uppercase tracking-[1em] opacity-60 group-hover:opacity-100 transition-all duration-[1500ms] italic drop-shadow-2xl">Our Sanctuary</span>
             <div className="w-4 h-4 rounded-full bg-rose-500/25 shadow-inner" />
-            <Shield size-[3rem] strokeWidth={1} className="text-rose-500/15 drop-shadow-2xl" />
+            <Shield size={48} strokeWidth={1} className="text-rose-500/15 drop-shadow-2xl" />
           </div>
         </div>
       </Link>
@@ -77,7 +77,7 @@ export default function Header() {
               isNotificationsOpen ? "bg-rose-500/25 text-rose-400 border-rose-500/60" : "text-gray-950 hover:text-white hover:bg-white/15 hover:border-white/15"
             )}
           >
-            <Bell size-[6rem] strokeWidth={1} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", isNotificationsOpen && "scale-150 rotate-[15deg]")} />
+            <Bell size={96} strokeWidth={1} className={twMerge("transition-all duration-[1500ms] drop-shadow-3xl", isNotificationsOpen && "scale-150 rotate-[15deg]")} />
             <span className="absolute top-10 right-10 w-[2rem] h-[2rem] bg-rose-500 rounded-full border-4 border-black shadow-[0_0_50px_rgba(244,63,94,1)] animate-pulse" />
           </button>
 
@@ -94,7 +94,7 @@ export default function Header() {
                 
                 <div className="flex justify-between items-center mb-16 relative z-10 px-8">
                   <div className="flex items-center gap-10">
-                    <Zap size-[4rem] strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
+                    <Zap size={64} strokeWidth={1} className="text-rose-500 fill-rose-500 animate-pulse drop-shadow-2xl" />
                     <h3 className="font-serif text-[7rem] text-white tracking-tighter italic drop-shadow-3xl leading-none">Whispers</h3>
                   </div>
                   <button className="text-[16px] text-rose-500 font-black uppercase tracking-[1em] hover:text-white transition-all duration-[1000ms] italic drop-shadow-2xl">Mark all read</button>
@@ -168,11 +168,11 @@ export default function Header() {
                 <div className="p-12 border-b-4 border-white/5 mb-12 relative overflow-hidden group/header rounded-[4rem] shadow-inner">
                   <div className="absolute inset-0 bg-rose-500/[0.02] group-hover/header:bg-rose-500/[0.08] transition-all duration-[1500ms]" />
                    <div className="flex items-center gap-10 relative z-10 mb-8">
-                      <Fingerprint size-[5rem] strokeWidth={1} className="text-rose-500/25 drop-shadow-3xl" />
+                      <Fingerprint size={80} strokeWidth={1} className="text-rose-500/25 drop-shadow-3xl" />
                       <p className="text-[7rem] font-serif text-white tracking-tighter italic drop-shadow-3xl leading-none">{profile?.display_name || 'Sanctuary User'}</p>
                    </div>
                   <div className="flex items-center gap-8 relative z-10 opacity-30 group-hover/header:opacity-100 transition-all duration-[1000ms]">
-                    <History size-[3rem] strokeWidth={1} className="text-gray-950" />
+                    <History size={48} strokeWidth={1} className="text-gray-950" />
                     <p className="text-[14px] text-gray-950 font-black uppercase tracking-[1em] italic leading-none">Joined frequency {new Date(profile?.joined_at).getFullYear() || '2024'}</p>
                   </div>
                 </div>
@@ -197,7 +197,7 @@ function NotificationItem({ title, desc, time, icon: Icon, color }: any) {
     <div className="flex items-start gap-12 p-8 rounded-[4rem] hover:bg-white/[0.05] transition-all duration-[1500ms] group cursor-pointer border-4 border-transparent hover:border-white/10 relative overflow-hidden shadow-inner">
       <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <div className={twMerge("p-8 rounded-[3rem] bg-white/[0.01] transition-all duration-[1500ms] group-hover:scale-125 group-hover:rotate-[20deg] border-2 border-white/5 shadow-[0_40px_100px_rgba(0,0,0,1)] relative z-10 shadow-inner", color)}>
-        <Icon size-[5rem] strokeWidth={1} className="drop-shadow-3xl fill-current" />
+        <Icon size={80} strokeWidth={1} className="drop-shadow-3xl fill-current" />
       </div>
       <div className="flex-1 space-y-6 pt-2 relative z-10">
         <div className="flex justify-between items-center">
@@ -218,7 +218,7 @@ function ProfileMenuItem({ icon: Icon, label, onClick, color = "text-gray-950" }
     >
       <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <div className={twMerge("p-6 rounded-[2.5rem] bg-white/[0.01] border-2 border-white/5 group-hover:scale-150 group-hover:rotate-[15deg] transition-all duration-[1500ms] shadow-[0_30px_80px_rgba(0,0,0,1)] relative z-10 shadow-inner", color)}>
-        <Icon size-[4rem] strokeWidth={1} className="drop-shadow-3xl fill-current" />
+        <Icon size={64} strokeWidth={1} className="drop-shadow-3xl fill-current" />
       </div>
       <span className="text-[18px] font-black uppercase tracking-[1em] text-gray-950 group-hover:text-white transition-all duration-[1500ms] italic relative z-10 leading-none drop-shadow-2xl">{label}</span>
     </button>

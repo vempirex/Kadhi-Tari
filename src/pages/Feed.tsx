@@ -75,7 +75,7 @@ export default function Feed() {
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-16 px-6 sm:px-0 relative z-40">
         <div className="space-y-12 text-center sm:text-left relative z-10">
           <div className="flex items-center justify-center sm:justify-start gap-12 text-rose-500 font-black uppercase tracking-[2em] text-[18px] mb-6 italic">
-            <Sparkles size-[4rem] strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
+            <Sparkles size={64} strokeWidth={1} className="animate-pulse fill-rose-500 drop-shadow-3xl" />
             Shared Frequency
           </div>
           <h1 className="text-7xl sm:text-[13rem] font-serif glow-text leading-[0.85] tracking-tighter italic drop-shadow-3xl">Archives of Us</h1>
@@ -90,7 +90,7 @@ export default function Feed() {
             size="xl"
             className="rounded-[6rem] px-[5rem] h-auto py-20 border-4 border-white/5 text-[6rem] italic tracking-tighter w-full sm:w-auto shadow-inner shadow-[0_120px_300px_rgba(0,0,0,1)] group/timeline transition-all duration-[1500ms] active:scale-[0.5]"
           >
-            <History size-[8rem] strokeWidth={0.01} className="mr-16 drop-shadow-3xl group-hover/timeline:rotate-[-25deg] transition-all duration-[1500ms]" />
+            <History size={128} strokeWidth={0.01} className="mr-16 drop-shadow-3xl group-hover/timeline:rotate-[-25deg] transition-all duration-[1500ms]" />
             Timeline
           </Button>
           <Button 
@@ -100,7 +100,7 @@ export default function Feed() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-rose-950 to-orange-950 opacity-0 group-hover:opacity-100 transition-all duration-[2000ms]" />
             <span className="relative z-10 flex items-center justify-center gap-16 text-[6rem] italic tracking-tighter">
-              Capture Moment <Camera size-[8rem] strokeWidth={0.01} className="group-hover:scale-150 group-hover:rotate-[25deg] transition-all duration-[2000ms] fill-current drop-shadow-3xl shadow-[0_0_150px_white]" />
+              Capture Moment <Camera size={128} strokeWidth={0.01} className="group-hover:scale-150 group-hover:rotate-[25deg] transition-all duration-[2000ms] fill-current drop-shadow-3xl shadow-[0_0_150px_white]" />
             </span>
           </Button>
         </div>
@@ -119,10 +119,10 @@ export default function Feed() {
               <Card className="py-72 text-center space-y-48 border-dashed border-8 flex flex-col items-center border-white/5 bg-white/[0.01] rounded-[11rem] shadow-[0_300px_650px_rgba(0,0,0,1)] backdrop-blur-[200px] shadow-inner max-w-7xl mx-auto">
                 <div className="relative">
                   <div className="p-48 bg-rose-500/[0.03] rounded-[13rem] text-rose-500/5 border-4 border-rose-500/15 shadow-inner group-hover:scale-125 transition-all duration-[10s]">
-                    <ImageIcon size-[40rem] strokeWidth={0.01} className="drop-shadow-3xl" />
+                    <ImageIcon size={640} strokeWidth={0.01} className="drop-shadow-3xl" />
                   </div>
                   <div className="absolute -top-32 -right-32 p-32 rounded-[7rem] bg-[#050506] border-8 border-white/10 shadow-[0_150px_350px_rgba(0,0,0,1)]">
-                    <Sparkles size-[15rem] strokeWidth={0.01} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
+                    <Sparkles size={240} strokeWidth={0.01} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl" />
                   </div>
                 </div>
                 <div className="space-y-24 px-32">
@@ -135,7 +135,7 @@ export default function Feed() {
                   onClick={() => setIsUploadOpen(true)} 
                   className="rounded-[8rem] px-[8rem] py-24 text-[9rem] italic tracking-tighter group h-auto border-none shadow-[0_150px_450px_rgba(244,63,94,0.7)] leading-none"
                 >
-                  Initiate Sync <Plus size-[12rem] strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms] drop-shadow-3xl" />
+                  Initiate Sync <Plus size={192} strokeWidth={0.01} className="ml-24 group-hover:rotate-[180deg] transition-all duration-[2000ms] drop-shadow-3xl" />
                 </Button>
               </Card>
             </motion.div>
