@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Plus, Camera, Loader2, Sparkles, Send } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Plus, Camera, Loader2, Sparkles, Send, Heart } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { twMerge } from 'tailwind-merge';
 

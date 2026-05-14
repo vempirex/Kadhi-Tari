@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Image as ImageIcon, Smile, MoreVertical, CheckCheck, Loader2, Phone, Video, Search } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, MoreVertical, CheckCheck, Loader2, Phone, Video, Search, MessageCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { twMerge } from 'tailwind-merge';
