@@ -27,7 +27,7 @@ export default function Feed() {
   useEffect(() => {
     fetchPosts();
 
-    const channel = supabase
+    const channel: any = supabase
       .channel('feed_updates')
       .on(
         'postgres_changes', 

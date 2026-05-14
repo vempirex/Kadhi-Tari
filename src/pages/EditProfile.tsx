@@ -147,21 +147,3 @@ export default function EditProfile() {
     </div>
   );
 }
-
-function InputField({ label, icon: Icon, value, onChange, placeholder }: any) {
-  return (
-    <div className="space-y-2">
-      <label className="text-xs text-gray-500 uppercase font-bold ml-1">{label}</label>
-      <div className="relative">
-        <Icon className="absolute top-1/2 -translate-y-1/2 left-4 text-gray-500" size={18} />
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 pl-12 text-sm outline-none focus:border-rose-500/50 transition-colors"
-          placeholder={placeholder}
-        />
-      </div>
-    </div>
-  );
-}
