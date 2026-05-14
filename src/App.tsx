@@ -38,24 +38,40 @@ function App() {
           />
         </div>
 
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={<AuthGuard><Navbar /></AuthGuard>}>
-            <Route path="/" element={<Home />} />
-            <Route path="/feed" element={<Feed />} />
-            <Route path="/letters" element={<Letters />} />
-            <Route path="/playlist" element={<Playlist />} />
-            <Route path="/thoughts" element={<Thoughts />} />
-            <Route path="/timeline" element={<MemoryTimeline />} />
-            <Route path="/jokes" element={<Jokes />} />
-            <Route path="/planner" element={<Planner />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/secret" element={<Secret />} />
-          </Route>
-        </Routes>
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<AuthGuard><Navbar /></AuthGuard>}>
+              <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+              <Route path="/feed" element={<PageTransition><Feed /></PageTransition>} />
+              <Route path="/letters" element={<PageTransition><Letters /></PageTransition>} />
+              <Route path="/playlist" element={<PageTransition><Playlist /></PageTransition>} />
+              <Route path="/thoughts" element={<PageTransition><Thoughts /></PageTransition>} />
+              <Route path="/timeline" element={<PageTransition><MemoryTimeline /></PageTransition>} />
+              <Route path="/jokes" element={<PageTransition><Jokes /></PageTransition>} />
+              <Route path="/planner" element={<PageTransition><Planner /></PageTransition>} />
+              <Route path="/chat" element={<PageTransition><Chat /></PageTransition>} />
+              <Route path="/secret" element={<PageTransition><Secret /></PageTransition>} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
       </div>
     </Router>
   )
+}
+
+function PageTransition({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="container mx-auto px-4 pt-20 pb-32"
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export default App
