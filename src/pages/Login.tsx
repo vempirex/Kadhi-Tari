@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Moon, Heart, Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '../firebase';
+import { supabase } from '../lib/supabase';
 
 export default function Login() {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,18 +11,22 @@ export default function Login() {
     setIsLoading(true);
     setError(null);
     try {
-      await signInWithPopup(auth, googleProvider);
-      navigate('/');
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin
+        }
+      });
+      if (error) throw error;
     } catch (err: any) {
       console.error("Login Error:", err);
       setError(err.message || "Failed to sign in. Please try again.");
-    } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-background text-white">
       {/* Decorative Background Elements */}
       <motion.div 
         animate={{ 
@@ -132,4 +133,5 @@ export default function Login() {
     </div>
   );
 }
+
 
