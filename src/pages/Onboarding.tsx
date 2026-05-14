@@ -58,6 +58,7 @@ export default function Onboarding() {
   };
 
   const checkUsername = async (val: string) => {
+    setError(null);
     if (val.length < 3) {
       setUsernameStatus('none');
       return;
@@ -66,8 +67,10 @@ export default function Onboarding() {
     try {
       const available = await isUsernameAvailable(val);
       setUsernameStatus(available ? 'available' : 'taken');
-    } catch (err) {
+    } catch (err: any) {
+      console.error("Username check error:", err);
       setUsernameStatus('none');
+      setError("Connection issue while checking username.");
     } finally {
       setIsCheckingUsername(false);
     }
@@ -239,19 +242,38 @@ export default function Onboarding() {
                         {showPassword ? <X size={16} /> : <Smile size={16} />}
                       </button>
                     </div>
-                    {formData.password && formData.password.length < 6 && (
-                      <p className="text-rose-500 text-[10px] font-semibold ml-1">Minimum 6 characters required</p>
-                    )}
+                    <div className="flex flex-col gap-1 px-1">
+                      {formData.password && formData.password.length < 6 && (
+                        <p className="text-rose-500 text-[10px] font-semibold">Passphrase must be at least 6 characters</p>
+                      )}
+                      {formData.username.length > 0 && formData.username.length < 3 && (
+                        <p className="text-amber-600 text-[10px] font-semibold">Username must be at least 3 characters</p>
+                      )}
+                      {usernameStatus === 'taken' && (
+                        <p className="text-rose-500 text-[10px] font-semibold">This handle is already claimed</p>
+                      )}
+                      {usernameStatus === 'available' && formData.password.length >= 6 && (
+                        <p className="text-emerald-500 text-[10px] font-semibold">Identity looks perfect</p>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <Button 
-                  onClick={() => setStep('essence')}
-                  disabled={!formData.username || !formData.password || formData.password.length < 6 || usernameStatus !== 'available'}
-                  className="w-full"
-                >
-                  Continue
-                </Button>
+                <div className="space-y-3">
+                  <Button 
+                    onClick={() => setStep('essence')}
+                    disabled={!formData.username || formData.username.length < 3 || !formData.password || formData.password.length < 6 || usernameStatus !== 'available' || isCheckingUsername}
+                    className="w-full"
+                  >
+                    {isCheckingUsername ? "Checking Handle..." : "Establish Identity"}
+                  </Button>
+                  
+                  {(!formData.username || formData.username.length < 3 || !formData.password || formData.password.length < 6 || usernameStatus !== 'available') && (
+                    <p className="text-center text-[9px] text-warm-400 font-bold uppercase tracking-widest">
+                      Requirements: 3+ character handle & 6+ character passphrase
+                    </p>
+                  )}
+                </div>
               </motion.div>
             )}
 
