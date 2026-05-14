@@ -1,58 +1,28 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
-import { Session } from '@supabase/supabase-js';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [hasProfile, setHasProfile] = useState(false);
+  const { session, profile, isLoading } = useAuth();
   const location = useLocation();
 
-  useEffect(() => {
-    async function checkAuth() {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      
-      if (session) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', session.user.id)
-          .maybeSingle();
-        
-        if (error) console.error("AuthGuard profile check error:", error);
-        setHasProfile(!!data?.username);
-      }
-      setLoading(false);
-    }
-
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (!session) {
-        setHasProfile(false);
-      } else {
-        checkAuth(); // Re-verify on auth changes
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [location.pathname]);
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="min-h-screen flex items-center justify-center bg-warm-50">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 animate-spin text-rose-500" />
+          <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400">Synchronizing Identity...</p>
+        </div>
       </div>
     );
   }
 
   if (!session) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
+
+  const hasProfile = !!profile?.username;
 
   // If user has no profile and isn't on onboarding page, redirect to onboarding
   if (!hasProfile && location.pathname !== '/onboarding') {
@@ -66,5 +36,3 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   return <>{children || <Outlet />}</>;
 }
-
-

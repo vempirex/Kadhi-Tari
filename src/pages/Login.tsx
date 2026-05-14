@@ -8,8 +8,11 @@ import { Card } from '../components/ui/Card';
 import { getEmailFromUsername } from '../lib/auth';
 import { twMerge } from 'tailwind-merge';
 
+import { useAuth } from '../contexts/AuthContext';
+
 export default function Login() {
   const navigate = useNavigate();
+  const { session, profile } = useAuth();
   const [authMode, setAuthMode] = useState<'login' | 'magic-link'>('login');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,19 +26,11 @@ export default function Login() {
   });
 
   useEffect(() => {
-    checkUser();
-  }, []);
-
-  const checkUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) checkProfile(user.id);
-  };
-
-  const checkProfile = async (userId: string) => {
-    const { data } = await supabase.from('profiles').select('username').eq('id', userId).single();
-    if (data?.username) navigate('/');
-    else navigate('/onboarding');
-  };
+    if (session) {
+      if (profile?.username) navigate('/');
+      else navigate('/onboarding');
+    }
+  }, [session, profile, navigate]);
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,12 +44,11 @@ export default function Login() {
         if (!email) throw new Error('Username not found.');
         loginEmail = email;
       }
-      const { data, error: loginError } = await supabase.auth.signInWithPassword({
+      const { error: loginError } = await supabase.auth.signInWithPassword({
         email: loginEmail,
         password: formData.password
       });
       if (loginError) throw loginError;
-      if (data.user) checkProfile(data.user.id);
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -10,18 +10,18 @@ import { twMerge } from 'tailwind-merge';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 
+import { useAuth } from '../../contexts/AuthContext';
+
 export default function Header() {
   const navigate = useNavigate();
+  const { profile, signOut } = useAuth();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [profile, setProfile] = useState<any>(null);
   
   const notificationsMenuRef = useRef<HTMLDivElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetchProfile();
-    
     function handleClickOutside(event: MouseEvent) {
       if (notificationsMenuRef.current && !notificationsMenuRef.current.contains(event.target as Node)) {
         setIsNotificationsOpen(false);
@@ -34,16 +34,8 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const fetchProfile = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-      setProfile(data);
-    }
-  };
-
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     navigate('/login');
   };
 
