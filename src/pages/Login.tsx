@@ -1,18 +1,32 @@
-import { motion } from 'framer-motion';
-import { Sparkles, Moon, Heart } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Moon, Heart, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebase';
 
 export default function Login() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = () => {
-    // Mock login
-    navigate('/');
+  const handleLogin = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/');
+    } catch (err: any) {
+      console.error("Login Error:", err);
+      setError(err.message || "Failed to sign in. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Decorative Elements */}
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-background">
+      {/* Decorative Background Elements */}
       <motion.div 
         animate={{ 
           rotate: 360,
@@ -31,6 +45,7 @@ export default function Login() {
       />
 
       <div className="z-10 w-full max-w-sm space-y-12 text-center">
+        {/* Title Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,36 +69,58 @@ export default function Login() {
           </div>
         </motion.div>
 
+        {/* Login Card */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="glass-card rounded-[3rem] p-10 space-y-8 shadow-2xl"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="glass-card rounded-[3rem] p-10 space-y-8 shadow-2xl relative overflow-hidden"
         >
-          <div className="space-y-2">
+          <div className="space-y-2 relative z-10">
             <h2 className="text-lg font-medium">Welcome Back</h2>
             <p className="text-sm text-gray-500">Sign in to enter our shared space</p>
           </div>
 
+          <AnimatePresence mode="wait">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="text-xs text-red-400 bg-red-400/10 p-3 rounded-xl border border-red-400/20"
+              >
+                {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            disabled={isLoading}
             onClick={handleLogin}
-            className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl bg-white text-black font-bold shadow-xl shadow-white/10 transition-all hover:bg-gray-100"
+            className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl bg-white text-black font-bold shadow-xl transition-all hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
-            Continue with Google
+            {isLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
+                Continue with Google
+              </>
+            )}
           </motion.button>
 
-          <p className="text-[10px] text-gray-600 uppercase tracking-widest font-bold">
+          <p className="text-[10px] text-gray-600 uppercase tracking-widest font-bold relative z-10">
             Invite-only access restricted to 2 people
           </p>
         </motion.div>
 
+        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.4 }}
           className="pt-8"
         >
           <div className="flex items-center justify-center gap-2 text-gray-500 font-handwritten">
@@ -95,3 +132,4 @@ export default function Login() {
     </div>
   );
 }
+
