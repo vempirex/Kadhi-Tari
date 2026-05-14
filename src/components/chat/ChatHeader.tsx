@@ -66,7 +66,7 @@ export default function ChatHeader({ otherUser }: ChatHeaderProps) {
         <IconButton icon={Video} />
         <IconButton icon={MoreHorizontal} />
       </div>
-    </aside>
+    </header>
   );
 }
 

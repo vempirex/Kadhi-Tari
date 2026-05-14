@@ -35,7 +35,7 @@ export default function Home() {
     const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
     const { count: letterCount } = await supabase.from('letters').select('*', { count: 'exact', head: true });
     
-    const anniversary = profile?.anniversary ? new Date(profile.anniversary) : new Date('2024-01-01');
+    const anniversary = profileData?.anniversary ? new Date(profileData.anniversary) : new Date('2024-01-01');
     const diff = Math.floor((new Date().getTime() - anniversary.getTime()) / (1000 * 60 * 60 * 24));
 
     setStats({

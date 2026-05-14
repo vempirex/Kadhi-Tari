@@ -96,9 +96,7 @@ export default function FAB() {
         isOpen={isUploadModalOpen} 
         onClose={() => setIsUploadModalOpen(false)} 
         onSuccess={() => {
-          if (window.location.pathname === '/feed') {
-            window.location.reload(); 
-          }
+          // Success handled via real-time subscriptions in components
         }}
         type={uploadType}
       />
