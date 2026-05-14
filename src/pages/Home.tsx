@@ -14,11 +14,11 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
 const moods = [
-  { id: 'peaceful', icon: Moon, label: 'Ethereal', desc: 'Floating in silence', color: 'text-blue-500', bg: 'bg-blue-500/15', border: 'border-blue-500/20' },
-  { id: 'chaotic', icon: Zap, label: 'Electric', desc: 'Sparking with energy', color: 'text-yellow-500', bg: 'bg-yellow-500/15', border: 'border-yellow-500/20' },
-  { id: 'sleepy', icon: Coffee, label: 'Dreaming', desc: 'Sinking into clouds', color: 'text-purple-500', bg: 'bg-purple-500/15', border: 'border-purple-500/20' },
-  { id: 'low', icon: Battery, label: 'Dimmed', desc: 'Recharging souls', color: 'text-rose-500', bg: 'bg-rose-500/15', border: 'border-rose-500/20' },
-  { id: 'movie', icon: Sun, label: 'Cinematic', desc: 'Golden hour vibes', color: 'text-orange-500', bg: 'bg-orange-500/15', border: 'border-orange-500/20' },
+  { id: 'peaceful', icon: Moon, label: 'Ethereal', desc: 'In silent harmony', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
+  { id: 'chaotic', icon: Zap, label: 'Electric', desc: 'High energy pulse', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
+  { id: 'sleepy', icon: Coffee, label: 'Dreamy', desc: 'Resting in clouds', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+  { id: 'low', icon: Battery, label: 'Dimmed', desc: 'Quiet reflection', color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100' },
+  { id: 'movie', icon: Sun, label: 'Glow', desc: 'Golden hour moments', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
 ];
 
 export default function Home() {
@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-16 pb-32">
+    <div className="space-y-12 max-w-6xl mx-auto">
       {/* Stories Section */}
       <section className="-mx-4 sm:mx-0">
         <Stories />
@@ -69,134 +69,133 @@ export default function Home() {
 
       {/* Hero Greeting */}
       <motion.header 
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-6 max-w-4xl mx-auto px-4"
+        className="text-center space-y-6"
       >
-        <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.03] border border-white/5 text-[10px] font-black text-rose-500 uppercase tracking-[0.5em] italic">
-          <Star size={16} fill="currentColor" />
-          <span>Our Sacred Sanctuary</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-[10px] font-bold text-rose-600 uppercase tracking-widest">
+          <Star size={14} fill="currentColor" />
+          <span>Sanctuary Active</span>
         </div>
-        <h1 className="text-7xl sm:text-9xl font-serif italic text-white drop-shadow-2xl">
-          {getGreeting()} <span className="inline-block animate-bounce text-rose-500">🌻</span>
+        <h1 className="text-5xl sm:text-7xl font-outfit font-bold text-charcoal tracking-tight">
+          {getGreeting()}
         </h1>
-        <p className="text-gray-400 font-handwritten text-4xl sm:text-5xl italic opacity-80">
-          "The sanctuary is breathing peacefully today... everything is in harmony."
+        <p className="text-warm-500 font-medium text-lg sm:text-xl max-w-2xl mx-auto">
+          The sanctuary is breathing peacefully today. Every moment shared is a thread in our story.
         </p>
       </motion.header>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto px-4">
-        <StatCard label="Memories" value={stats.memories} icon={Camera} color="text-rose-500" />
-        <StatCard label="Letters" value={stats.letters} icon={Heart} color="text-orange-500" />
-        <StatCard label="Days" value={stats.daysTogether} icon={Globe} color="text-blue-500" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StatCard label="Memories" value={stats.memories} icon={Camera} color="text-rose-600" bg="bg-rose-50" />
+        <StatCard label="Letters" value={stats.letters} icon={Heart} color="text-orange-600" bg="bg-orange-50" />
+        <StatCard label="Days" value={stats.daysTogether} icon={Globe} color="text-blue-600" bg="bg-blue-50" />
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Today's Vibe */}
-        <section className="space-y-8">
-          <div className="flex items-center gap-4 px-4">
-            <Sparkles size={24} className="text-rose-500" />
-            <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-white/40 italic">Current Frequency</h2>
+        <section className="lg:col-span-2 space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-warm-400">Current Frequency</h2>
           </div>
           
-          <Card variant="glass" className="p-12 flex flex-col items-center gap-12 relative group min-h-[400px] justify-center overflow-hidden">
+          <Card className="p-10 flex flex-col items-center gap-8 justify-center min-h-[360px]">
             <motion.div 
               key={currentMood.id}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               className={twMerge(
-                "p-12 rounded-[4rem] transition-all relative z-10 border-4", 
+                "w-32 h-32 rounded-3xl flex items-center justify-center border-2 shadow-soft", 
                 currentMood.bg, currentMood.color, currentMood.border
               )}
             >
-              <currentMood.icon size={120} className="drop-shadow-2xl animate-pulse" />
+              <currentMood.icon size={64} className="drop-shadow-sm" />
             </motion.div>
             
-            <div className="text-center space-y-2 relative z-10">
-              <p className="text-[12px] text-white/40 font-black uppercase tracking-widest italic">{currentMood.desc}</p>
-              <p className="text-7xl font-serif italic text-white drop-shadow-2xl">{currentMood.label}</p>
+            <div className="text-center space-y-1">
+              <p className="text-3xl font-outfit font-bold text-charcoal tracking-tight">{currentMood.label}</p>
+              <p className="text-sm font-medium text-warm-400">{currentMood.desc}</p>
+            </div>
+
+            <div className="flex gap-3 overflow-x-auto p-1 no-scrollbar max-w-full">
+              {moods.map((mood) => (
+                <button
+                  key={mood.id}
+                  onClick={() => setCurrentMood(mood)}
+                  className={twMerge(
+                    "flex-shrink-0 w-12 h-12 rounded-xl transition-all flex items-center justify-center border",
+                    currentMood.id === mood.id 
+                      ? "border-rose-200 bg-rose-50 text-rose-600 shadow-sm" 
+                      : "bg-warm-50 border-transparent text-warm-400 hover:bg-warm-100"
+                  )}
+                >
+                  <mood.icon size={20} />
+                </button>
+              ))}
             </div>
           </Card>
-          
-          <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-            {moods.map((mood) => (
-              <button
-                key={mood.id}
-                onClick={() => setCurrentMood(mood)}
-                className={twMerge(
-                  "flex-shrink-0 px-6 py-4 rounded-[2rem] transition-all flex flex-col items-center gap-3 border min-w-[140px]",
-                  currentMood.id === mood.id 
-                    ? "border-rose-500/60 bg-rose-500/20 text-rose-500" 
-                    : "bg-white/[0.02] border-white/5 text-white/40 hover:bg-white/5"
-                )}
-              >
-                <mood.icon size={32} />
-                <span className="text-[10px] font-black uppercase tracking-widest italic">{mood.label}</span>
-              </button>
-            ))}
-          </div>
         </section>
 
-        {/* Portals */}
-        <div className="space-y-8">
-          <div className="flex items-center gap-4 px-4">
-            <Zap size={24} className="text-blue-500" />
-            <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-white/40 italic">Universal Portals</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <QuickPortal icon={LayoutGrid} label="Archive" value="Memories" color="text-rose-500" path="/feed" />
-            <QuickPortal icon={MessageCircle} label="Whispers" value="Sanctuary" color="text-blue-500" path="/chat" />
-          </div>
+        {/* Quick Portals */}
+        <section className="space-y-6">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-warm-400 px-2">Portals</h2>
+          <div className="grid grid-cols-1 gap-4">
+            <Link to="/feed" className="group">
+              <Card className="p-6 flex items-center gap-5 hover:border-rose-200 hover:bg-rose-50/30 transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600">
+                  <LayoutGrid size={28} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg font-bold text-charcoal">Archive</p>
+                  <p className="text-xs font-medium text-warm-400">Past memories</p>
+                </div>
+                <ArrowRight size={20} className="text-warm-300 group-hover:text-rose-600 transition-colors" />
+              </Card>
+            </Link>
 
-          <Link to="/playlist" className="block group pt-4">
-            <Card variant="glass" className="p-8 flex items-center gap-8 hover:bg-white/5 transition-all">
-              <div className="w-24 h-24 rounded-3xl bg-gradient-to-tr from-rose-500 to-purple-500 flex items-center justify-center">
-                <Music size={48} className="text-white drop-shadow-xl" strokeWidth={1} />
-              </div>
-              <div className="flex-1 space-y-1">
-                <p className="text-4xl font-serif italic text-white leading-none">Shared Rhythm</p>
-                <p className="text-[11px] text-white/40 font-black uppercase tracking-widest italic">Our current frequency pulse</p>
-              </div>
-              <ArrowRight size={32} className="text-white/20 group-hover:text-white transition-colors" />
-            </Card>
-          </Link>
-        </div>
+            <Link to="/chat" className="group">
+              <Card className="p-6 flex items-center gap-5 hover:border-blue-200 hover:bg-blue-50/30 transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
+                  <MessageCircle size={28} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg font-bold text-charcoal">Whispers</p>
+                  <p className="text-xs font-medium text-warm-400">Direct connection</p>
+                </div>
+                <ArrowRight size={20} className="text-warm-300 group-hover:text-blue-600 transition-colors" />
+              </Card>
+            </Link>
+
+            <Link to="/playlist" className="group">
+              <Card className="p-6 flex items-center gap-5 hover:border-amber-200 hover:bg-amber-50/30 transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600">
+                  <Radio size={28} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg font-bold text-charcoal">Rhythm</p>
+                  <p className="text-xs font-medium text-warm-400">Current frequency</p>
+                </div>
+                <ArrowRight size={20} className="text-warm-300 group-hover:text-amber-600 transition-colors" />
+              </Card>
+            </Link>
+          </div>
+        </section>
       </div>
     </div>
   );
 }
 
-function StatCard({ label, value, icon: Icon, color }: any) {
+function StatCard({ label, value, icon: Icon, color, bg }: any) {
   return (
-    <Card variant="glass" className="p-8 flex flex-col items-center gap-4 group hover:bg-white/5 transition-all">
-      <div className={twMerge("p-4 rounded-3xl bg-white/[0.02] border border-white/5 transition-transform group-hover:scale-110", color)}>
-        <Icon size={40} />
+    <Card className="p-6 flex items-center gap-5 group">
+      <div className={twMerge("w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105", bg, color)}>
+        <Icon size={28} />
       </div>
-      <div className="text-center">
-        <p className="text-6xl font-serif italic text-white drop-shadow-2xl leading-none">{value}</p>
-        <p className="text-[10px] font-black uppercase tracking-widest text-white/20 italic mt-2">{label}</p>
+      <div>
+        <p className="text-2xl font-bold text-charcoal leading-none">{value}</p>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400 mt-1">{label}</p>
       </div>
     </Card>
-  );
-}
-
-function QuickPortal({ icon: Icon, label, value, color, path }: any) {
-  return (
-    <Link to={path} className="block h-full">
-      <Card variant="glass" className="p-8 h-full flex flex-col justify-between hover:bg-white/5 transition-all min-h-[220px]">
-        <div className={twMerge("p-4 w-fit rounded-3xl bg-white/[0.02] border border-white/5 transition-transform group-hover:scale-110", color)}>
-          <Icon size={40} />
-        </div>
-        <div className="space-y-1">
-          <p className="text-[10px] font-black uppercase tracking-widest text-white/20 italic">{label}</p>
-          <div className="flex items-center justify-between">
-            <p className="text-5xl font-serif italic text-white drop-shadow-2xl leading-none">{value}</p>
-            <ArrowRight size={24} className="text-white/20" />
-          </div>
-        </div>
-      </Card>
-    </Link>
   );
 }

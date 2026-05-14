@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MessageCircle, Heart, Sparkles, Zap, Shield, 
   SendHorizontal, History, ArrowDown, Fingerprint,
-  MessageSquare
+  MessageSquare, Loader2
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
@@ -99,52 +99,45 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] bg-white/[0.01] backdrop-blur-3xl rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl relative group">
-      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-rose-500/[0.02] pointer-events-none" />
-      
+    <div className="flex flex-col h-[calc(100vh-10rem)] bg-white border border-warm-100 rounded-3xl overflow-hidden shadow-soft relative">
       <ChatHeader otherUser={otherUser} />
 
       {/* Messages Area */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-4 no-scrollbar relative z-10 scroll-smooth"
+        className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 relative z-10 scroll-smooth no-scrollbar"
       >
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-full gap-4">
-            <Loader2 size={32} className="animate-spin text-rose-500" />
-            <p className="text-[10px] text-white/20 font-black uppercase tracking-[1em] italic">Syncing Frequencies...</p>
+          <div className="flex flex-col items-center justify-center h-full gap-3">
+            <Loader2 size={24} className="animate-spin text-rose-500" />
+            <p className="text-[10px] text-warm-400 font-bold uppercase tracking-widest italic">Syncing...</p>
           </div>
         ) : messages.length === 0 ? (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="h-full flex flex-col items-center justify-center text-center space-y-8 px-6"
+            className="h-full flex flex-col items-center justify-center text-center space-y-6 px-6"
           >
-            <div className="relative">
-              <div className="p-12 bg-rose-500/5 rounded-[4rem] text-rose-500/20 border border-rose-500/10">
-                <MessageSquare size={120} strokeWidth={0.5} />
-              </div>
-              <div className="absolute -top-4 -right-4 p-3 rounded-full bg-black border border-white/10 shadow-xl">
-                <Sparkles size={24} className="text-rose-500 animate-pulse" />
-              </div>
+            <div className="p-10 bg-warm-50 rounded-full text-warm-200 border border-warm-100">
+              <MessageSquare size={64} strokeWidth={1} />
             </div>
-            <div className="space-y-4">
-              <h2 className="text-5xl font-serif text-white italic">A Beautiful Silence</h2>
-              <p className="text-4xl text-gray-400 italic max-w-lg mx-auto font-handwritten opacity-70">
-                "In the quiet space between us, our souls speak most clearly. Start our whisper trail here..."
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold text-charcoal">A Beautiful Silence</h2>
+              <p className="text-sm font-medium text-warm-400 max-w-xs mx-auto">
+                Start your shared journey here. Every whisper is a step closer.
               </p>
             </div>
           </motion.div>
         ) : (
-          <div className="space-y-4 pb-8">
-            <div className="flex justify-center mb-12 opacity-30">
-              <div className="flex items-center gap-6 italic">
-                <div className="w-12 h-px bg-rose-500/20" />
-                <div className="px-4 py-1 rounded-full border border-rose-500/20 text-[10px] font-black text-rose-500 uppercase tracking-[0.5em] italic">
+          <div className="space-y-4 pb-4">
+            <div className="flex justify-center mb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-px bg-warm-100" />
+                <div className="px-3 py-1 rounded-full bg-rose-50 text-[10px] font-bold text-rose-600 uppercase tracking-widest">
                    Sanctuary Established
                 </div>
-                <div className="w-12 h-px bg-rose-500/20" />
+                <div className="w-10 h-px bg-warm-100" />
               </div>
             </div>
             {messages.map((msg) => (
@@ -160,19 +153,19 @@ export default function Chat() {
         <AnimatePresence>
           {showScrollButton && (
             <motion.button
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+              exit={{ opacity: 0, y: 10 }}
               onClick={() => scrollToBottom()}
-              className="absolute bottom-6 right-6 p-4 rounded-full bg-rose-500 text-white shadow-lg hover:scale-110 transition-transform z-50 group"
+              className="absolute bottom-6 right-6 p-3 rounded-full bg-rose-600 text-white shadow-lg hover:bg-rose-700 transition-colors z-50"
             >
-              <ArrowDown size={24} />
+              <ArrowDown size={20} />
             </motion.button>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="relative z-20 bg-black/20 border-t border-white/5">
+      <div className="p-4 border-t border-warm-100 bg-warm-50/30">
         <ChatInput onSendMessage={handleSendMessage} />
       </div>
     </div>

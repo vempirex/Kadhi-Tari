@@ -11,16 +11,14 @@ export default function BottomNav() {
 
   const navItems = [
     { icon: Home, path: '/', label: 'Home' },
-    { icon: LayoutGrid, path: '/feed', label: 'Archive' },
-    { icon: MessageCircle, path: '/chat', label: 'Whisper' },
-    { icon: Calendar, path: '/timeline', label: 'Journey' },
+    { icon: LayoutGrid, path: '/feed', label: 'Feed' },
+    { icon: MessageCircle, path: '/chat', label: 'Chat' },
+    { icon: Calendar, path: '/timeline', label: 'Time' },
     { icon: Radio, path: '/playlist', label: 'Pulse' },
   ];
 
   return (
-    <nav className="fixed bottom-6 left-6 right-6 h-20 bg-black/40 backdrop-blur-3xl border border-white/5 z-[1000] flex justify-around items-center px-4 rounded-[2.5rem] shadow-2xl lg:hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-white/[0.02] to-transparent pointer-events-none" />
-      
+    <nav className="fixed bottom-4 left-4 right-4 h-16 bg-white/80 backdrop-blur-xl border border-black/[0.03] z-[1000] flex justify-around items-center px-4 rounded-2xl shadow-premium lg:hidden">
       {navItems.map((item) => {
         const isActive = location.pathname === item.path;
         return (
@@ -28,21 +26,21 @@ export default function BottomNav() {
             key={item.path} 
             to={item.path}
             className={twMerge(
-              "relative flex flex-col items-center justify-center transition-all duration-500",
-              isActive ? "text-rose-500" : "text-white/30 hover:text-white/60"
+              "relative flex flex-col items-center justify-center transition-all duration-300",
+              isActive ? "text-rose-600" : "text-warm-400 hover:text-charcoal"
             )}
           >
             <div className={twMerge(
-              "p-2.5 rounded-2xl transition-all duration-500",
-              isActive && "bg-rose-500/10 scale-110"
+              "p-2 rounded-xl transition-all",
+              isActive && "bg-rose-50"
             )}>
-              <item.icon size={24} strokeWidth={isActive ? 2 : 1.5} className={twMerge(isActive && "animate-pulse")} />
+              <item.icon size={22} />
             </div>
             
             {isActive && (
               <motion.div 
                 layoutId="nav-pill"
-                className="absolute -bottom-1 w-8 h-1 bg-rose-500 rounded-full"
+                className="absolute -bottom-1 w-4 h-0.5 bg-rose-500 rounded-full"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}

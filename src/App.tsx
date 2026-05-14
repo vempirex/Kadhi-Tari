@@ -30,7 +30,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-background text-white selection:bg-rose-500/30 selection:text-rose-200">
+      <div className="min-h-screen bg-warm-50 text-charcoal selection:bg-rose-100 selection:text-rose-900">
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/login" element={<Login />} />

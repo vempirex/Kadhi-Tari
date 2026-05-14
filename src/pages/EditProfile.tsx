@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Camera, ArrowLeft, Check, User, Heart, MessageSquare, 
   Quote, Sparkles, Loader2, Image as ImageIcon, ShieldCheck, 
   Zap, Fingerprint, Shield, MapPin, Globe, Smile, Calendar,
-  ArrowRight
+  ArrowRight, Lock, LogOut
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
@@ -17,6 +17,8 @@ export default function EditProfile() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState<'avatar' | 'cover' | null>(null);
+  const [activeTab, setActiveTab] = useState<'essence' | 'security'>('essence');
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   
   const [formData, setFormData] = useState({
     username: '',
@@ -31,6 +33,11 @@ export default function EditProfile() {
     birthday: '',
     location: '',
     interests: '',
+  });
+
+  const [securityData, setSecurityData] = useState({
+    newPassword: '',
+    confirmPassword: '',
   });
 
   useEffect(() => {
@@ -101,6 +108,7 @@ export default function EditProfile() {
     e.preventDefault();
     if (isSaving) return;
     setIsSaving(true);
+    setMessage(null);
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -114,137 +122,255 @@ export default function EditProfile() {
           .eq('id', user.id);
 
         if (error) throw error;
-        navigate('/profile');
+        setMessage({ type: 'success', text: 'Profile updated successfully.' });
+        setTimeout(() => navigate('/profile'), 1000);
       }
-    } catch (err) {
-      console.error('Error saving profile:', err);
+    } catch (err: any) {
+      setMessage({ type: 'error', text: err.message });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (securityData.newPassword !== securityData.confirmPassword) {
+      setMessage({ type: 'error', text: 'Passwords do not match.' });
+      return;
+    }
+    if (securityData.newPassword.length < 6) {
+      setMessage({ type: 'error', text: 'Password must be at least 6 characters.' });
+      return;
+    }
+
+    setIsSaving(true);
+    setMessage(null);
+
+    try {
+      const { error } = await supabase.auth.updateUser({ password: securityData.newPassword });
+      if (error) throw error;
+      setMessage({ type: 'success', text: 'Security passphrase updated.' });
+      setSecurityData({ newPassword: '', confirmPassword: '' });
+    } catch (err: any) {
+      setMessage({ type: 'error', text: err.message });
     } finally {
       setIsSaving(false);
     }
   };
 
   if (isLoading) return (
-    <div className="flex flex-col items-center justify-center h-[80vh] gap-8">
-      <Loader2 size={48} className="animate-spin text-rose-500" />
-      <p className="text-[12px] text-gray-400 font-black uppercase tracking-[1em] italic">Gathering frequencies...</p>
+    <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
+      <Loader2 size={32} className="animate-spin text-rose-500" />
+      <p className="text-xs font-bold text-warm-400 uppercase tracking-widest italic">Syncing presence...</p>
     </div>
   );
 
   return (
-    <div className="max-w-5xl mx-auto pb-48 space-y-12 relative px-4">
-      <header className="flex items-center justify-between py-12 sticky top-0 z-[100] bg-black/60 backdrop-blur-3xl -mx-4 px-4">
-        <div className="flex items-center gap-6">
-          <Button variant="glass" onClick={() => navigate(-1)} className="p-4 h-auto aspect-square rounded-2xl">
-            <ArrowLeft size={32} />
+    <div className="max-w-4xl mx-auto space-y-8 px-2">
+      <header className="flex items-center justify-between py-4 sticky top-0 z-[100] bg-warm-50/80 backdrop-blur-md -mx-4 px-4 border-b border-warm-100">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" onClick={() => navigate(-1)} size="sm" className="p-2 h-auto rounded-xl">
+            <ArrowLeft size={20} />
           </Button>
-          <div className="space-y-1">
-            <h1 className="text-5xl font-serif italic text-white leading-none">Tune Essence</h1>
-            <p className="text-[10px] font-black uppercase tracking-widest text-rose-500/60 italic">Vibe Modulation</p>
+          <div className="space-y-0.5">
+            <h1 className="text-xl font-bold text-charcoal leading-none">Tune Presence</h1>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-rose-600">Vibe Modulation</p>
           </div>
         </div>
-        <Button 
-          form="edit-profile-form"
-          disabled={isSaving}
-          className="rounded-3xl px-12 py-4 bg-rose-500 text-white shadow-lg shadow-rose-500/20"
-        >
-          {isSaving ? <Loader2 size={24} className="animate-spin" /> : <span className="flex items-center gap-4 italic font-serif text-3xl">Crystalize <Check size={24} /></span>}
-        </Button>
+        <div className="flex items-center gap-3">
+          {activeTab === 'essence' && (
+            <Button 
+              form="edit-profile-form"
+              disabled={isSaving}
+              size="sm"
+            >
+              {isSaving ? <Loader2 size={16} className="animate-spin" /> : <span className="flex items-center gap-2">Save <Check size={16} /></span>}
+            </Button>
+          )}
+        </div>
       </header>
 
-      <form id="edit-profile-form" onSubmit={handleSubmit} className="space-y-16">
-        {/* Visuals */}
-        <section className="space-y-8">
-          <div className="relative h-64 rounded-[4rem] bg-white/[0.02] border-2 border-dashed border-white/5 overflow-hidden group">
-            <img 
-              src={formData.cover_url || 'https://images.unsplash.com/photo-1516589174184-c68526614af5?auto=format&fit=crop&q=80'} 
-              className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-[5000ms]" 
-              alt="Cover" 
-            />
-            <label className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-              <Camera size={48} className="text-white/60 mb-2" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/60 italic">Change Banner</span>
-              <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
-            </label>
-            {isUploading === 'cover' && (
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                <Loader2 size={48} className="animate-spin text-rose-500" />
-              </div>
-            )}
-          </div>
+      <div className="flex gap-2 p-1 bg-warm-100 rounded-xl w-fit">
+        <button 
+          onClick={() => { setActiveTab('essence'); setMessage(null); }}
+          className={twMerge(
+            "px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all",
+            activeTab === 'essence' ? "bg-white text-charcoal shadow-sm" : "text-warm-400 hover:text-warm-600"
+          )}
+        >
+          Essence
+        </button>
+        <button 
+          onClick={() => { setActiveTab('security'); setMessage(null); }}
+          className={twMerge(
+            "px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all",
+            activeTab === 'security' ? "bg-white text-charcoal shadow-sm" : "text-warm-400 hover:text-warm-600"
+          )}
+        >
+          Security
+        </button>
+      </div>
 
-          <div className="flex justify-center -mt-32 relative z-10">
-            <div className="relative group">
-              <div className="w-64 h-64 rounded-[4rem] p-1 bg-gradient-to-tr from-rose-500 to-orange-500 shadow-2xl relative overflow-hidden">
-                <div className="w-full h-full rounded-[3.8rem] bg-black overflow-hidden flex items-center justify-center">
-                  <img 
-                    src={formData.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.username}`} 
-                    className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-[3000ms]" 
-                    alt="Avatar" 
-                  />
+      <AnimatePresence mode="wait">
+        {activeTab === 'essence' ? (
+          <motion.div 
+            key="essence-tab"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
+            <form id="edit-profile-form" onSubmit={handleSubmit} className="space-y-8">
+              {/* Visuals */}
+              <section className="space-y-6">
+                <div className="relative h-48 rounded-3xl bg-warm-50 border border-dashed border-warm-200 overflow-hidden group">
+                  <img src={formData.cover_url || 'https://images.unsplash.com/photo-1516589174184-c68526614af5?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Cover" />
+                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                    <Camera size={24} className="text-white mb-2" />
+                    <span className="text-[10px] font-bold text-white uppercase tracking-widest">Change Banner</span>
+                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
+                  </label>
+                  {isUploading === 'cover' && (
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+                      <Loader2 size={24} className="animate-spin text-rose-500" />
+                    </div>
+                  )}
                 </div>
-              </div>
-              <label className="absolute inset-0 bg-black/60 rounded-[4rem] flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                <Camera size={32} className="text-white/60" />
-                <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
-              </label>
-              {isUploading === 'avatar' && (
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-[4rem] flex items-center justify-center">
-                  <Loader2 size={32} className="animate-spin text-rose-500" />
+
+                <div className="flex justify-center -mt-24 relative z-10">
+                  <div className="relative group">
+                    <div className="w-40 h-40 rounded-full p-1 bg-white shadow-xl relative overflow-hidden">
+                      <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
+                        <img src={formData.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.username}`} className="w-full h-full object-cover" alt="Avatar" />
+                      </div>
+                    </div>
+                    <label className="absolute inset-0 bg-black/40 rounded-full flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                      <Camera size={20} className="text-white" />
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
+                    </label>
+                    {isUploading === 'avatar' && (
+                      <div className="absolute inset-0 bg-black/40 rounded-full backdrop-blur-sm flex items-center justify-center">
+                        <Loader2 size={20} className="animate-spin text-rose-500" />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </section>
+              </section>
 
-        {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card variant="glass" className="p-8 space-y-8">
-            <h2 className="text-4xl font-serif italic text-white/90 flex items-center gap-4">
-              <User size={32} className="text-rose-500" /> Identity
-            </h2>
-            <div className="space-y-6">
-              <FormInput label="Display Name" value={formData.display_name} onChange={(v: string) => setFormData({...formData, display_name: v})} placeholder="The name I call you" />
-              <FormInput label="Full Name" value={formData.full_name} onChange={(v: string) => setFormData({...formData, full_name: v})} placeholder="As written in the stars" />
-              <FormInput label="Handle" value={formData.username} onChange={(v: string) => setFormData({...formData, username: v})} placeholder="starlight_echo" disabled />
-            </div>
-          </Card>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="p-6 space-y-6">
+                  <div className="flex items-center gap-3 text-rose-600">
+                    <User size={20} />
+                    <h2 className="text-sm font-bold uppercase tracking-widest">Identity</h2>
+                  </div>
+                  <div className="space-y-4">
+                    <FormInput label="Nickname" value={formData.display_name} onChange={(v) => setFormData({...formData, display_name: v})} placeholder="How I call you" />
+                    <FormInput label="Full Name" value={formData.full_name} onChange={(v) => setFormData({...formData, full_name: v})} placeholder="As written in the stars" />
+                    <FormInput label="Handle" value={formData.username} onChange={(v) => setFormData({...formData, username: v})} placeholder="unique_handle" />
+                  </div>
+                </Card>
 
-          <Card variant="glass" className="p-8 space-y-8">
-            <h2 className="text-4xl font-serif italic text-white/90 flex items-center gap-4">
-              <Heart size={32} className="text-rose-500" /> Resonance
-            </h2>
-            <div className="space-y-6">
-              <FormInput label="Core Connection" value={formData.relationship_status} onChange={(v: string) => setFormData({...formData, relationship_status: v})} placeholder="In Love, Harmony..." />
-              <FormInput label="The Genesis" value={formData.anniversary} onChange={(v: string) => setFormData({...formData, anniversary: v})} type="date" />
-              <FormInput label="Solar Return" value={formData.birthday} onChange={(v: string) => setFormData({...formData, birthday: v})} type="date" />
-            </div>
-          </Card>
+                <Card className="p-6 space-y-6">
+                  <div className="flex items-center gap-3 text-rose-600">
+                    <Heart size={20} />
+                    <h2 className="text-sm font-bold uppercase tracking-widest">Resonance</h2>
+                  </div>
+                  <div className="space-y-4">
+                    <FormInput label="Status" value={formData.relationship_status} onChange={(v) => setFormData({...formData, relationship_status: v})} placeholder="In Harmony, Exploring..." />
+                    <FormInput label="Anniversary" value={formData.anniversary} onChange={(v) => setFormData({...formData, anniversary: v})} type="date" />
+                    <FormInput label="Birthday" value={formData.birthday} onChange={(v) => setFormData({...formData, birthday: v})} type="date" />
+                  </div>
+                </Card>
 
-          <Card variant="glass" className="p-8 space-y-8 md:col-span-2">
-            <h2 className="text-4xl font-serif italic text-white/90 flex items-center gap-4">
-              <MessageSquare size={32} className="text-rose-500" /> Saga & World
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-2 italic">The Collective Narrative (Bio)</label>
-                  <textarea 
-                    value={formData.bio}
-                    onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                    className="w-full bg-white/[0.02] border border-white/5 rounded-3xl p-6 text-3xl font-serif italic text-white min-h-[200px] outline-none focus:border-rose-500/30 transition-all resize-none"
-                    placeholder="Whisper our shared story..."
-                  />
+                <Card className="p-6 space-y-6 md:col-span-2">
+                  <div className="flex items-center gap-3 text-rose-600">
+                    <MessageSquare size={20} />
+                    <h2 className="text-sm font-bold uppercase tracking-widest">Saga & World</h2>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-warm-400 ml-1">Bio</label>
+                        <textarea value={formData.bio} onChange={(e) => setFormData({...formData, bio: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl p-3 text-sm font-medium text-charcoal min-h-[120px] outline-none focus:bg-white focus:border-rose-200 transition-all resize-none" placeholder="Share your story..." />
+                      </div>
+                      <FormInput label="Favorite Quote" value={formData.favorite_quote} onChange={(v) => setFormData({...formData, favorite_quote: v})} placeholder="Words that resonate..." />
+                    </div>
+                    <div className="space-y-4">
+                      <FormInput label="Location" value={formData.location} onChange={(v) => setFormData({...formData, location: v})} placeholder="Where you reside..." icon={MapPin} />
+                      <FormInput label="Interests" value={formData.interests} onChange={(v) => setFormData({...formData, interests: v})} placeholder="Art, Music, Dreams..." icon={Globe} />
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </form>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="security-tab"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="max-w-xl mx-auto w-full"
+          >
+            <Card className="p-8 space-y-8">
+              <div className="text-center space-y-2">
+                <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto text-rose-600">
+                  <Shield size={32} />
                 </div>
-                <FormInput label="Shared Echo (Quote)" value={formData.favorite_quote} onChange={(v: string) => setFormData({...formData, favorite_quote: v})} placeholder="Words that bind..." />
+                <h2 className="text-2xl font-bold text-charcoal">Security Frequency</h2>
+                <p className="text-xs font-bold uppercase tracking-widest text-warm-400">Update your access passphrase</p>
               </div>
-              <div className="space-y-6">
-                <FormInput label="Coordinates" value={formData.location} onChange={(v: string) => setFormData({...formData, location: v})} placeholder="Where you breathe..." icon={MapPin} />
-                <FormInput label="Spiritual Echoes" value={formData.interests} onChange={(v: string) => setFormData({...formData, interests: v})} placeholder="Art, Music, Souls..." icon={Globe} />
-              </div>
+
+              <form onSubmit={handleUpdatePassword} className="space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-1.5 group">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-warm-400 ml-1">New Passphrase</label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-600 transition-colors" size={20} />
+                      <input 
+                        type="password" 
+                        value={securityData.newPassword} 
+                        onChange={(e) => setSecurityData({...securityData, newPassword: e.target.value})}
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all tracking-widest"
+                        placeholder="••••••••"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5 group">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-warm-400 ml-1">Confirm Passphrase</label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-600 transition-colors" size={20} />
+                      <input 
+                        type="password" 
+                        value={securityData.confirmPassword} 
+                        onChange={(e) => setSecurityData({...securityData, confirmPassword: e.target.value})}
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all tracking-widest"
+                        placeholder="••••••••"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Button type="submit" disabled={isSaving} className="w-full">
+                  {isSaving ? <Loader2 size={20} className="animate-spin" /> : "Update Security"}
+                </Button>
+              </form>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {message && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
+            <div className={twMerge(
+              "px-6 py-3 rounded-2xl shadow-premium border text-xs font-bold uppercase tracking-widest",
+              message.type === 'success' ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-rose-50 border-rose-100 text-rose-600"
+            )}>
+              {message.text}
             </div>
-          </Card>
-        </div>
-      </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -256,24 +382,21 @@ interface FormInputProps {
   placeholder?: string;
   type?: string;
   icon?: any;
-  disabled?: boolean;
 }
 
-function FormInput({ label, value, onChange, placeholder, type = 'text', icon: Icon, disabled = false }: FormInputProps) {
+function FormInput({ label, value, onChange, placeholder, type = 'text', icon: Icon }: FormInputProps) {
   return (
-    <div className="space-y-2 group">
-      <label className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-2 italic group-focus-within:text-rose-500 transition-colors">{label}</label>
+    <div className="space-y-1.5 group">
+      <label className="text-[10px] font-bold uppercase tracking-widest text-warm-400 ml-1 group-focus-within:text-rose-600 transition-colors">{label}</label>
       <div className="relative">
-        {Icon && <Icon size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/10" />}
+        {Icon && <Icon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300" />}
         <input 
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
           className={twMerge(
-            "w-full bg-white/[0.02] border border-white/5 rounded-[2rem] py-4 px-6 text-3xl font-serif italic text-white outline-none focus:border-rose-500/30 transition-all placeholder:text-white/5",
-            Icon && "pl-16",
-            disabled && "opacity-50 cursor-not-allowed"
+            "w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm font-medium text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all placeholder:text-warm-300",
+            Icon && "pl-11"
           )}
           placeholder={placeholder}
         />

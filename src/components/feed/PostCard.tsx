@@ -30,209 +30,157 @@ export default function PostCard({ post }: PostCardProps) {
     if (!isLiked) {
       setIsLiked(true);
       setShowHeart(true);
-      setTimeout(() => setShowHeart(false), 1000);
+      setTimeout(() => setShowHeart(false), 800);
     }
   };
 
   return (
     <Card 
-      initial={{ opacity: 0, y: 150, filter: 'blur(100px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: "-150px" }}
-      transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-      className="overflow-hidden w-full max-w-[100rem] mx-auto border-[6px] border-white/5 bg-white/[0.01] shadow-[0_300px_600px_rgba(0,0,0,1)] group/card rounded-[10rem] backdrop-blur-[200px] shadow-inner relative"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="overflow-hidden bg-white border border-warm-100 shadow-soft"
     >
-      <div className="absolute top-[-50%] right-[-50%] w-[150%] h-[150%] bg-rose-500/[0.1] blur-[250px] rounded-full pointer-events-none animate-pulse" />
-      
-      {/* Post Header - More Elegant */}
-      <div className="p-24 sm:p-[4rem] flex items-center justify-between relative z-10">
-        <div className="flex items-center gap-24">
-          <div className="relative group/avatar">
-            <div className="w-[12rem] h-[12rem] sm:w-[18rem] sm:h-[18rem] rounded-[8rem] p-2 bg-gradient-to-tr from-rose-950 via-rose-500 to-orange-950 group-hover/avatar:scale-110 transition-all duration-[2000ms] shadow-[0_80px_200px_rgba(0,0,0,1)] shadow-inner overflow-hidden">
-               <div className="absolute inset-0 bg-white/20 blur-[30px] opacity-0 group-hover/avatar:opacity-100 transition-all" />
-              <div className="w-full h-full rounded-[7.5rem] border-[15px] border-[#050506] overflow-hidden bg-white/5 shadow-inner relative z-10">
-                <img 
-                  src={post.profiles?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${post.profiles?.username}`} 
-                  className="w-full h-full object-cover transition-transform duration-[8000ms] group-hover/avatar:scale-150 grayscale-[0.6] group-hover/avatar:grayscale-0 brightness-[0.7] group-hover/avatar:brightness-100" 
-                  alt={post.profiles?.username} 
-                  loading="lazy"
-                />
-              </div>
+      {/* Post Header */}
+      <div className="p-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="w-10 h-10 rounded-full border border-warm-100 overflow-hidden bg-warm-50">
+              <img 
+                src={post.profiles?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${post.profiles?.username}`} 
+                className="w-full h-full object-cover" 
+                alt={post.profiles?.username} 
+              />
             </div>
-            <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full bg-rose-500 border-[6px] border-[#050506] shadow-[0_0_80px_rgba(244,63,94,1)] animate-pulse z-20" />
+            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white" />
           </div>
-          <div className="space-y-12">
-            <p className="text-8xl sm:text-[11rem] font-serif text-white leading-none tracking-tighter group-hover:text-rose-400 transition-all duration-[2000ms] italic drop-shadow-3xl">
+          <div>
+            <p className="text-sm font-bold text-charcoal leading-none">
               {post.profiles?.display_name || post.profiles?.username}
             </p>
-            <div className="flex items-center gap-10">
-              <Fingerprint size={80} strokeWidth={0.01} className="text-gray-950 opacity-40 drop-shadow-2xl" />
-              <p className="text-[20px] text-gray-950 font-black uppercase tracking-[1em] italic opacity-30 group-hover:opacity-100 transition-all duration-[2000ms]">
-                {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-              </p>
-            </div>
+            <p className="text-[10px] text-warm-400 font-bold uppercase tracking-wider mt-1">
+              {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            </p>
           </div>
         </div>
-        <button className="text-gray-950 hover:text-white p-20 hover:bg-white/15 rounded-[6rem] transition-all duration-[1500ms] active:scale-[0.5] border-[6px] border-transparent hover:border-white/20 shadow-inner shadow-3xl group/more">
-          <MoreHorizontal size={160} strokeWidth={0.01} className="drop-shadow-3xl group-hover/more:scale-125 transition-all duration-[1500ms]" />
+        <button className="text-warm-400 hover:text-charcoal p-2 transition-colors">
+          <MoreHorizontal size={20} />
         </button>
       </div>
 
-      {/* Post Media - Cinematic Frame */}
+      {/* Post Media */}
       <div 
-        className="relative aspect-square sm:aspect-[4/5] bg-black overflow-hidden cursor-pointer group/media mx-12 sm:mx-24 rounded-[8rem] shadow-[0_250px_550px_rgba(0,0,0,1)] shadow-inner"
+        className="relative aspect-square sm:aspect-[4/5] bg-warm-50 overflow-hidden cursor-pointer"
         onDoubleClick={handleDoubleTap}
       >
         <img 
           src={post.post_photos[0]?.image_url} 
-          className="w-full h-full object-cover transition-all duration-[12000ms] group-hover/media:scale-150 group-hover/media:opacity-90 grayscale-[0.7] group-hover/media:grayscale-0 brightness-[0.5] group-hover/media:brightness-[0.8]" 
+          className="w-full h-full object-cover" 
           alt="Memory" 
           loading="lazy"
         />
         
-        {/* Cinematic Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/85 pointer-events-none" />
-        <div className="absolute inset-0 opacity-0 group-hover/media:opacity-100 transition-all duration-[3000ms] bg-black/50 pointer-events-none backdrop-blur-[5px]" />
-        
         <AnimatePresence>
           {showHeart && (
             <motion.div 
-              initial={{ scale: 0, opacity: 0, rotate: -90, filter: 'blur(100px)' }}
-              animate={{ scale: 3.5, opacity: 1, rotate: 0, filter: 'blur(0px)' }}
-              exit={{ scale: 0, opacity: 0, rotate: 90, filter: 'blur(100px)' }}
-              transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 1.5, opacity: 0 }}
               className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
             >
-              <Heart size={640} className="text-rose-500 fill-rose-500 drop-shadow-[0_0_200px_rgba(244,63,94,1)] shadow-rose-500 shadow-3xl" strokeWidth={0.01} />
+              <Heart size={100} className="text-white fill-white drop-shadow-xl" />
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* View Details Hint */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-all duration-[2000ms] pointer-events-none">
-          <div className="px-32 py-16 rounded-full bg-black/85 backdrop-blur-[150px] border-[6px] border-white/15 text-[22px] font-black uppercase tracking-[1.2em] text-white flex items-center gap-12 scale-90 group-hover/media:scale-100 transition-all duration-[2000ms] italic shadow-inner shadow-[0_150px_350px_rgba(0,0,0,1)]">
-            <Zap size={96} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl shadow-[0_0_50px_rgba(244,63,94,1)]" />
-            Double Tap to Heart
-          </div>
-        </div>
-        
-        {/* Decorative Corner Elements */}
-        <div className="absolute top-24 left-24 opacity-5 group-hover/media:opacity-40 transition-all duration-[2000ms]">
-           <Shield size={160} className="text-white drop-shadow-3xl" strokeWidth={0.01} />
-        </div>
       </div>
 
-      {/* Post Actions - Reimagined */}
-      <div className="p-24 sm:p-[4rem] space-y-32 relative z-10">
+      {/* Post Actions */}
+      <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-[4rem]">
-            <motion.button 
-              whileTap={{ scale: 3, rotate: -45 }}
+          <div className="flex items-center gap-4">
+            <button 
               onClick={() => setIsLiked(!isLiked)}
               className={twMerge(
-                "transition-all duration-[2000ms] group/btn", 
-                isLiked ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
+                "transition-all", 
+                isLiked ? "text-rose-600 scale-110" : "text-warm-400 hover:text-rose-600"
               )}
             >
-              <Heart size={192} className={twMerge("transition-all duration-[2000ms]", isLiked ? "fill-rose-500 scale-125 drop-shadow-[0_0_150px_rgba(244,63,94,1)] shadow-rose-500 shadow-2xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
-            </motion.button>
-            <motion.button 
-              whileTap={{ scale: 2.5 }}
+              <Heart size={24} className={twMerge(isLiked && "fill-rose-600")} />
+            </button>
+            <button 
               onClick={() => setShowComments(!showComments)} 
               className={twMerge(
-                "transition-all duration-[2000ms] group/btn",
-                showComments ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
+                "transition-all",
+                showComments ? "text-blue-600" : "text-warm-400 hover:text-blue-600"
               )}
             >
-              <MessageCircle size={192} className={twMerge("transition-all duration-[2000ms]", showComments ? "fill-rose-500/30 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:-rotate-[30deg] drop-shadow-3xl")} strokeWidth={0.01} />
-            </motion.button>
-            <motion.button 
-              whileTap={{ scale: 2.5 }}
-              className="text-gray-950 hover:text-rose-500 transition-all duration-[2000ms] group/btn"
-            >
-              <Share2 size={192} className="group-hover/btn:scale-150 transition-all duration-[2000ms] drop-shadow-3xl group-hover/btn:rotate-[15deg]" strokeWidth={0.01} />
-            </motion.button>
-          </div>
-          <motion.button 
-            whileTap={{ scale: 2.5 }}
-            onClick={() => setIsBookmarked(!isBookmarked)}
-            className={twMerge(
-              "transition-all duration-[2000ms] group/btn",
-              isBookmarked ? "text-rose-500" : "text-gray-950 hover:text-rose-500"
-            )}
-          >
-            <Bookmark size={192} className={twMerge("transition-all duration-[2000ms]", isBookmarked ? "fill-rose-500 scale-125 drop-shadow-3xl" : "group-hover/btn:scale-150 group-hover/btn:rotate-[-30deg] drop-shadow-3xl")} strokeWidth={0.01} />
-          </motion.button>
-        </div>
-
-        {/* Caption Area - Premium Typography */}
-        <div className="space-y-24">
-          <div className="flex gap-16 items-start">
-            <div className="mt-6 px-16 py-8 rounded-full bg-rose-500/20 border-4 border-rose-500/40 flex items-center gap-10 flex-shrink-0 shadow-inner shadow-3xl italic relative overflow-hidden group/moment-tag">
-               <div className="absolute inset-0 bg-rose-500/10 blur-[20px] opacity-0 group-hover/moment-tag:opacity-100 transition-all" />
-              <Sparkles size={72} strokeWidth={1} className="text-rose-500 animate-pulse fill-rose-500 drop-shadow-3xl relative z-10" />
-              <span className="text-[20px] font-black text-rose-500 uppercase tracking-[1em] relative z-10 drop-shadow-2xl">Moment</span>
-            </div>
-            <div className="space-y-16">
-              <p className="text-8xl sm:text-[11rem] leading-none text-gray-950 font-serif italic selection:bg-rose-500/40 drop-shadow-3xl">
-                <span className="font-black text-white not-italic uppercase tracking-tighter mr-16 text-[4rem] sm:text-[5rem] drop-shadow-3xl group-hover:text-rose-500 transition-all duration-[2000ms]">@{post.profiles?.username}</span>
-                "{post.caption}"
-              </p>
-            </div>
+              <MessageCircle size={24} />
+            </button>
+            <button className="text-warm-400 hover:text-emerald-600 transition-all">
+              <Share2 size={24} />
+            </button>
           </div>
           <button 
-            onClick={() => setShowComments(!showComments)}
-            className="text-[22px] text-gray-950 font-black uppercase tracking-[1.5em] hover:text-rose-500 transition-all duration-[2000ms] flex items-center gap-16 pl-[4rem] group/explore italic opacity-20 group-hover/card:opacity-100 leading-none"
+            onClick={() => setIsBookmarked(!isBookmarked)}
+            className={twMerge(
+              "transition-all",
+              isBookmarked ? "text-amber-600" : "text-warm-400 hover:text-amber-600"
+            )}
           >
-            Explore whispers <div className="w-[15rem] h-[6px] bg-gray-950 group-hover:w-[25rem] group-hover:bg-rose-500/60 transition-all duration-[2500ms] shadow-inner rounded-full" /> Resonance detected
+            <Bookmark size={24} className={twMerge(isBookmarked && "fill-amber-600")} />
           </button>
         </div>
 
-        {/* Comment Section (Inline Sanctuary) */}
+        {/* Caption */}
+        <div className="space-y-2">
+          <div className="flex gap-2 items-start">
+            <span className="text-sm font-bold text-charcoal">@{post.profiles?.username}</span>
+            <p className="text-sm text-warm-600 leading-relaxed font-medium">
+              {post.caption}
+            </p>
+          </div>
+          <button 
+            onClick={() => setShowComments(!showComments)}
+            className="text-[10px] font-bold text-warm-400 uppercase tracking-widest hover:text-rose-600 transition-colors"
+          >
+            {showComments ? 'Hide Whispers' : 'Explore Whispers'}
+          </button>
+        </div>
+
+        {/* Comment Section */}
         <AnimatePresence>
           {showComments && (
             <motion.div
-              initial={{ height: 0, opacity: 0, filter: 'blur(80px)' }}
-              animate={{ height: 'auto', opacity: 1, filter: 'blur(0px)' }}
-              exit={{ height: 0, opacity: 0, filter: 'blur(80px)' }}
-              transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-              className="pt-24 border-t-[6px] border-white/5 overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="pt-4 border-t border-warm-100 space-y-4"
             >
-              <div className="space-y-24 mb-[4rem] max-h-[800px] overflow-y-auto no-scrollbar px-12 pt-24">
-                <div className="flex gap-16 items-start group/comment">
-                  <div className="w-[10rem] h-[10rem] rounded-[6rem] bg-rose-500/25 border-4 border-rose-500/50 flex items-center justify-center flex-shrink-0 group-hover/comment:scale-125 group-hover/comment:rotate-[20deg] transition-all duration-[2000ms] shadow-inner shadow-3xl relative overflow-hidden">
-                      <div className="absolute inset-0 bg-rose-500/15 blur-[20px] opacity-0 group-hover/comment:opacity-100 transition-all" />
-                    <Heart size={96} strokeWidth={1} className="text-rose-500 fill-rose-500/40 drop-shadow-3xl relative z-10" />
-                  </div>
-                  <div className="flex-1 bg-white/[0.01] rounded-[8rem] p-24 border-[6px] border-white/5 group-hover/comment:border-rose-500/60 transition-all duration-[2000ms] shadow-inner shadow-3xl relative overflow-hidden">
-                      <div className="absolute inset-0 bg-rose-500/5 opacity-0 group-hover/comment:opacity-100 transition-all" />
-                    <div className="flex items-center gap-12 mb-16 relative z-10">
-                      <p className="text-[20px] font-black text-rose-500 uppercase tracking-[1.2em] italic drop-shadow-2xl">Sanctuary Keeper</p>
-                      <div className="w-6 h-6 rounded-full bg-gray-950 shadow-inner" />
-                      <span className="text-[18px] text-gray-950 font-bold uppercase tracking-[1em] italic opacity-30">System</span>
-                    </div>
-                    <p className="text-[10rem] sm:text-[13rem] text-gray-950 italic font-handwritten leading-none selection:bg-rose-500/40 drop-shadow-2xl relative z-10 opacity-60 group-hover/comment:opacity-100 group-hover/comment:text-white transition-all duration-[2000ms]">
-                      "This specific shared breath has been safely archived in our eternal frequency. It resonates forever..."
-                    </p>
-                  </div>
+              <div className="flex gap-3 items-start">
+                <div className="w-6 h-6 rounded-full bg-rose-50 flex items-center justify-center text-rose-600 flex-shrink-0">
+                  <Sparkles size={12} />
+                </div>
+                <div className="bg-warm-50 rounded-2xl p-3 flex-1">
+                  <p className="text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">Sanctuary Keeper</p>
+                  <p className="text-xs text-warm-500 font-medium leading-relaxed">
+                    This shared memory has been synchronized in our private frequency. It resonates forever.
+                  </p>
                 </div>
               </div>
               
-              <div className="flex gap-16 p-12 bg-white/[0.01] rounded-[8rem] border-[6px] border-white/5 focus-within:border-rose-500/80 transition-all duration-[2500ms] group/input shadow-inner relative overflow-hidden shadow-3xl mb-16">
-                 <div className="absolute inset-0 bg-gradient-to-r from-rose-500/[0.12] to-transparent opacity-0 group-focus-within/input:opacity-100 transition-all duration-[2500ms]" />
+              <div className="flex gap-2 bg-warm-50 rounded-xl p-2 focus-within:bg-white focus-within:border-warm-200 border border-transparent transition-all">
                 <input 
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Whisper a thought into the void..." 
-                  className="flex-1 bg-transparent px-[6rem] py-20 text-[10rem] sm:text-[12rem] outline-none text-white placeholder:text-gray-950 font-serif italic selection:bg-rose-500/40 relative z-10 leading-none drop-shadow-3xl"
+                  placeholder="Whisper a thought..." 
+                  className="flex-1 bg-transparent px-2 py-1 text-xs outline-none text-charcoal placeholder:text-warm-300 font-medium"
                 />
-                <Button 
+                <button 
                   onClick={() => setComment('')}
                   disabled={!comment.trim()}
-                  className="rounded-[6rem] w-[12rem] h-[12rem] p-0 flex items-center justify-center shrink-0 shadow-3xl relative z-10 border-none shadow-[0_100px_200px_rgba(244,63,94,1)] active:scale-[0.5] transition-all duration-[1000ms]"
+                  className="text-rose-600 disabled:opacity-30 p-1"
                 >
-                  <Send size={128} strokeWidth={0.01} className="rotate-[-30deg] group-hover/input:translate-x-16 group-hover/input:-translate-y-16 transition-all duration-[2500ms] drop-shadow-3xl shadow-[0_0_80px_white]" />
-                </Button>
+                  <Send size={18} />
+                </button>
               </div>
             </motion.div>
           )}

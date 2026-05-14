@@ -7,42 +7,29 @@ import { motion } from 'framer-motion';
 
 export default function AppLayout() {
   return (
-    <div className="min-h-screen bg-[#050506] flex flex-col lg:flex-row selection:bg-rose-500/40 selection:text-white">
+    <div className="min-h-screen bg-background text-charcoal flex flex-col lg:flex-row selection:bg-rose-100 selection:text-rose-900">
       <Header />
       
       {/* Sidebar for Desktop */}
       <Sidebar />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-80 pt-32 content-safe-bottom min-h-screen relative overflow-x-hidden">
-        {/* Background Decorative Elements (Global Sanctuary Vibes) */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <main className="flex-1 lg:ml-72 pt-16 lg:pt-0 min-h-screen relative overflow-x-hidden">
+        {/* Background Decorative Elements - Subtle & Professional */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-warm-50/30">
           <motion.div 
             animate={{ 
-              scale: [1, 1.3, 1], 
-              opacity: [0.05, 0.12, 0.05],
-              x: [0, 150, 0],
-              y: [0, 100, 0]
+              opacity: [0.1, 0.2, 0.1],
+              x: [0, 50, 0],
+              y: [0, 30, 0]
             }}
-            transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-15%] right-[-15%] w-[80%] h-[80%] bg-rose-600 rounded-full blur-[250px]"
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-rose-50 rounded-full blur-[120px]"
           />
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.5, 1], 
-              opacity: [0.03, 0.08, 0.03],
-              x: [0, -120, 0],
-              y: [0, -80, 0]
-            }}
-            transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", delay: 8 }}
-            className="absolute bottom-[-25%] left-[-15%] w-[90%] h-[90%] bg-orange-500 rounded-full blur-[300px]"
-          />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] mix-blend-overlay" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,6,0.98)_100%)]" />
         </div>
 
         {/* Page Content */}
-        <div className="relative z-10 px-6 sm:px-20 max-w-[1920px] mx-auto py-16 sm:py-32">
+        <div className="relative z-10 px-4 sm:px-8 max-w-7xl mx-auto py-8 sm:py-12 pb-32 lg:pb-12">
           <Outlet />
         </div>
       </main>

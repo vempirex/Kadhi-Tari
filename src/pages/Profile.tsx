@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Settings, Heart, Calendar, Edit3, Grid, Image as ImageIcon, 
   Sparkles, LogOut, ShieldCheck, Award, Zap, Phone, Camera, 
-  Star, Fingerprint, MapPin, Quote, Smile, Globe 
+  Star, Fingerprint, MapPin, Quote, Smile, Globe, Loader2 
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
@@ -71,186 +71,190 @@ export default function Profile() {
   };
 
   if (isLoading || !profile) return (
-    <div className="flex flex-col items-center justify-center h-[80vh] gap-12">
-      <div className="relative">
-        <div className="w-28 h-28 rounded-[3.5rem] border-2 border-rose-500/10 border-t-rose-500 animate-spin" />
-        <Heart size={40} className="absolute inset-0 m-auto text-rose-500 fill-rose-500 animate-pulse" />
-      </div>
-      <p className="text-[14px] text-gray-400 font-black uppercase tracking-[1em] animate-pulse italic">Restoring your presence...</p>
+    <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
+      <Loader2 size={32} className="animate-spin text-rose-500" />
+      <p className="text-xs font-bold text-warm-400 uppercase tracking-widest italic">Restoring Presence...</p>
     </div>
   );
 
   return (
-    <div className="max-w-7xl mx-auto pb-48 space-y-16 relative overflow-hidden px-4">
-      {/* Premium Profile Header */}
-      <section className="relative h-[60rem] rounded-[4rem] overflow-hidden group shadow-2xl border border-white/5">
+    <div className="max-w-6xl mx-auto space-y-12">
+      {/* Profile Header */}
+      <section className="relative h-96 sm:h-[450px] rounded-3xl overflow-hidden shadow-soft border border-warm-100 bg-white">
         <img 
           src={profile.cover_url || 'https://images.unsplash.com/photo-1516589174184-c68526614af5?auto=format&fit=crop&q=80'} 
-          className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-[10000ms] group-hover:scale-110"
+          className="w-full h-full object-cover"
           alt="Cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         
         {/* Actions */}
-        <div className="absolute top-12 left-12 right-12 flex justify-between items-center z-40">
-          <div className="flex gap-4">
-            <Button variant="glass" onClick={() => navigate('/profile/edit')} className="p-8 h-auto aspect-square rounded-[2rem]">
-              <Settings size={32} />
-            </Button>
-          </div>
-          <div className="flex gap-4">
-            <Button variant="glass" onClick={() => navigate('/profile/edit')} className="p-8 h-auto aspect-square rounded-[2rem]">
-              <Edit3 size={32} />
-            </Button>
-            <Button variant="glass" onClick={handleLogout} className="p-8 h-auto aspect-square rounded-[2rem] text-rose-500">
-              <LogOut size={32} />
-            </Button>
-          </div>
+        <div className="absolute top-6 right-6 flex gap-2">
+          <Button variant="secondary" onClick={() => navigate('/profile/edit')} size="sm">
+            <Edit3 size={16} className="mr-2" /> Edit Profile
+          </Button>
+          <Button variant="danger" onClick={handleLogout} size="sm">
+            <LogOut size={16} className="mr-2" /> Logout
+          </Button>
         </div>
 
-        {/* Profile Content Overlay */}
-        <div className="absolute bottom-12 left-12 right-12 flex flex-col sm:flex-row items-center sm:items-end gap-12 z-30">
-          <div className="relative group/avatar">
-            <div className="w-[20rem] h-[20rem] sm:w-[28rem] sm:h-[28rem] rounded-[5rem] p-1 bg-gradient-to-tr from-rose-500 to-orange-500 shadow-2xl relative overflow-hidden">
-              <div className="w-full h-full rounded-[4.8rem] bg-black overflow-hidden flex items-center justify-center">
+        {/* Profile Info Overlay */}
+        <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row items-center sm:items-end gap-6">
+          <div className="relative">
+            <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 bg-white shadow-xl relative overflow-hidden">
+              <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
                 <img 
                   src={profile.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`} 
-                  className="w-full h-full object-cover transition-transform duration-[6000ms] group-hover/avatar:scale-110"
+                  className="w-full h-full object-cover"
                   alt="Avatar"
                 />
               </div>
             </div>
-            <div className="absolute bottom-4 right-4 w-10 h-10 bg-emerald-500 border-4 border-black rounded-full shadow-[0_0_20px_rgba(16,185,129,0.5)] animate-pulse" />
+            <div className="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full" />
           </div>
 
-          <div className="flex-1 text-center sm:text-left space-y-6 pb-4">
-            <div className="space-y-2">
-              <h1 className="text-7xl sm:text-9xl font-serif italic text-white drop-shadow-2xl">{profile.display_name || profile.full_name}</h1>
-              <div className="flex items-center justify-center sm:justify-start gap-4">
-                <span className="text-rose-500 font-black uppercase tracking-[0.5em] text-[12px] italic flex items-center gap-2">
-                  <Fingerprint size={24} />
+          <div className="flex-1 text-center sm:text-left space-y-2 pb-2">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-outfit font-bold text-white tracking-tight drop-shadow-md">
+                {profile.display_name || profile.full_name}
+              </h1>
+              <div className="flex items-center justify-center sm:justify-start gap-3 mt-1">
+                <span className="text-rose-100 font-bold text-xs flex items-center gap-1.5">
+                  <Fingerprint size={14} />
                   @{profile.username}
                 </span>
-                <span className="text-white/20">|</span>
-                <span className="text-emerald-500 font-black uppercase tracking-[0.5em] text-[12px] italic flex items-center gap-2">
-                  <ShieldCheck size={24} />
+                <span className="text-white/40">•</span>
+                <span className="text-emerald-100 font-bold text-xs flex items-center gap-1.5">
+                  <ShieldCheck size={14} />
                   Verified Soul
                 </span>
               </div>
             </div>
-            <p className="text-gray-400 font-handwritten text-4xl sm:text-5xl italic max-w-3xl">
-              "{profile.bio || 'In the frequency of love...'}"
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Profile Details & Stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-1 space-y-12">
-          {/* Details Card */}
-          <Card variant="glass" className="p-12 space-y-12">
-            <h3 className="text-4xl font-serif italic text-white/90 px-4">Profile Essence</h3>
-            <div className="space-y-8 px-4 pb-4">
-              <DetailRow icon={Heart} label="Status" value={profile.relationship_status} color="text-rose-500" />
-              <DetailRow icon={Calendar} label="Anniversary" value={profile.anniversary ? new Date(profile.anniversary).toLocaleDateString() : 'N/A'} color="text-rose-500" />
-              <DetailRow icon={Smile} label="Solar Return" value={profile.birthday ? new Date(profile.birthday).toLocaleDateString() : 'N/A'} color="text-orange-500" />
-              <DetailRow icon={MapPin} label="Coordinates" value={profile.location || 'The Void'} color="text-emerald-500" />
-              <DetailRow icon={Globe} label="Frequencies" value={profile.interests || 'Music & Stars'} color="text-blue-500" />
-              <DetailRow icon={Quote} label="Echo" value={profile.favorite_quote || 'No words needed.'} color="text-purple-500" />
+      {/* Profile Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Details */}
+        <div className="space-y-6">
+          <Card className="p-6 space-y-6">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-warm-400">Profile Essence</h3>
+            <div className="space-y-5">
+              <DetailRow icon={Heart} label="Status" value={profile.relationship_status} color="text-rose-600" bg="bg-rose-50" />
+              <DetailRow icon={Calendar} label="Anniversary" value={profile.anniversary ? new Date(profile.anniversary).toLocaleDateString() : 'N/A'} color="text-rose-600" bg="bg-rose-50" />
+              <DetailRow icon={Smile} label="Solar Return" value={profile.birthday ? new Date(profile.birthday).toLocaleDateString() : 'N/A'} color="text-orange-600" bg="bg-orange-50" />
+              <DetailRow icon={MapPin} label="Coordinates" value={profile.location || 'The Sanctuary'} color="text-emerald-600" bg="bg-emerald-50" />
+              <DetailRow icon={Quote} label="Favorite Quote" value={profile.favorite_quote || 'No words needed.'} color="text-purple-600" bg="bg-purple-50" />
             </div>
           </Card>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-8">
-            <Card variant="glass" className="p-8 text-center space-y-2">
-              <p className="text-5xl font-serif text-white">{posts.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/30 italic">Memories</p>
-            </Card>
-            <Card variant="glass" className="p-8 text-center space-y-2">
-              <p className="text-5xl font-serif text-white">{new Date(profile.joined_at).getFullYear()}</p>
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/30 italic">Established</p>
-            </Card>
-          </div>
+          <Card className="p-6">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-warm-400 mb-4">Essence Story</h3>
+            <p className="text-sm font-medium text-warm-600 leading-relaxed italic">
+              "{profile.bio || 'In the frequency of love and shared moments...'}"
+            </p>
+          </Card>
         </div>
 
-        <div className="lg:col-span-2 space-y-12">
-          {/* Memories Grid */}
-          <div className="space-y-8">
-            <div className="flex gap-4 p-2 bg-white/[0.02] rounded-[3rem] border border-white/5 backdrop-blur-3xl w-fit">
-              <button 
-                onClick={() => setActiveTab('memories')}
-                className={twMerge(
-                  "px-8 py-3 rounded-[2.5rem] text-[12px] font-black uppercase tracking-widest italic transition-all",
-                  activeTab === 'memories' ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"
-                )}
-              >
-                Shared Archive
-              </button>
-              <button 
-                onClick={() => setActiveTab('gallery')}
-                className={twMerge(
-                  "px-8 py-3 rounded-[2.5rem] text-[12px] font-black uppercase tracking-widest italic transition-all",
-                  activeTab === 'gallery' ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"
-                )}
-              >
-                Gallery
-              </button>
-            </div>
+        {/* Right Column: Memories */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="flex gap-2 p-1 bg-warm-50 rounded-xl w-fit">
+            <button 
+              onClick={() => setActiveTab('memories')}
+              className={twMerge(
+                "px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all",
+                activeTab === 'memories' ? "bg-white text-charcoal shadow-sm" : "text-warm-400 hover:text-warm-600"
+              )}
+            >
+              Archive
+            </button>
+            <button 
+              onClick={() => setActiveTab('stats')}
+              className={twMerge(
+                "px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all",
+                activeTab === 'stats' ? "bg-white text-charcoal shadow-sm" : "text-warm-400 hover:text-warm-600"
+              )}
+            >
+              Stats
+            </button>
+          </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="wait">
+            {activeTab === 'memories' ? (
+              <motion.div 
+                key="memories"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="grid grid-cols-2 sm:grid-cols-3 gap-4"
+              >
                 {posts.length > 0 ? (
                   posts.map((post, i) => (
                     <motion.div
                       key={post.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="aspect-square rounded-[3rem] overflow-hidden group relative border border-white/5"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.02 }}
+                      className="aspect-square rounded-2xl overflow-hidden group relative border border-warm-100 bg-warm-50 shadow-sm"
                     >
                       <img 
-                        src={post.post_photos?.[0]?.image_url || `https://picsum.photos/seed/${post.id}/800/800`} 
-                        className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-[3000ms] group-hover:scale-110"
+                        src={post.post_photos?.[0]?.image_url} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         alt=""
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
-                        <p className="text-3xl font-serif italic text-white truncate">{post.content || 'A memory...'}</p>
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <p className="text-[10px] font-bold text-white uppercase tracking-widest truncate">
+                          {new Date(post.created_at).toLocaleDateString()}
+                        </p>
                       </div>
                     </motion.div>
                   ))
                 ) : (
-                  <div className="col-span-full py-48 text-center space-y-6 bg-white/[0.01] rounded-[4rem] border-2 border-dashed border-white/5">
-                    <ImageIcon size={120} className="mx-auto text-white/5" strokeWidth={0.5} />
-                    <p className="text-3xl font-serif italic text-white/20">The archive is silent.</p>
+                  <div className="col-span-full py-24 text-center space-y-4 bg-white rounded-3xl border border-dashed border-warm-200">
+                    <ImageIcon size={48} className="mx-auto text-warm-200" strokeWidth={1} />
+                    <p className="text-sm font-bold text-warm-400">The archive is silent.</p>
                   </div>
                 )}
-              </AnimatePresence>
-            </div>
-          </div>
+              </motion.div>
+            ) : (
+              <motion.div 
+                key="stats"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="grid grid-cols-2 gap-4"
+              >
+                <StatBox label="Memories shared" value={posts.length} color="text-rose-600" />
+                <StatBox label="Frequency established" value={new Date(profile.joined_at).getFullYear()} color="text-blue-600" />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
   );
 }
 
-interface DetailRowProps {
-  icon: any;
-  label: string;
-  value: string | undefined;
-  color: string;
-}
-
-function DetailRow({ icon: Icon, label, value, color }: DetailRowProps) {
+function DetailRow({ icon: Icon, label, value, color, bg }: any) {
   return (
-    <div className="flex items-center gap-6 group">
-      <div className={twMerge("p-3 rounded-2xl bg-white/[0.02] border border-white/5 transition-transform group-hover:scale-110", color)}>
-        <Icon size={24} />
+    <div className="flex items-center gap-4 group">
+      <div className={twMerge("w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105", bg, color)}>
+        <Icon size={18} />
       </div>
-      <div className="space-y-0.5">
-        <p className="text-[10px] font-black uppercase tracking-widest text-white/20 italic">{label}</p>
-        <p className="text-2xl font-serif italic text-white truncate max-w-[200px]">{value || 'Unknown'}</p>
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400">{label}</p>
+        <p className="text-sm font-bold text-charcoal truncate max-w-[150px]">{value || 'Not set'}</p>
       </div>
     </div>
+  );
+}
+
+function StatBox({ label, value, color }: any) {
+  return (
+    <Card className="p-8 text-center space-y-1">
+      <p className={twMerge("text-4xl font-outfit font-bold", color)}>{value}</p>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-warm-400">{label}</p>
+    </Card>
   );
 }

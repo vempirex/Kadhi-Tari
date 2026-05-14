@@ -69,110 +69,103 @@ export default function Thoughts() {
     }
   };
 
+  if (isLoading && thoughts.length === 0) return (
+    <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
+      <Loader2 size={32} className="animate-spin text-rose-500" />
+      <p className="text-xs font-bold text-warm-400 uppercase tracking-widest italic">Capturing clouds...</p>
+    </div>
+  );
+
   return (
-    <div className="max-w-5xl mx-auto space-y-12 pb-32 px-4">
-      <header className="space-y-6 text-center py-12">
-        <div className="flex flex-col items-center gap-6">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.01] border border-white/5 text-rose-500 font-black uppercase tracking-[1em] text-[10px] backdrop-blur-3xl italic"
-          >
-            <Wind size={20} className="animate-pulse" />
+    <div className="max-w-4xl mx-auto space-y-12">
+      <header className="space-y-3 text-center py-8">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 font-bold uppercase tracking-widest text-[10px]">
+            <Wind size={16} />
             Nebulous Notations
-          </motion.div>
-          <h1 className="text-6xl sm:text-8xl font-serif italic text-white leading-none">Ethereal Thoughts</h1>
-          <p className="text-gray-400 text-3xl sm:text-4xl font-handwritten italic opacity-80 max-w-2xl mx-auto">
-            "Small clouds of consciousness drifting through our shared sky, waiting to be whispered back to life..."
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-outfit font-bold text-charcoal tracking-tight">Ethereal Thoughts</h1>
+          <p className="text-warm-500 font-medium text-lg max-w-xl mx-auto">
+            Small clouds of consciousness drifting through our shared sky.
           </p>
         </div>
       </header>
 
       {/* Input Area */}
-      <section className="relative z-40 w-full">
-        <Card variant="glass" className="p-6 flex items-center gap-6 group focus-within:border-rose-500/30 transition-all">
-          <div className="text-rose-500/20 group-focus-within:text-rose-500 transition-colors">
-            <Zap size={32} strokeWidth={1} />
+      <section className="max-w-2xl mx-auto w-full px-2">
+        <Card className="p-4 flex items-center gap-4 group focus-within:border-rose-200 transition-all bg-white shadow-premium">
+          <div className="text-warm-200 group-focus-within:text-rose-500 transition-colors pl-2">
+            <Zap size={24} />
           </div>
           <input 
             type="text" 
-            placeholder="Whisper into the collective void..."
+            placeholder="Whisper into the void..."
             value={newThought}
             onChange={(e) => setNewThought(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAddThought()}
-            className="flex-1 bg-transparent border-none outline-none text-4xl py-4 placeholder:text-white/5 font-serif italic text-white"
+            className="flex-1 bg-transparent border-none outline-none text-lg py-2 placeholder:text-warm-200 font-medium text-charcoal"
           />
           <Button 
             onClick={handleAddThought}
             isLoading={isSending}
             disabled={!newThought.trim()}
-            className="h-16 w-16 rounded-2xl p-0 shrink-0"
+            size="sm"
+            className="h-12 w-12 rounded-xl p-0 shrink-0"
           >
-            <Plus size={32} />
+            <Plus size={24} />
           </Button>
         </Card>
       </section>
 
-      <div className="grid gap-8">
-        {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <Loader2 size={48} className="animate-spin text-rose-500" />
-            <p className="text-[12px] text-white/20 font-black uppercase tracking-[1em] italic">Capturing Clouds...</p>
-          </div>
-        ) : thoughts.length === 0 ? (
+      <div className="grid gap-6 px-2">
+        {thoughts.length === 0 ? (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-24 space-y-8"
+            className="text-center py-24 space-y-6"
           >
-            <div className="p-12 bg-white/[0.01] rounded-[4rem] w-fit mx-auto border border-dashed border-white/10 opacity-20">
-              <Sparkles size={120} strokeWidth={0.5} />
+            <div className="p-10 bg-warm-50 rounded-full w-fit mx-auto border border-dashed border-warm-200 text-warm-200">
+              <Sparkles size={48} strokeWidth={1} />
             </div>
-            <p className="font-handwritten text-4xl italic text-gray-400 opacity-40">"The sky is clear today. Let's add some thoughts to our constellation..."</p>
+            <p className="font-medium text-warm-400">The sky is clear today. Let's add some thoughts to our constellation...</p>
           </motion.div>
         ) : (
-          <div className="grid gap-8">
+          <div className="grid gap-6 max-w-2xl mx-auto w-full">
             <AnimatePresence mode="popLayout">
               {thoughts.map((thought) => (
                 <motion.div
                   key={thought.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                 >
-                  <Card variant="glass" className="p-8 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-12 opacity-[0.02] group-hover:opacity-10 transition-all duration-[5000ms] group-hover:scale-150 pointer-events-none">
-                      <Cloud size={120} />
-                    </div>
-
-                    <div className="flex justify-between items-center mb-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500">
-                          <Moon size={20} />
+                  <Card className="p-6 relative overflow-hidden group hover:border-rose-100 transition-all">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
+                          <Moon size={16} />
                         </div>
-                        <div className="px-4 py-1 rounded-full bg-white/[0.02] text-white/40 border border-white/5 text-[10px] font-black uppercase tracking-widest italic">
+                        <div className="px-3 py-1 rounded-full bg-warm-50 text-warm-400 border border-warm-100 text-[10px] font-bold uppercase tracking-widest italic">
                           Passing By
                         </div>
                       </div>
-                      <div className="flex flex-col items-end text-right">
-                        <span className="text-[10px] uppercase tracking-widest text-white/20 font-black italic">
-                          {new Date(thought.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}
-                        </span>
-                      </div>
+                      <span className="text-[10px] uppercase tracking-widest text-warm-300 font-bold">
+                        {new Date(thought.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                      </span>
                     </div>
                     
-                    <p className="text-5xl font-serif italic text-white leading-tight mb-8">
+                    <p className="text-2xl font-outfit font-bold text-charcoal leading-tight mb-6">
                       "{thought.text}"
                     </p>
 
-                    <div className="flex items-center gap-6">
-                      <button className="flex items-center gap-3 text-white/20 hover:text-rose-500 transition-colors">
-                        <Heart size={20} />
-                        <span className="text-[10px] font-black uppercase tracking-widest italic">Resonate</span>
+                    <div className="flex items-center gap-4">
+                      <button className="flex items-center gap-2 text-warm-300 hover:text-rose-600 transition-colors group/res">
+                        <Heart size={18} className="group-hover/res:fill-rose-600 transition-all" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Resonate</span>
                       </button>
-                      <button className="flex items-center gap-3 text-white/20 hover:text-blue-500 transition-colors">
-                        <MessageCircle size={20} />
-                        <span className="text-[10px] font-black uppercase tracking-widest italic">Echo</span>
+                      <button className="flex items-center gap-2 text-warm-300 hover:text-blue-600 transition-colors group/echo">
+                        <MessageCircle size={18} className="group-hover/echo:fill-blue-600 transition-all" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Echo</span>
                       </button>
                     </div>
                   </Card>

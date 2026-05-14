@@ -61,9 +61,14 @@ export default function Onboarding() {
       return;
     }
     setIsCheckingUsername(true);
-    const available = await isUsernameAvailable(val);
-    setUsernameStatus(available ? 'available' : 'taken');
-    setIsCheckingUsername(false);
+    try {
+      const available = await isUsernameAvailable(val);
+      setUsernameStatus(available ? 'available' : 'taken');
+    } catch (err) {
+      setUsernameStatus('none');
+    } finally {
+      setIsCheckingUsername(false);
+    }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'cover') => {
@@ -101,13 +106,11 @@ export default function Onboarding() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        // 1. Update Password in Auth
         if (formData.password) {
           const { error: pwdError } = await supabase.auth.updateUser({ password: formData.password });
           if (pwdError) throw pwdError;
         }
 
-        // 2. Save Profile Data
         const { error } = await supabase
           .from('profiles')
           .update({
@@ -138,29 +141,19 @@ export default function Onboarding() {
     }
   };
 
-  const stepInfo = {
-    identity: { title: 'Security & Identity', desc: 'Secure your sanctuary entry' },
-    essence: { title: 'Profile Essence', desc: 'Define your shared identity' },
-    visuals: { title: 'Visual Resonance', desc: 'The aesthetic of your soul' },
-    chronos: { title: 'Chronos & Connection', desc: 'The rhythm of your journey' }
-  };
-
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-40%] left-[-20%] w-[120%] h-[120%] bg-rose-500/[0.05] rounded-full blur-[250px] animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,1)_100%)]" />
+    <div className="min-h-screen bg-warm-50 flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-rose-100/40 rounded-full blur-[120px]" />
       </div>
 
-      <motion.div layout className="w-full max-w-5xl relative z-10">
-        <Card variant="glass" className="p-12 sm:p-24 overflow-hidden border-white/5 bg-white/[0.01] backdrop-blur-[150px] rounded-[6rem] shadow-2xl">
-          {/* Progress Indicator */}
-          <div className="flex gap-4 mb-16 px-4">
+      <motion.div layout className="w-full max-w-2xl relative z-10">
+        <Card className="p-6 sm:p-10 shadow-premium">
+          <div className="flex gap-2 mb-8 px-2">
             {(['identity', 'essence', 'visuals', 'chronos'] as Step[]).map((s, i) => (
-              <div key={s} className="flex-1 h-2 rounded-full overflow-hidden bg-white/5">
+              <div key={s} className="flex-1 h-1 rounded-full overflow-hidden bg-warm-100">
                 <motion.div 
-                  className="h-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.5)]"
+                  className="h-full bg-rose-500"
                   initial={false}
                   animate={{ width: (['identity', 'essence', 'visuals', 'chronos'] as Step[]).indexOf(step) >= i ? '100%' : '0%' }}
                 />
@@ -172,25 +165,25 @@ export default function Onboarding() {
             {step === 'identity' && (
               <motion.div 
                 key="identity" 
-                initial={{ opacity: 0, x: 20 }} 
+                initial={{ opacity: 0, x: 10 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-16"
+                exit={{ opacity: 0, x: -10 }}
+                className="space-y-6"
               >
-                <header className="space-y-4">
-                  <div className="flex items-center gap-4 text-rose-500 uppercase tracking-[0.5em] text-[12px] font-black italic">
-                    <Shield size={32} />
-                    {stepInfo.identity.title}
+                <header className="space-y-1">
+                  <div className="flex items-center gap-2 text-rose-600 uppercase tracking-widest text-[10px] font-bold">
+                    <Shield size={16} />
+                    Identity Setup
                   </div>
-                  <h1 className="text-7xl font-serif italic text-white leading-tight">Secure Your Presence</h1>
-                  <p className="text-gray-400 text-3xl font-handwritten italic opacity-60">{stepInfo.identity.desc}</p>
+                  <h1 className="text-3xl font-outfit font-bold text-charcoal">Secure Your Account</h1>
+                  <p className="text-warm-500 text-sm font-medium">Create your unique access frequency</p>
                 </header>
 
-                <div className="space-y-12 py-8">
-                  <div className="space-y-4 group">
-                    <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Choose a unique handle</label>
+                <div className="space-y-4 py-2">
+                  <div className="space-y-1.5 group">
+                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Unique Handle</label>
                     <div className="relative">
-                      <Fingerprint className="absolute left-16 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-rose-500/40" size={48} strokeWidth={1} />
+                      <Fingerprint className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-500 transition-colors" size={20} />
                       <input 
                         value={formData.username}
                         onChange={(e) => {
@@ -198,31 +191,31 @@ export default function Onboarding() {
                           setFormData({...formData, username: val});
                           checkUsername(val);
                         }}
-                        placeholder="starlight_echo"
-                        className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[4rem] py-16 pl-40 pr-16 text-5xl text-white placeholder:text-white/5 focus:border-rose-500/30 transition-all outline-none font-serif italic"
+                        placeholder="e.g. starlight_echo"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                       />
-                      <div className="absolute right-16 top-1/2 -translate-y-1/2 flex items-center gap-4">
-                        {isCheckingUsername && <Loader2 size={32} className="animate-spin text-rose-500/40" />}
-                        {usernameStatus === 'available' && <Check size={32} className="text-emerald-500" />}
-                        {usernameStatus === 'taken' && <X size={32} className="text-rose-500" />}
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        {isCheckingUsername && <Loader2 size={16} className="animate-spin text-warm-300" />}
+                        {usernameStatus === 'available' && <Check size={16} className="text-emerald-500" />}
+                        {usernameStatus === 'taken' && <X size={16} className="text-rose-500" />}
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-4 group">
-                    <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Establish a passphrase</label>
+                  <div className="space-y-1.5 group">
+                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Passphrase</label>
                     <div className="relative">
-                      <Lock className="absolute left-16 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-rose-500/40" size={48} strokeWidth={1} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-300 group-focus-within:text-rose-500 transition-colors" size={20} />
                       <input 
                         type="password"
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
-                        placeholder="The sacred words"
-                        className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[4rem] py-16 pl-40 pr-16 text-5xl text-white placeholder:text-white/5 focus:border-rose-500/30 transition-all outline-none font-serif italic tracking-widest"
+                        placeholder="••••••••"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 pl-12 pr-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all tracking-widest"
                       />
                     </div>
                     {formData.password && formData.password.length < 6 && (
-                      <p className="text-rose-500 text-[12px] px-4 italic font-black uppercase tracking-widest animate-pulse">Minimum 6 characters required</p>
+                      <p className="text-rose-500 text-[10px] font-semibold ml-1">Minimum 6 characters required</p>
                     )}
                   </div>
                 </div>
@@ -230,10 +223,9 @@ export default function Onboarding() {
                 <Button 
                   onClick={() => setStep('essence')}
                   disabled={!formData.username || !formData.password || formData.password.length < 6 || usernameStatus !== 'available'}
-                  className="w-full py-16 text-5xl rounded-[4rem]"
-                  size="xl"
+                  className="w-full"
                 >
-                  Confirm Identity <ArrowRight className="ml-8" />
+                  Continue
                 </Button>
               </motion.div>
             )}
@@ -241,72 +233,58 @@ export default function Onboarding() {
             {step === 'essence' && (
               <motion.div 
                 key="essence" 
-                initial={{ opacity: 0, x: 20 }} 
+                initial={{ opacity: 0, x: 10 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-16"
+                exit={{ opacity: 0, x: -10 }}
+                className="space-y-6"
               >
-                <header className="space-y-4">
-                  <div className="flex items-center gap-4 text-blue-500 uppercase tracking-[0.5em] text-[12px] font-black italic">
-                    <Sparkles size={32} />
-                    {stepInfo.essence.title}
+                <header className="space-y-1">
+                  <div className="flex items-center gap-2 text-blue-600 uppercase tracking-widest text-[10px] font-bold">
+                    <Sparkles size={16} />
+                    Essence Definition
                   </div>
-                  <h1 className="text-7xl font-serif italic text-white leading-tight">Define Your Essence</h1>
-                  <p className="text-gray-400 text-3xl font-handwritten italic opacity-60">{stepInfo.essence.desc}</p>
+                  <h1 className="text-3xl font-outfit font-bold text-charcoal">Define Your Presence</h1>
                 </header>
 
-                <div className="space-y-12 py-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-blue-500/60 transition-colors">Real Name</label>
+                <div className="space-y-4 py-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Full Name</label>
                       <input 
                         value={formData.full_name}
                         onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-                        placeholder="Celestial Name"
-                        className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 px-12 text-4xl text-white placeholder:text-white/5 focus:border-blue-500/30 transition-all outline-none italic"
+                        placeholder="Your full name"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                       />
                     </div>
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-blue-500/60 transition-colors">Sanctuary Nickname</label>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Nickname</label>
                       <input 
                         value={formData.display_name}
                         onChange={(e) => setFormData({...formData, display_name: e.target.value})}
-                        placeholder="How I call you"
-                        className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 px-12 text-4xl text-white placeholder:text-white/5 focus:border-blue-500/30 transition-all outline-none italic"
+                        placeholder="How you want to be called"
+                        className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4 group">
-                    <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-blue-500/60 transition-colors">Personal Saga (Bio)</label>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Bio</label>
                     <textarea 
                       value={formData.bio}
                       onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                      placeholder="The story of our shared rhythm..."
-                      className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 px-12 text-4xl text-white placeholder:text-white/5 focus:border-blue-500/30 transition-all outline-none italic min-h-[150px] resize-none"
+                      placeholder="Share a little bit about yourself..."
+                      className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all min-h-[100px] resize-none"
                     />
-                  </div>
-
-                  <div className="space-y-4 group">
-                    <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-blue-500/60 transition-colors">Shared Frequency (Quote)</label>
-                    <div className="relative">
-                      <Quote className="absolute left-12 top-1/2 -translate-y-1/2 text-white/10" size={32} />
-                      <input 
-                        value={formData.favorite_quote}
-                        onChange={(e) => setFormData({...formData, favorite_quote: e.target.value})}
-                        placeholder="A verse that resonates..."
-                        className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 pl-24 pr-12 text-4xl text-white placeholder:text-white/5 focus:border-blue-500/30 transition-all outline-none italic"
-                      />
-                    </div>
                   </div>
                 </div>
 
-                <div className="flex gap-8">
-                  <Button variant="glass" onClick={() => setStep('identity')} className="flex-1 py-12 text-4xl rounded-[3rem]">
-                    <ArrowLeft size={32} />
+                <div className="flex gap-3">
+                  <Button variant="secondary" onClick={() => setStep('identity')} className="flex-1">
+                    Back
                   </Button>
-                  <Button onClick={() => setStep('visuals')} disabled={!formData.full_name} className="flex-[3] py-12 text-4xl rounded-[3rem]">
-                    Continue Resonance <ArrowRight className="ml-8" />
+                  <Button onClick={() => setStep('visuals')} disabled={!formData.full_name} className="flex-[2]">
+                    Next
                   </Button>
                 </div>
               </motion.div>
@@ -315,71 +293,50 @@ export default function Onboarding() {
             {step === 'visuals' && (
               <motion.div 
                 key="visuals" 
-                initial={{ opacity: 0, x: 20 }} 
+                initial={{ opacity: 0, x: 10 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-16"
+                exit={{ opacity: 0, x: -10 }}
+                className="space-y-6"
               >
-                <header className="space-y-4">
-                  <div className="flex items-center gap-4 text-emerald-500 uppercase tracking-[0.5em] text-[12px] font-black italic">
-                    <ImageIcon size={32} />
-                    {stepInfo.visuals.title}
+                <header className="space-y-1">
+                  <div className="flex items-center gap-2 text-emerald-600 uppercase tracking-widest text-[10px] font-bold">
+                    <ImageIcon size={16} />
+                    Visual Pulse
                   </div>
-                  <h1 className="text-7xl font-serif italic text-white leading-tight">Visual Resonance</h1>
-                  <p className="text-gray-400 text-3xl font-handwritten italic opacity-60">{stepInfo.visuals.desc}</p>
+                  <h1 className="text-3xl font-outfit font-bold text-charcoal">Visual Resonance</h1>
                 </header>
 
-                <div className="space-y-12 py-8 relative">
-                  <div className="relative h-64 rounded-[4rem] bg-white/[0.02] border-4 border-dashed border-white/5 overflow-hidden group/cover">
-                    {previews.cover ? (
-                      <img src={previews.cover} className="w-full h-full object-cover grayscale-[0.5] group-hover/cover:grayscale-0 transition-all duration-[3000ms]" alt="Cover" />
-                    ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-white/5">
-                        <ImageIcon size={128} strokeWidth={0.05} />
-                      </div>
-                    )}
-                    <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/cover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
-                      <Camera size={64} className="text-white/60 mb-4" />
-                      <span className="text-[12px] font-black uppercase tracking-widest italic text-white/60">Choose Banner</span>
+                <div className="space-y-4 py-2 relative">
+                  <div className="relative h-40 rounded-2xl bg-warm-50 border border-dashed border-warm-200 overflow-hidden group/cover">
+                    {previews.cover && <img src={previews.cover} className="w-full h-full object-cover" alt="Cover" />}
+                    <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover/cover:opacity-100 transition-opacity backdrop-blur-sm">
+                      <Camera size={24} className="text-white mb-2" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">Change Banner</span>
                       <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
                     </label>
-                    {isUploading.cover && (
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                        <Loader2 size={48} className="animate-spin text-emerald-500" />
-                      </div>
-                    )}
                   </div>
 
-                  <div className="flex justify-center -mt-32 relative z-10">
+                  <div className="flex justify-center -mt-20 relative z-10">
                     <div className="relative group/avatar">
-                      <div className="w-64 h-64 rounded-[4rem] bg-gradient-to-tr from-rose-500 to-emerald-500 p-1 shadow-2xl relative overflow-hidden">
-                        <div className="w-full h-full rounded-[3.8rem] bg-black overflow-hidden flex items-center justify-center">
-                          {previews.avatar ? (
-                            <img src={previews.avatar} className="w-full h-full object-cover grayscale-[0.5] group-hover/avatar:grayscale-0 transition-all duration-[2000ms]" alt="Avatar" />
-                          ) : (
-                            <User size={128} strokeWidth={0.05} className="text-white/5" />
-                          )}
+                      <div className="w-36 h-36 rounded-full bg-white p-1 shadow-premium relative overflow-hidden">
+                        <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
+                          {previews.avatar ? <img src={previews.avatar} className="w-full h-full object-cover" alt="Avatar" /> : <User size={48} className="text-warm-200" />}
                         </div>
-                        {isUploading.avatar && (
-                          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                            <Loader2 size={48} className="animate-spin text-emerald-500" />
-                          </div>
-                        )}
                       </div>
-                      <label className="absolute inset-0 bg-black/60 rounded-[4rem] opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
-                        <Camera size={48} className="text-white/60" />
+                      <label className="absolute inset-0 bg-black/40 rounded-full flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover/avatar:opacity-100 transition-opacity backdrop-blur-sm">
+                        <Camera size={20} className="text-white" />
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
                       </label>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-8">
-                  <Button variant="glass" onClick={() => setStep('essence')} className="flex-1 py-12 text-4xl rounded-[3rem]">
-                    <ArrowLeft size={32} />
+                <div className="flex gap-3">
+                  <Button variant="secondary" onClick={() => setStep('essence')} className="flex-1">
+                    Back
                   </Button>
-                  <Button onClick={() => setStep('chronos')} className="flex-[3] py-12 text-4xl rounded-[3rem]">
-                    The Rhythm of Time <ArrowRight className="ml-8" />
+                  <Button onClick={() => setStep('chronos')} className="flex-[2]">
+                    Almost there
                   </Button>
                 </div>
               </motion.div>
@@ -388,86 +345,46 @@ export default function Onboarding() {
             {step === 'chronos' && (
               <motion.div 
                 key="chronos" 
-                initial={{ opacity: 0, x: 20 }} 
+                initial={{ opacity: 0, x: 10 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-16"
+                exit={{ opacity: 0, x: -10 }}
+                className="space-y-6"
               >
-                <header className="space-y-4">
-                  <div className="flex items-center gap-4 text-rose-500 uppercase tracking-[0.5em] text-[12px] font-black italic">
-                    <Calendar size={32} />
-                    {stepInfo.chronos.title}
+                <header className="space-y-1">
+                  <div className="flex items-center gap-2 text-rose-600 uppercase tracking-widest text-[10px] font-bold">
+                    <Calendar size={16} />
+                    Journey Rhythm
                   </div>
-                  <h1 className="text-7xl font-serif italic text-white leading-tight">The Rhythm of Time</h1>
-                  <p className="text-gray-400 text-3xl font-handwritten italic opacity-60">{stepInfo.chronos.desc}</p>
+                  <h1 className="text-3xl font-outfit font-bold text-charcoal">The Sacred Rhythm</h1>
                 </header>
 
-                <div className="space-y-12 py-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Our Genesis (Anniversary)</label>
-                      <div className="relative">
-                        <Heart className="absolute left-12 top-1/2 -translate-y-1/2 text-white/10" size={32} />
-                        <input 
-                          type="date"
-                          value={formData.anniversary}
-                          onChange={(e) => setFormData({...formData, anniversary: e.target.value})}
-                          className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 pl-24 pr-12 text-4xl text-white focus:border-rose-500/30 transition-all outline-none italic"
-                        />
-                      </div>
+                <div className="space-y-4 py-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Anniversary</label>
+                      <input type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200" />
                     </div>
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Your Solar Genesis (Birthday)</label>
-                      <div className="relative">
-                        <Smile className="absolute left-12 top-1/2 -translate-y-1/2 text-white/10" size={32} />
-                        <input 
-                          type="date"
-                          value={formData.birthday}
-                          onChange={(e) => setFormData({...formData, birthday: e.target.value})}
-                          className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 pl-24 pr-12 text-4xl text-white focus:border-rose-500/30 transition-all outline-none italic"
-                        />
-                      </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Birthday</label>
+                      <input type="date" value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200" />
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Physical Coordinates (Location)</label>
-                      <div className="relative">
-                        <MapPin className="absolute left-12 top-1/2 -translate-y-1/2 text-white/10" size={32} />
-                        <input 
-                          value={formData.location}
-                          onChange={(e) => setFormData({...formData, location: e.target.value})}
-                          placeholder="Where you breathe..."
-                          className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 pl-24 pr-12 text-4xl text-white placeholder:text-white/5 focus:border-rose-500/30 transition-all outline-none italic"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-4 group">
-                      <label className="text-[14px] font-black text-white/20 uppercase tracking-widest italic group-focus-within:text-rose-500/60 transition-colors">Spiritual Echoes (Interests)</label>
-                      <div className="relative">
-                        <Globe className="absolute left-12 top-1/2 -translate-y-1/2 text-white/10" size={32} />
-                        <input 
-                          value={formData.interests}
-                          onChange={(e) => setFormData({...formData, interests: e.target.value})}
-                          placeholder="Art, Music, Souls..."
-                          className="w-full bg-white/[0.02] border-2 border-white/5 rounded-[3rem] py-12 pl-24 pr-12 text-4xl text-white placeholder:text-white/5 focus:border-rose-500/30 transition-all outline-none italic"
-                        />
-                      </div>
-                    </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Location</label>
+                    <input value={formData.location} onChange={(e) => setFormData({...formData, location: e.target.value})} placeholder="Where you reside..." className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200" />
                   </div>
                 </div>
 
-                <div className="flex gap-8">
-                  <Button variant="glass" onClick={() => setStep('visuals')} className="flex-1 py-12 text-4xl rounded-[3rem]">
-                    <ArrowLeft size={32} />
+                <div className="flex gap-3">
+                  <Button variant="secondary" onClick={() => setStep('visuals')} className="flex-1">
+                    Back
                   </Button>
                   <Button 
                     onClick={handleComplete}
                     isLoading={isLoading}
-                    className="flex-[3] py-12 text-4xl rounded-[3rem] shadow-[0_20px_50px_rgba(244,63,94,0.3)]"
+                    className="flex-[2]"
                   >
-                    Initialize Sanctuary <CheckCircle2 className="ml-8" />
+                    Enter Sanctuary
                   </Button>
                 </div>
               </motion.div>
