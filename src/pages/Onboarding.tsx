@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Camera, ArrowRight, Heart, Sparkles, User, MapPin, Quote, Calendar, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Camera, ArrowRight, Heart, Sparkles, User, Quote, Calendar, Loader2, Image as ImageIcon, CheckCircle2 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 export default function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState<{avatar: boolean, cover: boolean}>({ avatar: false, cover: false });
   const [formData, setFormData] = useState({
     username: '',
     display_name: '',
@@ -39,7 +40,6 @@ export default function Onboarding() {
         .single();
       
       if (data && data.username) {
-        // If profile already exists and has a username, skip onboarding
         navigate('/');
       }
     }
@@ -49,6 +49,8 @@ export default function Onboarding() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setIsUploading(prev => ({ ...prev, [type]: true }));
+
     // Create local preview
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -56,66 +58,80 @@ export default function Onboarding() {
     };
     reader.readAsDataURL(file);
 
-    // Upload to Supabase Storage
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}/${type}_${Math.random()}.${fileExt}`;
-    const filePath = fileName;
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${type}_${Date.now()}.${fileExt}`;
+      const filePath = fileName;
 
-    const { error: uploadError } = await supabase.storage
-      .from('profiles')
-      .upload(filePath, file);
+      const { error: uploadError } = await supabase.storage
+        .from('profiles')
+        .upload(filePath, file);
 
-    if (!uploadError) {
+      if (uploadError) throw uploadError;
+
       const { data: { publicUrl } } = supabase.storage
         .from('profiles')
         .getPublicUrl(filePath);
       
       setFormData(prev => ({ ...prev, [`${type}_url`]: publicUrl }));
+    } catch (err) {
+      console.error("Upload error:", err);
+    } finally {
+      setIsUploading(prev => ({ ...prev, [type]: false }));
     }
   };
 
   const handleComplete = async () => {
+    if (!formData.username || !formData.display_name || isLoading) return;
     setIsLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          ...formData,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', user.id);
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { error } = await supabase
+          .from('profiles')
+          .update({
+            ...formData,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', user.id);
 
-      if (!error) {
+        if (error) throw error;
         navigate('/');
       }
+    } catch (err) {
+      console.error("Save error:", err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
-  const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = () => setStep(prev => prev - 1);
+  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
+  const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   return (
-    <div className="min-h-screen bg-[#050506] flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Background */}
+    <div className="min-h-screen bg-[#050506] flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+      {/* Cinematic Background */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-rose-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-rose-300/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-rose-500/10 rounded-full blur-[150px] opacity-60" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-500/10 rounded-full blur-[150px] opacity-60" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-[0.03]" />
       </div>
 
       <motion.div 
         layout
-        className="w-full max-w-lg glass-panel rounded-[3rem] p-8 md:p-12 shadow-2xl relative z-10 overflow-hidden"
+        className="w-full max-w-xl glass-panel rounded-[3.5rem] p-8 sm:p-12 shadow-[0_0_100px_rgba(244,63,94,0.1)] relative z-10 overflow-hidden border-white/10"
       >
+        {/* Progress Tracker */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-white/5">
           <motion.div 
-            className="h-full bg-rose-500"
+            className="h-full bg-gradient-to-r from-rose-500 to-orange-400"
             initial={{ width: '0%' }}
             animate={{ width: `${(step / 3) * 100}%` }}
+            transition={{ duration: 0.8, ease: "circOut" }}
           />
         </div>
 
@@ -123,23 +139,28 @@ export default function Onboarding() {
           {step === 1 && (
             <motion.div
               key="step1"
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-8"
+              exit={{ opacity: 0, x: -30 }}
+              className="space-y-10"
             >
-              <div className="text-center space-y-2">
-                <h1 className="text-3xl font-serif glow-text">Welcome, Soulmate</h1>
-                <p className="text-gray-400 font-handwritten text-xl italic">Let's set up our private universe...</p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-rose-400 font-black uppercase tracking-[0.3em] text-[10px]">
+                  <Sparkles size={12} className="animate-pulse" />
+                  Genesis
+                </div>
+                <h1 className="text-4xl sm:text-5xl font-serif glow-text leading-tight">Welcome, Soulmate</h1>
+                <p className="text-gray-400 font-handwritten text-xl italic opacity-80">Let's craft your identity in our sanctuary...</p>
               </div>
 
               <div className="space-y-6">
                 <OnboardingInput 
-                  label="Unique Username" 
+                  label="Unique Handle" 
                   icon={Sparkles} 
                   value={formData.username}
                   onChange={(v) => setFormData({...formData, username: v})}
                   placeholder="e.g. moonlight_soul"
+                  description="A unique name for the universe to know you."
                 />
                 <OnboardingInput 
                   label="Display Name" 
@@ -147,74 +168,113 @@ export default function Onboarding() {
                   value={formData.display_name}
                   onChange={(v) => setFormData({...formData, display_name: v})}
                   placeholder="How should I call you?"
+                  description="This is how you'll appear to your partner."
                 />
               </div>
 
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={nextStep}
                 disabled={!formData.username || !formData.display_name}
-                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                className="btn-primary w-full py-5 flex items-center justify-center gap-3 text-lg disabled:opacity-50 disabled:grayscale transition-all shadow-rose-500/20"
               >
-                Continue <ArrowRight size={18} />
-              </button>
+                <span>Continue the Journey</span>
+                <ArrowRight size={20} strokeWidth={3} />
+              </motion.button>
             </motion.div>
           )}
 
           {step === 2 && (
             <motion.div
               key="step2"
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-8"
+              exit={{ opacity: 0, x: -30 }}
+              className="space-y-10"
             >
-              <div className="text-center space-y-2">
-                <h1 className="text-3xl font-serif glow-text">Our Visuals</h1>
-                <p className="text-gray-400 font-handwritten text-xl italic">Upload your favorite looks...</p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-rose-400 font-black uppercase tracking-[0.3em] text-[10px]">
+                  <ImageIcon size={12} />
+                  Visual Soul
+                </div>
+                <h1 className="text-4xl sm:text-5xl font-serif glow-text leading-tight">Your Reflection</h1>
+                <p className="text-gray-400 font-handwritten text-xl italic opacity-80">Add colors to your presence...</p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-12">
                 {/* Cover Upload */}
-                <div className="relative h-40 rounded-[2rem] bg-white/5 border border-white/10 overflow-hidden group">
+                <div className="relative h-44 sm:h-52 rounded-[2.5rem] bg-white/[0.03] border-2 border-dashed border-white/10 overflow-hidden group transition-all hover:border-rose-500/30">
                   {previews.cover ? (
-                    <img src={previews.cover} className="w-full h-full object-cover" alt="Cover" />
+                    <img src={previews.cover} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Cover" />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-gray-500">
-                      <ImageIcon size={32} />
-                      <span className="text-[10px] uppercase font-bold tracking-widest">Cover Photo</span>
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-500">
+                      <div className="p-4 rounded-full bg-white/5">
+                        <ImageIcon size={32} />
+                      </div>
+                      <span className="text-[10px] uppercase font-black tracking-[0.2em]">Sanctuary Banner</span>
                     </div>
                   )}
-                  <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                    <Camera size={24} className="text-white" />
+                  {isUploading.cover && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
+                      <Loader2 size={32} className="animate-spin text-rose-500" />
+                    </div>
+                  )}
+                  <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer backdrop-blur-[2px]">
+                    <div className="p-4 rounded-full bg-white/10 border border-white/20 mb-2">
+                      <Camera size={28} className="text-white" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white">Change Banner</span>
                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover')} />
                   </label>
                 </div>
 
                 {/* Avatar Upload */}
-                <div className="flex justify-center -mt-20 relative z-20">
+                <div className="flex justify-center -mt-24 sm:-mt-28 relative z-20">
                   <div className="relative group">
-                    <div className="w-32 h-32 rounded-[2.5rem] p-1 bg-gradient-to-tr from-rose-500 to-orange-400">
-                      <div className="w-full h-full rounded-[2.3rem] border-4 border-[#050506] overflow-hidden bg-card-bg">
+                    <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-[3.5rem] p-1.5 bg-gradient-to-tr from-rose-500 via-orange-400 to-rose-500 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                      <div className="w-full h-full rounded-[3.2rem] border-[6px] border-[#050506] overflow-hidden bg-[#0a0a0c]">
                         {previews.avatar ? (
-                          <img src={previews.avatar} className="w-full h-full object-cover" alt="Avatar" />
+                          <img src={previews.avatar} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Avatar" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-500">
-                            <User size={40} />
+                          <div className="w-full h-full flex items-center justify-center text-gray-700">
+                            <User size={64} strokeWidth={1.5} />
+                          </div>
+                        )}
+                        {isUploading.avatar && (
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
+                            <Loader2 size={32} className="animate-spin text-rose-500" />
                           </div>
                         )}
                       </div>
                     </div>
-                    <label className="absolute inset-0 bg-black/40 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                      <Camera size={20} className="text-white" />
+                    <label className="absolute inset-0 bg-black/40 rounded-[3.5rem] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer backdrop-blur-sm">
+                      <Camera size={28} className="text-white" />
+                      <span className="text-[9px] font-black uppercase tracking-widest text-white mt-1">Portrait</span>
                       <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'avatar')} />
                     </label>
+                    <div className="absolute -bottom-2 -right-2 p-3 bg-rose-500 rounded-2xl shadow-xl border-4 border-[#050506] text-white">
+                      <CheckCircle2 size={20} />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <button onClick={prevStep} className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold">Back</button>
-                <button onClick={nextStep} className="btn-primary flex-[2]">Almost There</button>
+              <div className="flex gap-4 sm:gap-6 pt-4">
+                <button 
+                  onClick={prevStep} 
+                  className="flex-1 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 transition-all"
+                >
+                  Back
+                </button>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={nextStep} 
+                  className="btn-primary flex-[2] py-5 text-lg"
+                >
+                  Almost Home
+                </motion.button>
               </div>
             </motion.div>
           )}
@@ -222,32 +282,37 @@ export default function Onboarding() {
           {step === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-8"
+              exit={{ opacity: 0, x: -30 }}
+              className="space-y-10"
             >
-              <div className="text-center space-y-2">
-                <h1 className="text-3xl font-serif glow-text">The Final Touch</h1>
-                <p className="text-gray-400 font-handwritten text-xl italic">Express your heart...</p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-rose-400 font-black uppercase tracking-[0.3em] text-[10px]">
+                  <Heart size={12} className="animate-pulse" />
+                  Eternal Spark
+                </div>
+                <h1 className="text-4xl sm:text-5xl font-serif glow-text leading-tight">The Final Touch</h1>
+                <p className="text-gray-400 font-handwritten text-xl italic opacity-80">Share the essence of your bond...</p>
               </div>
 
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">About Us</label>
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] px-1">Our Narrative (Bio)</label>
                   <textarea
                     value={formData.bio}
                     onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                    placeholder="Tell our story in a few words..."
-                    className="input-field min-h-[100px] resize-none"
+                    placeholder="In a few whispers, tell our story..."
+                    className="input-field min-h-[120px] resize-none leading-relaxed py-5 text-base"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <OnboardingInput 
                     label="Status" 
                     icon={Heart} 
                     value={formData.relationship_status}
                     onChange={(v) => setFormData({...formData, relationship_status: v})}
+                    placeholder="e.g. In Love"
                   />
                   <OnboardingInput 
                     label="Anniversary" 
@@ -258,23 +323,35 @@ export default function Onboarding() {
                   />
                 </div>
                 <OnboardingInput 
-                  label="Our Quote" 
+                  label="Our Eternal Quote" 
                   icon={Quote} 
                   value={formData.favorite_quote}
                   onChange={(v) => setFormData({...formData, favorite_quote: v})}
-                  placeholder="Something romantic..."
+                  placeholder="Words we live by..."
                 />
               </div>
 
-              <div className="flex gap-4">
-                <button onClick={prevStep} className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold">Back</button>
+              <div className="flex gap-4 sm:gap-6">
                 <button 
+                  onClick={prevStep} 
+                  className="flex-1 py-5 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 transition-all"
+                >
+                  Back
+                </button>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleComplete} 
                   disabled={isLoading}
-                  className="btn-primary flex-[2] flex items-center justify-center gap-2"
+                  className="btn-primary flex-[2] flex items-center justify-center gap-3 text-lg disabled:opacity-50"
                 >
-                  {isLoading ? <Loader2 size={18} className="animate-spin" /> : 'Enter Sanctuary'}
-                </button>
+                  {isLoading ? <Loader2 size={24} className="animate-spin" /> : (
+                    <>
+                      <span>Enter Sanctuary</span>
+                      <Sparkles size={20} fill="white" />
+                    </>
+                  )}
+                </motion.button>
               </div>
             </motion.div>
           )}
@@ -284,20 +361,23 @@ export default function Onboarding() {
   );
 }
 
-function OnboardingInput({ label, icon: Icon, value, onChange, placeholder, type = "text" }: any) {
+function OnboardingInput({ label, icon: Icon, value, onChange, placeholder, type = "text", description }: any) {
   return (
-    <div className="space-y-2">
-      <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">{label}</label>
+    <div className="space-y-2 group">
+      <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] px-1 group-focus-within:text-rose-400 transition-colors">{label}</label>
       <div className="relative">
-        <Icon className="absolute top-1/2 -translate-y-1/2 left-4 text-gray-600" size={18} />
+        <div className="absolute top-1/2 -translate-y-1/2 left-5 text-gray-600 group-focus-within:text-rose-500 transition-colors">
+          <Icon size={20} strokeWidth={2.5} />
+        </div>
         <input
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="input-field pl-12"
+          className="input-field pl-14 py-5 text-base sm:text-lg font-medium"
           placeholder={placeholder}
         />
       </div>
+      {description && <p className="text-[10px] text-gray-600 italic px-1 opacity-80">{description}</p>}
     </div>
   );
 }
