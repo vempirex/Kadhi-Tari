@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Moon, Sun, Coffee, Zap, Battery, Heart } from 'lucide-react';
+import { Sparkles, Moon, Sun, Coffee, Zap, Battery, Heart, Clock } from 'lucide-react';
 import { useState } from 'react';
 
 const moods = [
