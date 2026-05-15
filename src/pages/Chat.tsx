@@ -36,69 +36,107 @@ export default function Chat() {
   const typingTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
-    const setupChat = async () => {
+    let channel: any;
+
+    const initChat = async () => {
+      setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-        const { data: profiles } = await supabase.from('profiles').select('*').neq('id', user.id).limit(1);
-        if (profiles && profiles[0]) setOtherUser(profiles[0]);
+      if (!user) {
+        setIsLoading(false);
+        return;
       }
-      await fetchMessages();
-    };
+      
+      const myId = user.id;
+      setCurrentUserId(myId);
 
-    setupChat();
+      // Get the other user in this 2-person sanctuary
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('*')
+        .neq('id', myId)
+        .limit(1);
+      
+      let peerId = null;
+      if (profiles && profiles[0]) {
+        peerId = profiles[0].id;
+        setOtherUser(profiles[0]);
+      }
 
-    // Realtime Channel for Messaging & Presence
-    const channel = supabase.channel('chat_realtime', {
-      config: {
-        presence: {
-          key: currentUserId || 'anon',
-        },
-      },
-    });
-
-    channel
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
-        setMessages((prev) => {
-          if (prev.some(m => m.id === payload.new.id)) return prev;
-          return [...prev, payload.new as Message];
-        });
-      })
-      .on('presence', { event: 'sync' }, () => {
-        const newState = channel.presenceState();
-        const onlineIds = Object.keys(newState);
-        setOnlineUsers(onlineIds);
-      })
-      .on('broadcast', { event: 'typing' }, (payload) => {
-        if (payload.userId === otherUser?.id) {
-          setIsOtherUserTyping(payload.isTyping);
+      // 1. Fetch ALL messages between these two users
+      if (peerId) {
+        const { data, error } = await supabase
+          .from('messages')
+          .select('*')
+          .or(`and(sender_id.eq.${myId},receiver_id.eq.${peerId}),and(sender_id.eq.${peerId},receiver_id.eq.${myId})`)
+          .order('created_at', { ascending: true });
+        
+        if (!error && data) {
+          setMessages(data);
+        } else if (error) {
+          console.error("Error fetching messages:", error);
         }
-      })
-      .subscribe(async (status) => {
-        if (status === 'SUBSCRIBED' && currentUserId) {
-          await channel.track({ online_at: new Date().toISOString() });
-        }
+      } else {
+        // If no peer yet, still stop loading
+        console.log("No peer found yet.");
+      }
+      
+      setIsLoading(false);
+      setTimeout(() => scrollToBottom('auto'), 100);
+
+      // 2. Set up Realtime Channel
+      channel = supabase.channel('chat_room', {
+        config: { presence: { key: myId } },
       });
 
-    return () => {
-      supabase.removeChannel(channel);
+      channel
+        .on('postgres_changes', { 
+          event: 'INSERT', 
+          schema: 'public', 
+          table: 'messages' 
+        }, (payload: any) => {
+          const msg = payload.new as Message;
+          
+          // Verify if message belongs to this conversation
+          const isFromMe = msg.sender_id === myId && msg.receiver_id === peerId;
+          const isToMe = msg.sender_id === peerId && msg.receiver_id === myId;
+
+          if (isFromMe || isToMe) {
+            setMessages((prev) => {
+              // Prevent duplicates (especially for optimistic updates)
+              if (prev.some(m => m.id === msg.id)) return prev;
+              const newMessages = [...prev, msg];
+              return newMessages.sort((a, b) => 
+                new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+              );
+            });
+          }
+        })
+        .on('presence', { event: 'sync' }, () => {
+          const newState = channel.presenceState();
+          setOnlineUsers(Object.keys(newState));
+        })
+        .on('broadcast', { event: 'typing' }, (payload: any) => {
+          if (payload.userId === peerId) {
+            setIsOtherUserTyping(payload.isTyping);
+          }
+        })
+        .subscribe(async (status: string) => {
+          if (status === 'SUBSCRIBED') {
+            await channel.track({ online_at: new Date().toISOString() });
+          }
+        });
     };
-  }, [currentUserId, otherUser?.id]);
+
+    initChat();
+
+    return () => {
+      if (channel) supabase.removeChannel(channel);
+    };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOtherUserTyping]);
-
-  const fetchMessages = async () => {
-    const { data, error } = await supabase
-      .from('messages')
-      .select('*')
-      .order('created_at', { ascending: true });
-    
-    if (!error && data) setMessages(data);
-    setIsLoading(false);
-    setTimeout(scrollToBottom, 100);
-  };
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
     if (scrollRef.current) {
@@ -117,8 +155,9 @@ export default function Chat() {
 
   const handleTyping = (isTyping: boolean) => {
     if (!currentUserId) return;
-    const channel = supabase.channel('chat_realtime');
-    channel.send({
+    
+    // Use the existing channel if possible, or a quick broadcast
+    supabase.channel('chat_room').send({
       type: 'broadcast',
       event: 'typing',
       payload: { userId: currentUserId, isTyping },
@@ -128,17 +167,33 @@ export default function Chat() {
   const handleSendMessage = async (text: string, imageUrl?: string) => {
     if (!currentUserId || !otherUser) return;
 
-    const { error } = await supabase.from('messages').insert([{
+    const newMessage = {
       text: text,
       sender_id: currentUserId,
       receiver_id: otherUser.id,
       image_url: imageUrl,
-      message_type: imageUrl ? 'image' : 'text'
+      message_type: (imageUrl ? 'image' : 'text') as 'text' | 'image',
+      created_at: new Date().toISOString(),
+      id: crypto.randomUUID() // Temporary ID for optimistic update
+    };
+
+    // Optimistic Update: Render immediately
+    setMessages(prev => [...prev, newMessage]);
+    setTimeout(() => scrollToBottom(), 50);
+
+    const { error } = await supabase.from('messages').insert([{
+      text: newMessage.text,
+      sender_id: newMessage.sender_id,
+      receiver_id: newMessage.receiver_id,
+      image_url: newMessage.image_url,
+      message_type: newMessage.message_type
     }]);
     
-    if (error) console.error("Error sending message:", error);
+    if (error) {
+      console.error("Error sending message:", error);
+      // Optional: Remove from list or show error
+    }
     
-    // Immediately stop typing indicator after send
     handleTyping(false);
   };
 
