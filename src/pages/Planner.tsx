@@ -36,6 +36,17 @@ export default function Planner() {
 
   useEffect(() => {
     fetchPlans();
+
+    const channel = supabase
+      .channel('planner_updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'plans' }, () => {
+        fetchPlans();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchPlans = async () => {
@@ -279,7 +290,7 @@ export default function Planner() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative z-[2010] w-full max-w-xl"
+              className="relative z-[2010] w-full max-w-xl overflow-y-auto max-h-[90vh]"
             >
               <Card className="p-8 space-y-8 bg-white shadow-premium">
                 <div className="flex justify-between items-start">
