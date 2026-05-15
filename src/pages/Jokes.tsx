@@ -52,10 +52,12 @@ export default function Jokes() {
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Authentication required");
+
       const { error } = await supabase.from('jokes').insert([
         {
           ...newJoke,
-          user_id: user?.id
+          user_id: user.id
         }
       ]);
 
@@ -63,11 +65,23 @@ export default function Jokes() {
 
       setIsModalOpen(false);
       setNewJoke({ title: '', description: '', tag: 'Award', icon_name: 'Laugh' });
-      fetchJokes();
+      await fetchJokes();
     } catch (err) {
       console.error("Error adding joke:", err);
     } finally {
       setIsAdding(false);
+    }
+  };
+
+  const handleDeleteJoke = async (id: string) => {
+    if (!confirm("Are you sure you want to remove this artifact from our dialet?")) return;
+    
+    try {
+      const { error } = await supabase.from('jokes').delete().eq('id', id);
+      if (error) throw error;
+      setJokes(jokes.filter(j => j.id !== id));
+    } catch (err) {
+      console.error("Error deleting joke:", err);
     }
   };
 
@@ -157,7 +171,15 @@ export default function Jokes() {
                       <Fingerprint size={14} />
                       <span>Encrypted Artifact</span>
                     </div>
-                    <Sparkles size={14} className="text-rose-500" />
+                    <div className="flex items-center gap-3">
+                      <button 
+                        onClick={() => handleDeleteJoke(joke.id)}
+                        className="p-1 hover:text-rose-600 transition-colors"
+                      >
+                        <X size={14} />
+                      </button>
+                      <Sparkles size={14} className="text-rose-500" />
+                    </div>
                   </div>
                 </Card>
               </motion.div>

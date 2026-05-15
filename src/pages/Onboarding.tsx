@@ -53,7 +53,6 @@ export default function Onboarding() {
         avatar_url: profile.avatar_url || '',
         cover_url: profile.cover_url || '',
         relationship_status: profile.relationship_status || 'In Harmony',
-        anniversary: profile.anniversary || '',
         birthday: profile.birthday || '',
         location: profile.location || '',
       }));
@@ -104,7 +103,9 @@ export default function Onboarding() {
       console.log("Saving final profile data...");
       const { error: profileError } = await supabase
         .from('profiles')
-        .update({
+        .upsert({
+          id: user.id, // Explicitly provide ID for upsert
+          username: profile?.username || user.user_metadata?.username, // Ensure username is preserved
           full_name: formData.full_name,
           display_name: formData.display_name || formData.full_name,
           bio: formData.bio,
@@ -112,13 +113,11 @@ export default function Onboarding() {
           favorite_quote: formData.favorite_quote,
           avatar_url: formData.avatar_url,
           cover_url: formData.cover_url,
-          anniversary: formData.anniversary || null,
           birthday: formData.birthday || null,
           location: formData.location,
-          profile_completed: true, // THE CRITICAL FLAG
+          profile_completed: true, 
           updated_at: new Date().toISOString(),
-        })
-        .eq('id', user.id);
+        });
 
       if (profileError) throw profileError;
       
@@ -304,11 +303,7 @@ export default function Onboarding() {
                   <h2 className="text-2xl font-outfit font-bold text-charcoal">Sacred Dates</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Anniversary</label>
-                    <input type="date" value={formData.anniversary} onChange={(e) => setFormData({...formData, anniversary: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all" />
-                  </div>
+                <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Birthday</label>
                     <input type="date" value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})} className="w-full bg-warm-50/50 border border-warm-100 rounded-xl py-3 px-4 text-sm text-charcoal outline-none focus:bg-white focus:border-rose-200 transition-all" />

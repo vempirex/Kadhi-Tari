@@ -54,11 +54,13 @@ export default function Playlist() {
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Authentication required");
+
       const { error } = await supabase.from('songs').insert([
         {
           ...newSong,
           cover_url: `https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=600`,
-          user_id: user?.id
+          user_id: user.id
         }
       ]);
 
@@ -66,11 +68,23 @@ export default function Playlist() {
 
       setIsModalOpen(false);
       setNewSong({ title: '', artist: '', note: '' });
-      fetchSongs();
+      await fetchSongs();
     } catch (err) {
       console.error("Error adding song:", err);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDeleteSong = async (id: string) => {
+    if (!confirm("Are you sure you want to remove this anthem from our archive?")) return;
+    
+    try {
+      const { error } = await supabase.from('songs').delete().eq('id', id);
+      if (error) throw error;
+      setSongs(songs.filter(s => s.id !== id));
+    } catch (err) {
+      console.error("Error deleting song:", err);
     }
   };
 
@@ -236,11 +250,11 @@ export default function Playlist() {
                       <p className="text-xs font-medium text-warm-400 truncate">{song.artist}</p>
                     </div>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 text-warm-300 hover:text-rose-600 transition-all">
-                        <Heart size={18} />
-                      </button>
-                      <button className="p-2 text-warm-300 hover:text-charcoal transition-all">
-                        <Share2 size={18} />
+                      <button 
+                        onClick={() => handleDeleteSong(song.id)}
+                        className="p-2 text-warm-300 hover:text-rose-600 transition-all"
+                      >
+                        <X size={18} />
                       </button>
                     </div>
                   </Card>

@@ -27,12 +27,14 @@ export default function MemoryTimeline() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [newEvent, setNewEvent] = useState({ 
-    title: '', 
     description: '', 
     event_date: new Date().toISOString().split('T')[0],
     icon_name: 'Heart',
-    location: ''
+    location: '',
+    image_url: ''
   });
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     fetchEvents();
@@ -48,29 +50,69 @@ export default function MemoryTimeline() {
     setIsLoading(false);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage.from('milestones').upload(fileName, file);
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage.from('milestones').getPublicUrl(fileName);
+      setPreviewUrl(publicUrl);
+      setNewEvent(prev => ({ ...prev, image_url: publicUrl }));
+    } catch (err) {
+      console.error("Upload error:", err);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleAddEvent = async () => {
     if (!newEvent.title || !newEvent.event_date || isSaving) return;
     setIsSaving(true);
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Authentication required");
+
       const { error } = await supabase.from('events').insert([
         {
           ...newEvent,
           color_class: 'text-rose-600',
-          user_id: user?.id
+          user_id: user.id
         }
       ]);
 
       if (error) throw error;
 
       setIsModalOpen(false);
-      setNewEvent({ title: '', description: '', event_date: new Date().toISOString().split('T')[0], icon_name: 'Heart', location: '' });
-      fetchEvents();
+      setNewEvent({ title: '', description: '', event_date: new Date().toISOString().split('T')[0], icon_name: 'Heart', location: '', image_url: '' });
+      setPreviewUrl(null);
+      await fetchEvents();
     } catch (error) {
       console.error("Error adding event:", error);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDeleteEvent = async (id: string) => {
+    if (!confirm("Are you sure you want to remove this milestone from our journey?")) return;
+    
+    try {
+      const { error } = await supabase.from('events').delete().eq('id', id);
+      if (error) throw error;
+      setEvents(events.filter(e => e.id !== id));
+    } catch (err) {
+      console.error("Error deleting event:", err);
     }
   };
 
@@ -173,6 +215,12 @@ export default function MemoryTimeline() {
                         <h3 className="text-xl font-outfit font-bold text-charcoal tracking-tight">{event.title}</h3>
                       </div>
 
+                      {event.image_url && (
+                        <div className="w-full h-48 rounded-2xl overflow-hidden border border-warm-100">
+                          <img src={event.image_url} className="w-full h-full object-cover" alt={event.title} />
+                        </div>
+                      )}
+
                       {event.location && (
                         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-warm-400">
                           <MapPin size={14} className="text-rose-500" />
@@ -183,6 +231,15 @@ export default function MemoryTimeline() {
                       <p className="text-sm font-medium text-warm-500 italic leading-relaxed">
                         "{event.description}"
                       </p>
+                      
+                      <div className="flex justify-end pt-2 opacity-0 group-hover:opacity-100 transition-all">
+                        <button 
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="p-1 hover:text-rose-600 transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
                     </Card>
                   </div>
                 </motion.div>
@@ -266,6 +323,24 @@ export default function MemoryTimeline() {
                       onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
                       className="w-full bg-warm-50/50 border border-warm-100 rounded-xl p-4 text-sm font-medium text-charcoal min-h-[120px] outline-none focus:bg-white focus:border-rose-200 transition-all resize-none"
                     />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-warm-400 uppercase tracking-widest ml-1">Photo (Optional)</label>
+                    <div 
+                      className="h-32 rounded-xl border-2 border-dashed border-warm-200 flex flex-col items-center justify-center cursor-pointer hover:border-rose-300 hover:bg-rose-50/10 transition-all relative overflow-hidden"
+                      onClick={() => document.getElementById('milestone-photo-upload')?.click()}
+                    >
+                      {previewUrl ? (
+                        <img src={previewUrl} className="w-full h-full object-cover" alt="Preview" />
+                      ) : (
+                        <>
+                          {isUploading ? <Loader2 className="animate-spin text-rose-500" /> : <Camera className="text-warm-300" />}
+                          <span className="text-[10px] font-bold uppercase tracking-widest mt-2 text-warm-400">Add Memory Photo</span>
+                        </>
+                      )}
+                      <input id="milestone-photo-upload" type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                    </div>
                   </div>
 
                   <div className="space-y-3">

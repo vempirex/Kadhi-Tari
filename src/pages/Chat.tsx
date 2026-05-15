@@ -88,11 +88,12 @@ export default function Chat() {
   };
 
   const handleSendMessage = async (text: string) => {
-    if (!currentUserId) return;
+    if (!currentUserId || !otherUser) return;
 
     const { error } = await supabase.from('messages').insert([{
       text: text,
       sender_id: currentUserId,
+      receiver_id: otherUser.id
     }]);
     
     if (error) console.error("Error sending message:", error);

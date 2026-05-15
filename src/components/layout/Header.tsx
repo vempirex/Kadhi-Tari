@@ -52,14 +52,7 @@ export default function Header() {
 
       <div className="flex items-center gap-2 sm:gap-4 relative z-10">
         {/* Search */}
-        <div className="hidden md:flex items-center bg-warm-100 border border-transparent rounded-xl px-4 py-2 group focus-within:bg-white focus-within:border-warm-200 transition-all">
-          <Search size={18} className="text-warm-400 group-focus-within:text-charcoal" />
-          <input 
-            type="text" 
-            placeholder="Search moments..." 
-            className="bg-transparent border-none outline-none text-sm px-2 text-charcoal placeholder:text-warm-400 w-48 font-medium"
-          />
-        </div>
+        <div className="flex-1" />
 
         {/* Notifications */}
         <div className="relative" ref={notificationsMenuRef}>
@@ -109,12 +102,16 @@ export default function Header() {
             <span className="hidden sm:block text-[11px] font-bold text-warm-600 uppercase tracking-wider">
               {profile?.display_name || 'Soulmate'}
             </span>
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-warm-200 bg-white">
-              <img 
-                src={profile?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.username || 'user'}`} 
-                className="w-full h-full object-cover" 
-                alt="Profile" 
-              />
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-warm-200 bg-white flex items-center justify-center">
+              {profile?.avatar_url ? (
+                <img 
+                  src={profile.avatar_url} 
+                  className="w-full h-full object-cover" 
+                  alt="Profile" 
+                />
+              ) : (
+                <User size={16} className="text-warm-300" />
+              )}
             </div>
           </button>
 

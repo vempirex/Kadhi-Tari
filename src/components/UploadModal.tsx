@@ -89,7 +89,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess, type }: Upload
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative z-[6010] w-full max-w-xl m-auto"
+            className="relative z-[6010] w-full max-w-xl m-auto overflow-y-auto max-h-[90vh]"
           >
             <Card className="w-full p-8 space-y-8 bg-white shadow-premium">
               <div className="flex justify-between items-start">

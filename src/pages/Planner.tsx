@@ -54,10 +54,12 @@ export default function Planner() {
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Authentication required");
+
       const { error } = await supabase.from('plans').insert([
         {
           ...newPlan,
-          user_id: user?.id
+          user_id: user.id
         }
       ]);
 
@@ -65,11 +67,23 @@ export default function Planner() {
 
       setIsModalOpen(false);
       setNewPlan({ title: '', plan_date: new Date().toISOString().split('T')[0], plan_time: '21:00', category: 'Call' });
-      fetchPlans();
+      await fetchPlans();
     } catch (err) {
       console.error("Error adding plan:", err);
     } finally {
       setIsAdding(false);
+    }
+  };
+
+  const handleDeletePlan = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this plan?")) return;
+    
+    try {
+      const { error } = await supabase.from('plans').delete().eq('id', id);
+      if (error) throw error;
+      setPlans(plans.filter(p => p.id !== id));
+    } catch (err) {
+      console.error("Error deleting plan:", err);
     }
   };
 
@@ -195,9 +209,14 @@ export default function Planner() {
                       </div>
                     </div>
 
-                    <div className="hidden sm:block opacity-0 group-hover:opacity-100 transition-all">
-                      <Button variant="ghost" size="sm" className="p-2 h-auto text-warm-300">
-                        <ArrowRight size={20} />
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="p-2 h-auto text-warm-300 hover:text-rose-600"
+                        onClick={() => handleDeletePlan(plan.id)}
+                      >
+                        <X size={20} />
                       </Button>
                     </div>
                   </Card>

@@ -111,6 +111,7 @@ export default function Letters() {
           <Button 
             onClick={() => setIsWriteModalOpen(true)}
             size="md"
+            className="shadow-premium"
           >
             <Feather size={18} className="mr-2" /> Write Letter
           </Button>
@@ -260,14 +261,23 @@ export default function Letters() {
                     />
                   </div>
                   
-                  <Button
-                    onClick={handleWriteLetter}
-                    isLoading={isSending}
-                    disabled={!newLetter.content}
-                    className="w-full"
-                  >
-                    Seal into Vault
-                  </Button>
+                  <div className="flex gap-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsWriteModalOpen(false)}
+                      className="flex-1"
+                    >
+                      Draft
+                    </Button>
+                    <Button
+                      onClick={handleWriteLetter}
+                      isLoading={isSending}
+                      disabled={!newLetter.content}
+                      className="flex-[2]"
+                    >
+                      Seal into Vault <SendHorizontal size={18} className="ml-2" />
+                    </Button>
+                  </div>
                 </div>
               </Card>
             </motion.div>
@@ -288,7 +298,7 @@ export default function Letters() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }} 
               animate={{ scale: 1, opacity: 1, y: 0 }} 
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="w-full max-w-2xl bg-[#fffdfa] rounded-3xl p-10 sm:p-16 shadow-premium relative z-[3010] m-auto overflow-hidden"
+              className="w-full max-w-2xl bg-[#fffdfa] rounded-3xl p-8 sm:p-12 shadow-premium relative z-[3010] m-auto overflow-y-auto max-h-[90vh]"
             >
               <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
               
@@ -325,6 +335,18 @@ export default function Letters() {
                        <Heart size={32} className="text-rose-900/20 fill-rose-900/10" />
                     </div>
                   </div>
+                </div>
+
+                <div className="pt-6 flex gap-4">
+                  <Button variant="outline" className="flex-1" onClick={() => {
+                    navigator.clipboard.writeText(selectedLetter.content);
+                    alert("Letter content copied to clipboard!");
+                  }}>
+                    <Share2 size={16} className="mr-2" /> Share Content
+                  </Button>
+                  <Button className="flex-1" onClick={() => setSelectedLetter(null)}>
+                    <Check size={16} className="mr-2" /> Keep in Vault
+                  </Button>
                 </div>
               </div>
             </motion.div>

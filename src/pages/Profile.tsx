@@ -103,11 +103,15 @@ export default function Profile() {
           <div className="relative">
             <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 bg-white shadow-xl relative overflow-hidden">
               <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
-                <img 
-                  src={profile.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`} 
-                  className="w-full h-full object-cover"
-                  alt="Avatar"
-                />
+                {profile.avatar_url ? (
+                  <img 
+                    src={profile.avatar_url} 
+                    className="w-full h-full object-cover"
+                    alt="Avatar"
+                  />
+                ) : (
+                  <User size={64} className="text-warm-200" />
+                )}
               </div>
             </div>
             <div className="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full" />
@@ -142,7 +146,6 @@ export default function Profile() {
             <h3 className="text-xs font-bold uppercase tracking-widest text-warm-400">Profile Essence</h3>
             <div className="space-y-5">
               <DetailRow icon={Heart} label="Status" value={profile.relationship_status} color="text-rose-600" bg="bg-rose-50" />
-              <DetailRow icon={Calendar} label="Anniversary" value={profile.anniversary ? new Date(profile.anniversary).toLocaleDateString() : 'N/A'} color="text-rose-600" bg="bg-rose-50" />
               <DetailRow icon={Smile} label="Solar Return" value={profile.birthday ? new Date(profile.birthday).toLocaleDateString() : 'N/A'} color="text-orange-600" bg="bg-orange-50" />
               <DetailRow icon={MapPin} label="Coordinates" value={profile.location || 'The Sanctuary'} color="text-emerald-600" bg="bg-emerald-50" />
               <DetailRow icon={Quote} label="Favorite Quote" value={profile.favorite_quote || 'No words needed.'} color="text-purple-600" bg="bg-purple-50" />

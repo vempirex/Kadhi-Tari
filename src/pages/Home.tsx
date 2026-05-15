@@ -42,13 +42,13 @@ export default function Home() {
     const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
     const { count: letterCount } = await supabase.from('letters').select('*', { count: 'exact', head: true });
     
-    const anniversary = profileData?.anniversary ? new Date(profileData.anniversary) : new Date('2024-01-01');
-    const diff = Math.floor((new Date().getTime() - anniversary.getTime()) / (1000 * 60 * 60 * 24));
+    const joinedDate = profileData?.joined_at ? new Date(profileData.joined_at) : new Date();
+    const diff = Math.floor((new Date().getTime() - joinedDate.getTime()) / (1000 * 60 * 60 * 24));
 
     setStats({
       memories: postCount || 0,
       letters: letterCount || 0,
-      daysTogether: diff > 0 ? diff : 0
+      daysTogether: diff >= 0 ? diff : 0
     });
   };
 

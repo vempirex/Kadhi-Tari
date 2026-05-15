@@ -29,7 +29,6 @@ export default function EditProfile() {
     favorite_quote: '',
     avatar_url: '',
     cover_url: '',
-    anniversary: '',
     birthday: '',
     location: '',
     interests: '',
@@ -63,7 +62,6 @@ export default function EditProfile() {
           favorite_quote: data.favorite_quote || '',
           avatar_url: data.avatar_url || '',
           cover_url: data.cover_url || '',
-          anniversary: data.anniversary || '',
           birthday: data.birthday || '',
           location: data.location || '',
           interests: data.interests || '',
@@ -240,7 +238,11 @@ export default function EditProfile() {
                   <div className="relative group">
                     <div className="w-40 h-40 rounded-full p-1 bg-white shadow-xl relative overflow-hidden">
                       <div className="w-full h-full rounded-full bg-warm-50 overflow-hidden flex items-center justify-center border border-warm-100">
-                        <img src={formData.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.username}`} className="w-full h-full object-cover" alt="Avatar" />
+                        {formData.avatar_url ? (
+                          <img src={formData.avatar_url} className="w-full h-full object-cover" alt="Avatar" />
+                        ) : (
+                          <User size={64} className="text-warm-200" />
+                        )}
                       </div>
                     </div>
                     <label className="absolute inset-0 bg-black/40 rounded-full flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
@@ -276,7 +278,6 @@ export default function EditProfile() {
                   </div>
                   <div className="space-y-4">
                     <FormInput label="Status" value={formData.relationship_status} onChange={(v) => setFormData({...formData, relationship_status: v})} placeholder="In Harmony, Exploring..." />
-                    <FormInput label="Anniversary" value={formData.anniversary} onChange={(v) => setFormData({...formData, anniversary: v})} type="date" />
                     <FormInput label="Birthday" value={formData.birthday} onChange={(v) => setFormData({...formData, birthday: v})} type="date" />
                   </div>
                 </Card>
