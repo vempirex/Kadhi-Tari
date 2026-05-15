@@ -1,12 +1,14 @@
-import { ArrowLeft, Phone, Video, MoreHorizontal, ShieldCheck, Zap, Sparkles, History, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
+import { ArrowLeft, Phone, Video, MoreHorizontal, ShieldCheck, Zap, Sparkles, History, Fingerprint, Wind, Sun, Moon, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/Button';
+import { twMerge } from 'tailwind-merge';
 
 interface ChatHeaderProps {
   otherUser?: any;
+  isOnline?: boolean;
 }
 
-export default function ChatHeader({ otherUser }: ChatHeaderProps) {
+export default function ChatHeader({ otherUser, isOnline }: ChatHeaderProps) {
   const navigate = useNavigate();
 
   return (
@@ -23,14 +25,20 @@ export default function ChatHeader({ otherUser }: ChatHeaderProps) {
         
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 rounded-full border border-warm-100 overflow-hidden bg-warm-50">
-              <img 
-                src={otherUser?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${otherUser?.username || 'Love'}`} 
-                alt={otherUser?.username} 
-                className="w-full h-full object-cover" 
-              />
+            <div className="w-10 h-10 rounded-full border border-warm-100 overflow-hidden bg-warm-50 flex items-center justify-center">
+              {otherUser?.avatar_url ? (
+                <img 
+                  src={otherUser.avatar_url} 
+                  alt={otherUser.username} 
+                  className="w-full h-full object-cover" 
+                />
+              ) : (
+                <User size={20} className="text-warm-300" />
+              )}
             </div>
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-rose-500 border-2 border-white animate-pulse" />
+            {isOnline && (
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white" />
+            )}
           </div>
           
           <div>
@@ -38,7 +46,12 @@ export default function ChatHeader({ otherUser }: ChatHeaderProps) {
               {otherUser?.display_name || otherUser?.username || 'Our Sanctuary'}
             </h1>
             <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-[10px] text-rose-600 font-bold uppercase tracking-wider">Live Frequency</span>
+              <span className={twMerge(
+                "text-[10px] font-bold uppercase tracking-wider",
+                isOnline ? "text-emerald-600" : "text-warm-400"
+              )}>
+                {isOnline ? "Live Frequency" : "Offline"}
+              </span>
             </div>
           </div>
         </div>

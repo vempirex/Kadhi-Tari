@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CheckCheck, Heart, Sparkles, Fingerprint, Wind, Sun, Moon } from 'lucide-react';
+import { CheckCheck, Heart } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 interface MessageBubbleProps {
@@ -7,27 +7,48 @@ interface MessageBubbleProps {
     text: string;
     created_at: string;
     is_read?: boolean;
+    image_url?: string;
+    message_type?: string;
   };
   isMe: boolean;
 }
 
 export default function MessageBubble({ message, isMe }: MessageBubbleProps) {
+  const isImage = message.message_type === 'image' || !!message.image_url;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      className={twMerge("flex w-full mb-1", isMe ? 'justify-end' : 'justify-start')}
+      className={twMerge("flex w-full mb-2", isMe ? 'justify-end' : 'justify-start')}
     >
-      <div className={twMerge("max-w-[85%] sm:max-w-[70%] flex flex-col group relative", isMe ? 'items-end' : 'items-start')}>
+      <div className={twMerge(
+        "max-w-[85%] sm:max-w-[70%] flex flex-col group relative",
+        isMe ? 'items-end' : 'items-start'
+      )}>
         <div className={twMerge(
-          "px-4 py-2.5 rounded-2xl text-sm leading-relaxed transition-all relative font-medium",
+          "rounded-2xl transition-all relative overflow-hidden",
           isMe 
             ? 'bg-rose-600 text-white rounded-tr-sm shadow-sm' 
-            : 'bg-warm-100 text-charcoal rounded-tl-sm'
+            : 'bg-warm-100 text-charcoal rounded-tl-sm',
+          isImage ? "p-1" : "px-4 py-2.5"
         )}>
-          <span>
-            {message.text}
-          </span>
+          {isImage && (
+            <div className="rounded-xl overflow-hidden mb-1">
+              <img 
+                src={message.image_url} 
+                className="max-w-full h-auto object-cover max-h-80 cursor-pointer hover:scale-[1.02] transition-transform" 
+                alt="Shared visual" 
+                onClick={() => window.open(message.image_url, '_blank')}
+              />
+            </div>
+          )}
+          
+          {message.text && (
+            <div className={twMerge("text-sm leading-relaxed font-medium", isImage && "px-2 py-1.5")}>
+              {message.text}
+            </div>
+          )}
           
           <div className={twMerge(
             "absolute -bottom-2 opacity-0 group-hover:opacity-100 transition-all scale-75 z-20",
@@ -54,3 +75,4 @@ export default function MessageBubble({ message, isMe }: MessageBubbleProps) {
     </motion.div>
   );
 }
+

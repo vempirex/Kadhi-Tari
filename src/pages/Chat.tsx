@@ -17,8 +17,11 @@ interface Message {
   id: string;
   text: string;
   sender_id: string;
+  receiver_id: string;
   created_at: string;
   is_read?: boolean;
+  image_url?: string;
+  message_type: 'text' | 'image';
 }
 
 export default function Chat() {
@@ -28,6 +31,9 @@ export default function Chat() {
   const [otherUser, setOtherUser] = useState<any>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [isOtherUserTyping, setIsOtherUserTyping] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const typingTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     const setupChat = async () => {
@@ -42,24 +48,46 @@ export default function Chat() {
 
     setupChat();
 
-    const channel = supabase
-      .channel('chat_realtime')
+    // Realtime Channel for Messaging & Presence
+    const channel = supabase.channel('chat_realtime', {
+      config: {
+        presence: {
+          key: currentUserId || 'anon',
+        },
+      },
+    });
+
+    channel
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
         setMessages((prev) => {
           if (prev.some(m => m.id === payload.new.id)) return prev;
           return [...prev, payload.new as Message];
         });
       })
-      .subscribe();
+      .on('presence', { event: 'sync' }, () => {
+        const newState = channel.presenceState();
+        const onlineIds = Object.keys(newState);
+        setOnlineUsers(onlineIds);
+      })
+      .on('broadcast', { event: 'typing' }, (payload) => {
+        if (payload.userId === otherUser?.id) {
+          setIsOtherUserTyping(payload.isTyping);
+        }
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED' && currentUserId) {
+          await channel.track({ online_at: new Date().toISOString() });
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [currentUserId, otherUser?.id]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isOtherUserTyping]);
 
   const fetchMessages = async () => {
     const { data, error } = await supabase
@@ -87,27 +115,45 @@ export default function Chat() {
     setShowScrollButton(!isNearBottom);
   };
 
-  const handleSendMessage = async (text: string) => {
+  const handleTyping = (isTyping: boolean) => {
+    if (!currentUserId) return;
+    const channel = supabase.channel('chat_realtime');
+    channel.send({
+      type: 'broadcast',
+      event: 'typing',
+      payload: { userId: currentUserId, isTyping },
+    });
+  };
+
+  const handleSendMessage = async (text: string, imageUrl?: string) => {
     if (!currentUserId || !otherUser) return;
 
     const { error } = await supabase.from('messages').insert([{
       text: text,
       sender_id: currentUserId,
-      receiver_id: otherUser.id
+      receiver_id: otherUser.id,
+      image_url: imageUrl,
+      message_type: imageUrl ? 'image' : 'text'
     }]);
     
     if (error) console.error("Error sending message:", error);
+    
+    // Immediately stop typing indicator after send
+    handleTyping(false);
   };
 
   return (
     <div className="flex flex-col h-[calc(100vh-10rem)] bg-white border border-warm-100 rounded-3xl overflow-hidden shadow-soft relative">
-      <ChatHeader otherUser={otherUser} />
+      <ChatHeader 
+        otherUser={otherUser} 
+        isOnline={onlineUsers.includes(otherUser?.id)} 
+      />
 
       {/* Messages Area */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 relative z-10 scroll-smooth no-scrollbar"
+        className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 relative z-10 scroll-smooth no-scrollbar bg-warm-50/10"
       >
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full gap-3">
@@ -148,6 +194,23 @@ export default function Chat() {
                 isMe={msg.sender_id === currentUserId} 
               />
             ))}
+            
+            {isOtherUserTyping && (
+              <motion.div
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 px-4 py-2 bg-warm-100/50 w-fit rounded-2xl rounded-tl-sm"
+              >
+                <div className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-warm-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                  <span className="w-1.5 h-1.5 bg-warm-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                  <span className="w-1.5 h-1.5 bg-warm-400 rounded-full animate-bounce" />
+                </div>
+                <span className="text-[10px] font-bold text-warm-500 uppercase tracking-widest">
+                  {otherUser?.display_name || 'Soulmate'} is typing...
+                </span>
+              </motion.div>
+            )}
           </div>
         )}
 
@@ -166,8 +229,11 @@ export default function Chat() {
         </AnimatePresence>
       </div>
 
-      <div className="p-4 border-t border-warm-100 bg-warm-50/30">
-        <ChatInput onSendMessage={handleSendMessage} />
+      <div className="p-4 border-t border-warm-100 bg-white">
+        <ChatInput 
+          onSendMessage={handleSendMessage} 
+          onTyping={handleTyping}
+        />
       </div>
     </div>
   );
