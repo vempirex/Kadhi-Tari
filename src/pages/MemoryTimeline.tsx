@@ -26,7 +26,15 @@ export default function MemoryTimeline() {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [newEvent, setNewEvent] = useState({ 
+  const [newEvent, setNewEvent] = useState<{
+    title: string;
+    description: string;
+    event_date: string;
+    icon_name: string;
+    location: string;
+    image_url: string;
+  }>({ 
+    title: '',
     description: '', 
     event_date: new Date().toISOString().split('T')[0],
     icon_name: 'Heart',

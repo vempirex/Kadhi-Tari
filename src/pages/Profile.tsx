@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Settings, Heart, Calendar, Edit3, Grid, Image as ImageIcon, 
   Sparkles, LogOut, ShieldCheck, Award, Zap, Phone, Camera, 
-  Star, Fingerprint, MapPin, Quote, Smile, Globe, Loader2 
+  Star, Fingerprint, MapPin, Quote, Smile, Globe, Loader2, User 
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';

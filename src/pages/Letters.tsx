@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Mail, MailOpen, X, Heart, Clock, AlertCircle, Plus, Sparkles, Send, Quote, Bookmark, Zap, ArrowLeft, SendHorizontal, Star, Shield, Feather, Fingerprint, Wind, Sun, Moon, Loader2 } from 'lucide-react';
+import { Mail, MailOpen, X, Heart, Clock, AlertCircle, Plus, Sparkles, Send, Quote, Bookmark, Zap, ArrowLeft, SendHorizontal, Star, Shield, Feather, Fingerprint, Wind, Sun, Moon, Loader2, Share2, Check } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { twMerge } from 'tailwind-merge';
 import { Button } from '../components/ui/Button';
